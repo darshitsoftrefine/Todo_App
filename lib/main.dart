@@ -1,8 +1,8 @@
+import 'package:demo/auth_screen/auth_service.dart';
+import 'package:demo/auth_screen/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:demo/email_sign_in/widget_tree.dart';
-
-import 'goog_login.dart';
+import 'to_do_crud/home_screen.dart';
 
 Future<void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,7 +22,15 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: GoogLogin(),
+      home: StreamBuilder(
+        stream: AuthService().firebaseAuth.authStateChanges(),
+        builder: (context, snapshot){
+          if(snapshot.hasData){
+            return const HomeScreen();
+          }
+            return const LoginScreen();
+        },
+      )
       //Widget_Tree
     );
   }
