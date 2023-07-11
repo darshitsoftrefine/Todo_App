@@ -1,4 +1,4 @@
-import 'package:demo/auth_screen/auth_service.dart';
+import 'package:demo/services/auth_service.dart';
 import 'package:demo/auth_screen/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -24,9 +24,9 @@ class MyApp extends StatelessWidget {
       ),
       home: StreamBuilder(
         stream: AuthService().firebaseAuth.authStateChanges(),
-        builder: (context, snapshot){
+        builder: (context, AsyncSnapshot snapshot){
           if(snapshot.hasData){
-            return const HomeScreen();
+            return HomeScreen(snapshot.data);
           }
             return const LoginScreen();
         },

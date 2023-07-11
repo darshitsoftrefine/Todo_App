@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:sign_in_button/sign_in_button.dart';
 
-import 'auth_service.dart';
+import '../services/auth_service.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -66,7 +66,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   } else {
                     User? result = await AuthService().register(emailController.text, passwordController.text, context);
                     if(result != null){
-                      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> const HomeScreen()), (route) => false);
+                      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> HomeScreen(result)), (route) => false);
 
                     }
                   }

@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:sign_in_button/sign_in_button.dart';
 import '../to_do_crud/home_screen.dart';
-import 'auth_service.dart';
+import '../services/auth_service.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -55,7 +55,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 } else {
                  User? result = await AuthService().login(emailController.text, passwordController.text, context);
                  if(result != null){
-                   Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> const HomeScreen()), (route) => false);
+                   Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> HomeScreen(result)), (route) => false);
                  }
                       }
                 setState(() {
