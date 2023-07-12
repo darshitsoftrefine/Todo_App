@@ -125,7 +125,7 @@ class _AddToDoScreenState extends State<AddToDoScreen> {
             setState(() {
               isLoading = true;
             });
-            await FirestoreService().insertTodo(titleController.text, date.text, time.text, widget.user.uid);
+            await FirestoreService().insertTodo(titleController.text, time.text, widget.user.uid, isLoading);
             setState(() {
               isLoading = false;
             });

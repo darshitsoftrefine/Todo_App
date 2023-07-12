@@ -26,8 +26,6 @@ class _EditTodoScreenState extends State<EditTodoScreen> {
   @override
   void initState() {
     titleController.text = widget.todo.title;
-    descriptionController.text = widget.todo.description;
-    date.text = widget.todo.date as String;
     time.text = widget.todo.time as String;
     super.initState();
   }
@@ -68,76 +66,79 @@ class _EditTodoScreenState extends State<EditTodoScreen> {
       ),
       body:  Padding(
         padding: const EdgeInsets.all(15),//All the TextFields in the add task,
-        child: SingleChildScrollView(
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text("Edit title", style: TextStyle(color: Colors.lightBlueAccent, fontSize: 18, fontWeight: FontWeight.bold),),
-                  const SizedBox(height: 15,),
-                  TextFormField(
-                    //enabled: true,
-                    style: const TextStyle(color: Colors.white),
-                    controller: titleController,
-                    obscureText: false,
-                    decoration: const InputDecoration(
-                      suffixIcon: Icon(Icons.mic),
-                      suffixIconColor: Colors.lightBlueAccent,
-                      floatingLabelBehavior: FloatingLabelBehavior.never,
-                      //labelText: label, labelStyle: const TextStyle(color: Colors.black,),
-                      hintStyle: TextStyle(color: Color(0xFF1A71B6)),
-                      enabledBorder: UnderlineInputBorder(
-                        //borderRadius: BorderRadius.circular(20.0),
-                        borderSide: BorderSide(
-                          color: Colors.lightBlueAccent,
-                          width: 1.0,
-                        ),
-                      ),
-
-
+        child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text("Edit title", style: TextStyle(color: Colors.lightBlueAccent, fontSize: 18, fontWeight: FontWeight.bold),),
+              const SizedBox(height: 15,),
+              TextFormField(
+                //enabled: true,
+                style: const TextStyle(color: Colors.white),
+                controller: titleController,
+                obscureText: false,
+                decoration: const InputDecoration(
+                  suffixIcon: Icon(Icons.edit),
+                  suffixIconColor: Colors.lightBlueAccent,
+                  floatingLabelBehavior: FloatingLabelBehavior.never,
+                  //labelText: label, labelStyle: const TextStyle(color: Colors.black,),
+                  hintStyle: TextStyle(color: Color(0xFF1A71B6)),
+                  enabledBorder: UnderlineInputBorder(
+                    //borderRadius: BorderRadius.circular(20.0),
+                    borderSide: BorderSide(
+                      color: Colors.lightBlueAccent,
+                      width: 1.0,
                     ),
                   ),
-                  const SizedBox(height: 25,),
-                  const Text("Due Date", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.lightBlueAccent),),
-            TextField(
-            controller: time,
-            decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12.0),
+
+
                 ),
-                suffixIcon: InkWell(
-                  child: const Icon(
-                    Icons.timer_outlined,
-                  ),
-                  onTap: () async {
-                    final TimeOfDay? slectedTime = await showTimePicker(
-                        context: context, initialTime: TimeOfDay.now());
+              ),
+              const SizedBox(height: 25,),
+              const Text("Due Time", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.lightBlueAccent),),
+        TextField(
+        controller: time,
+          style: const TextStyle(color: Colors.white),
+        decoration: InputDecoration(
+            enabledBorder: UnderlineInputBorder(
+              //borderRadius: BorderRadius.circular(20.0),
+              borderSide: BorderSide(
+                color: Colors.lightBlueAccent,
+                width: 1.0,
+              ),
+            ),
+            suffixIconColor: Colors.lightBlueAccent,
+            suffixIcon: InkWell(
+              child: const Icon(
+                Icons.timer_outlined,
+              ),
+              onTap: () async {
+                final TimeOfDay? slectedTime = await showTimePicker(
+                    context: context, initialTime: TimeOfDay.now());
 
-                    if (slectedTime == null) {
-                      return;
-                    }
+                if (slectedTime == null) {
+                  return;
+                }
 
-                    time.text =
-                    "${slectedTime.hour}:${slectedTime.minute}";
+                time.text =
+                "${slectedTime.hour}:${slectedTime.minute}";
 
-                    DateTime newDT = DateTime(
-                      dateTime.year,
-                      dateTime.month,
-                      dateTime.day,
-                      slectedTime.hour,
-                      slectedTime.minute,
-                    );
-                    setState(() {
-                      dateTime = newDT;
-                    });
-                  },
-                ),
-                label: Text("Time")),
+                DateTime newDT = DateTime(
+                  dateTime.year,
+                  dateTime.month,
+                  dateTime.day,
+                  slectedTime.hour,
+                  slectedTime.minute,
+                );
+                setState(() {
+                  dateTime = newDT;
+                });
+              },
+            ),
+            label: Text("Time")),
           ),
-                  SizedBox(height: 25,),
-                  Text("Due Time", style: TextStyle(color: Colors.lightBlueAccent, fontWeight: FontWeight.bold, fontSize: 18),),
+              SizedBox(height: 25,),
 
-                ]
-            )
+            ]
         ),
     ),
       floatingActionButton: isLoading ? Center(child: CircularProgressIndicator(),): FloatingActionButton(

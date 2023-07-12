@@ -5,13 +5,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class FirestoreService {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  Future insertTodo(String title, String date, String time, String userId) async {
+  Future insertTodo(String title, String time, String userId, bool isDone) async {
     try{
       await firestore.collection('todo').add({
         "title": title,
-        "date": date,
         "time": time,
         'userId': userId,
+        'isDone': isDone
       });
     } catch(e){
         print(e);
