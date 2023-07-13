@@ -97,6 +97,7 @@ class _EditTodoScreenState extends State<EditTodoScreen> {
               const Text("Due Time", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.lightBlueAccent),),
         TextField(
         controller: time,
+          enabled: true,
           style: const TextStyle(color: Colors.white),
         decoration: InputDecoration(
             enabledBorder: UnderlineInputBorder(
