@@ -47,7 +47,7 @@ class _EditTodoScreenState extends State<EditTodoScreen> {
                 actions: [
                   //Yes Button
                   TextButton(onPressed: () async{
-                    await FirestoreService().deleteTodo(widget.todo.id);
+                   // await FirestoreService().deleteTodo(widget.todo.id);
                     //Close Dialog
                     Navigator.pop(context);
                     // Close the edit Screen
