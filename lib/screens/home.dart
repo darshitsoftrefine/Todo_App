@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:demo/to_do_crud/edit_to_do_screen.dart';
+import 'package:demo/screens/edit_to_do_screen.dart';
+import 'package:demo/themes_and_constants/themes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -93,25 +94,38 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: CustomColors.backgroundColor,
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 15.0),
+        child: FloatingActionButton(
+          onPressed: () {  },
+          backgroundColor: CustomColors.circColor,
+          child: Icon(Icons.add, size: 30,),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        leading: Image.network('https://icon-library.com/images/todo-icon/todo-icon-5.jpg'),
-        backgroundColor: Color(0xFF1A71B6),
-        title: Text("All Lists of Todo"),
+        leading: Icon(Icons.menu),
+        backgroundColor: CustomColors.backgroundColor,
+        title: const Text("Index"),
+        centerTitle: true,
         actions: [
-          IconButton(onPressed: (){}, icon: Icon(Icons.search)),
+          CircleAvatar(
+            child: Icon(Icons.person),
+          ),
           IconButton(onPressed: ()async{
             await AuthService().signOut();
-          }, icon: Icon(Icons.logout, color: Colors.white,),)
+          }, icon: const Icon(Icons.logout, color: Colors.white,),)
         ],
       ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.all(15.0),
-              child: Text("Enter Task Title and Deadline", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
+            const Padding(
+              padding: EdgeInsets.all(15.0),
+              child: Text("Enter Task Title and Deadline", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),),
             ),
 
             Padding(
@@ -122,12 +136,22 @@ class _HomeState extends State<Home> {
                     width: 330,
                     height: 50,
                     child: TextField(
+                      style: TextStyle(color: Colors.white),
                       textCapitalization: TextCapitalization.sentences,
                       controller: titleController,
                       decoration: InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: const BorderSide(
+                              color: Colors.grey,
+                              style: BorderStyle.solid
+                          ),
+                        ),
+                        hintText: 'Title',
+                        hintStyle: TextStyle(color: Colors.white),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(
+                          borderSide: const BorderSide(
                               color: Colors.grey,
                               style: BorderStyle.solid
                           ),
@@ -135,6 +159,7 @@ class _HomeState extends State<Home> {
                         suffixIcon: InkWell(
                           child: const Icon(
                             Icons.timer_outlined,
+                            color: Colors.white,
                           ),
                           onTap: () async {
                             final TimeOfDay? slectedTime = await showTimePicker(
@@ -162,17 +187,17 @@ class _HomeState extends State<Home> {
                       ),
                     ),
                   ),
-                  SizedBox(width: 10,),
+                  const SizedBox(width: 10,),
                   IconButton(onPressed: () async{
                     if(titleController.text == ""){
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please Enter title")));
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Please Enter title")));
                     } else {
                       await FirestoreService().insertTodo(Timestamp.now(),titleController.text, timeController.text, widget.user.uid, false);
                       showNotification();
                       titleController.clear();
                       timeController.clear();
                     }
-                  }, icon: Icon(Icons.check))
+                  }, icon: const Icon(Icons.check, color: Colors.white,))
                 ],
               ),
             ),
@@ -184,7 +209,7 @@ class _HomeState extends State<Home> {
                     if(snapshot.data.docs.length > 0){
                       List<DocumentSnapshot> todoList = snapshot.data.docs;
                       return ListView.builder(
-                        physics: NeverScrollableScrollPhysics(),
+                        physics: const NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
                           itemCount: todoList.length,
                           itemBuilder: (context, index){
@@ -194,29 +219,26 @@ class _HomeState extends State<Home> {
                             TodoModel todo = TodoModel.fromJson(snapshot.data.docs[index]);
                             return Padding(
                               padding: const EdgeInsets.all(15),
-                              child: GestureDetector(
-                                onTap: (){
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(builder: (context) => EditTodoScreen(todo)),
-                                  );
+                              child: Card(
+                                color: const Color(0xFF1A71B6),
+                                elevation: 5,
+                                margin: const EdgeInsets.all(5),
+                                child: CheckboxListTile(
+                                  controlAffinity: ListTileControlAffinity.leading,
+                                  value: data['isDone'],
+                                  onChanged: (bool? value) {
+                                    FirebaseFirestore.instance.collection('todo').doc(todoList[index].id).update(
+                                        {'isDone': value!});
                                 },
-                                child: Card(
-                                  color: Color(0xFF1A71B6),
-                                  elevation: 5,
-                                  margin: EdgeInsets.all(5),
-                                  child: CheckboxListTile(
-                                    controlAffinity: ListTileControlAffinity.leading,
-                                    value: data['isDone'],
-                                    onChanged: (bool? value) {
-                                      FirebaseFirestore.instance.collection('todo').doc(todoList[index].id).update(
-                                          {'isDone': value!});
-                                  },
-                                    contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                                    title: Text(data['title'].toString(), style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.lightBlueAccent, decoration: data['isDone']? TextDecoration.lineThrough:null),),
-                                    subtitle: Text(data['time'].toString(), style: TextStyle(color: Colors.lightBlueAccent),),
-
-                                  ),
+                                  contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                                  title: Text(data['title'].toString(), style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.lightBlueAccent, decoration: data['isDone']? TextDecoration.lineThrough:null),),
+                                  subtitle: Text(data['time'].toString(), style: const TextStyle(color: Colors.lightBlueAccent),),
+                                  secondary: IconButton(onPressed: (){
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (context) => EditTodoScreen(todo)),
+                                    );
+                                  }, icon: const Icon(Icons.edit)),
                                 ),
                               ),
                             );
@@ -233,14 +255,11 @@ class _HomeState extends State<Home> {
                 }
             ),
             Center(child: ElevatedButton(onPressed: () async{
-              var db = FirebaseFirestore.instance;
-              var batch = db.batch();
-              var d = FirebaseFirestore.instance.collection('todo').where('isDone', isEqualTo: true).snapshots();
               await FirestoreService().deleteTodo();
-            }, child: Text("Completed")))
+            }, child: const Text("Completed")))
           ],
         ),
       ),
     );
   }
-}
+  }

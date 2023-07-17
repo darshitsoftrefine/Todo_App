@@ -40,9 +40,9 @@ class FirestoreService {
       TodoModel todoModel;
       db.collection(todo).where('isDone', isEqualTo: true).get().then((snapshot) {
         //print(snapshot);
-        print(snapshot.docs.length);
+        //print(snapshot.docs.length);
         for(var i = 0; i < snapshot.docs.length; i++){
-          print('here ${snapshot.docs[i]['isDone']}');
+          //print('here ${snapshot.docs[i]['isDone']}');
             if(snapshot.docs[i]['isDone'] == true){
              firestore.collection('todo').doc(snapshot.docs[i].id).delete();
             }

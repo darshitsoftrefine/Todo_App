@@ -1,9 +1,10 @@
 import 'package:demo/auth_screen/custom_field.dart';
 import 'package:demo/auth_screen/register_screen.dart';
+import 'package:demo/themes_and_constants/themes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:sign_in_button/sign_in_button.dart';
-import '../to_do_crud/home_screen.dart';
+import '../screens/home.dart';
 import '../services/auth_service.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -22,27 +23,33 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: CustomColors.backgroundColor,
+      appBar: AppBar(
+        backgroundColor: CustomColors.backgroundColor,
+        elevation: 0.0,
+        leading: IconButton(onPressed: (){}, icon: Icon(Icons.arrow_back_ios),),
+      ),
       //resizeToAvoidBottomInset: false,
       body: Padding(
-        padding: const EdgeInsets.only(top: 100.0, left: 10, right: 10),
+        padding: const EdgeInsets.only(top: 41.0, left: 24, right: 24),
         child: SingleChildScrollView(
           //physics: NeverScrollableScrollPhysics(),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text("Login to Your Account", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),),
+              Text("Login", style: TextStyle(fontSize: 32, fontWeight: FontWeight.w700, color: CustomColors.primaryColor),),
               const SizedBox(height: 10,),
-              Text("Please enter your details to access your account", style: TextStyle(color: Colors.grey.shade500, fontSize: 12),),
+              //Text("Please enter your details to access your account", style: TextStyle(color: Colors.grey.shade500, fontSize: 12),),
               const SizedBox(height: 20,),
-              const Text("Email", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),),
+              Text("Email", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: CustomColors.primaryColor),),
               const SizedBox(height: 15,),
-              CustomField(label: 'Email Id', control: emailController, obs: false, hint: 'name@company.com',),
-              const SizedBox(height: 10,),
-              const Text("Password", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18 ),),
+              CustomField(label: 'Email Id', control: emailController, obs: false, hint: 'Enter your E-mail',),
+              const SizedBox(height: 25,),
+              Text("Password", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: CustomColors.primaryColor),),
               const SizedBox(height: 15,),
-              CustomField(label: 'Password', control: passwordController, obs: true, hint: 'Password',),
-              const SizedBox(height: 20,),
-              isLoading ? Center(child: const CircularProgressIndicator()):
+              CustomField(label: 'Password', control: passwordController, obs: true, hint: '.   .   .   .   .   .   .',),
+              const SizedBox(height: 70,),
+              isLoading ? const Center(child: CircularProgressIndicator()):
               Container(
                 alignment: Alignment.center,
                 //width: MediaQuery.of(context).size.width,
@@ -55,42 +62,34 @@ class _LoginScreenState extends State<LoginScreen> {
                 } else {
                  User? result = await AuthService().login(emailController.text, passwordController.text, context);
                  if(result != null){
-                   Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> HomeScreen(result)), (route) => false);
+                   Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> Home(result)), (route) => false);
                  }
                       }
                 setState(() {
                   isLoading = false;
                 });
               },
-                      child: const Text("Login"),
                     style: ElevatedButton.styleFrom(
-                      fixedSize: const Size(350, 50)
+                      backgroundColor: CustomColors.circColor,
+                      fixedSize: const Size(367, 48)
                     ),
+                      child: const Text("Login"),
                   )),
-              Container(
-                alignment: Alignment.center,
-                child: TextButton(onPressed: (){
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const RegisterScreen()),
-                  );
-                }, child: const Text("Not a Member? Register now")),
-              ),
-              SizedBox(height: 30,),
+              const SizedBox(height: 31,),
               Row(
                   children: const <Widget>[
                     Expanded(
                         child: Divider(color: Colors.grey,)
                     ),
 
-                    Text("  OR  "),
+                    Text("  or  ", style: TextStyle(color: Colors.grey),),
 
                     Expanded(
                         child: Divider(color: Colors.grey,)
                     ),
                   ]
               ),
-              SizedBox(height: 10,),
+              const SizedBox(height: 30,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -103,8 +102,30 @@ class _LoginScreenState extends State<LoginScreen> {
                     setState(() {
                       isLoading = false;
                     });
-                  }, text: 'Sign In With Google',),
+                  }, text: 'Login With Google',),
                 ],
+              ),
+              SizedBox(height: 130,),
+              Container(
+                alignment: Alignment.center,
+                child: TextButton(onPressed: (){
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const RegisterScreen()),
+                  );
+                }, child: RichText(
+                  text: TextSpan(
+                    text: "Don't have an account?",
+                    style: TextStyle(color: Colors.grey, fontSize: 12),
+                    children: [
+                      TextSpan(
+                        text: 'Register',
+                        style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 12),
+                      ),
+
+                    ],
+                  ),
+                )),
               ),
             ],
           ),

@@ -9,34 +9,38 @@ class CustomField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 11, right: 11, bottom: 5),
-      child: TextFormField(
-        //enabled: true,
-        //style: const TextStyle(color: Colors.white),
-        controller: control,
-        obscureText: obs,
-        decoration: InputDecoration(
-          floatingLabelBehavior: FloatingLabelBehavior.never,
-          //labelText: label, labelStyle: const TextStyle(color: Colors.black,),
-          hintText: hint,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(20.0),
-            borderSide: BorderSide(
-              color: Colors.grey,
-              style: BorderStyle.solid
-            ),
+    return TextFormField(
+      //enabled: true,
+      style: const TextStyle(color: Colors.white),
+      controller: control,
+      obscureText: obs,
+      decoration: InputDecoration(
+        //labelText: label, labelStyle: const TextStyle(color: Colors.black,),
+        hintText: hint,
+        hintStyle: TextStyle(color: Colors.grey),
+        border: OutlineInputBorder(
+          //borderRadius: BorderRadius.circular(20.0),
+          borderSide: BorderSide(
+            color: Color(0xFF979797),
+            style: BorderStyle.solid
           ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(20.0),
-            borderSide: const BorderSide(
-              color: Colors.grey,
-              width: 1.0,
-            ),
-          ),
-
-
         ),
+        enabledBorder: OutlineInputBorder(
+          //borderRadius: BorderRadius.circular(20.0),
+          borderSide: BorderSide(
+            color: Color(0xFF979797),
+            width: 1.0,
+          ),
+        ),
+        focusedBorder: OutlineInputBorder(
+          //borderRadius: BorderRadius.circular(20.0),
+          borderSide: BorderSide(
+            color: Color(0xFF979797),
+            width: 1.0,
+          ),
+        ),
+
+
       ),
     );
   }
