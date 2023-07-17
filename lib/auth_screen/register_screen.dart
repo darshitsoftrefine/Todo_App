@@ -21,6 +21,27 @@ class _RegisterScreenState extends State<RegisterScreen> {
   bool isLoading = false;
 
   @override
+  void initState() {
+    emailController.addListener(() {
+      setState(() {
+
+      });
+    });
+    passwordController.addListener(() { setState(() {
+
+    });
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: CustomColors.backgroundColor,
@@ -60,10 +81,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 alignment: Alignment.center,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: CustomColors.circColor,
+                      backgroundColor: emailController.text.isEmpty ? CustomColors.circColor: CustomColors.circleColor,
+                      disabledBackgroundColor: CustomColors.circColor,
                     fixedSize: const Size(360, 50)
                   ),
-                    onPressed: () async{
+                    onPressed: emailController.text.isEmpty && passwordController.text.isEmpty ? null :() async{
                   setState(() {
                     isLoading = true;
                   });

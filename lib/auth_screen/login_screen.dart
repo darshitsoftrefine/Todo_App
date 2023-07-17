@@ -91,7 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 });
               },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: emailController.text.isEmpty && passwordController.text.isEmpty ? CustomColors.circColor : CustomColors.circleColor,
+                      backgroundColor: CustomColors.circleColor,
                       disabledBackgroundColor: CustomColors.circColor,
                       fixedSize: const Size(367, 48)
                     ),
