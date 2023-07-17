@@ -19,6 +19,27 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   bool isLoading = false;
+  
+  @override
+  void initState() {
+    emailController.addListener(() {
+      setState(() {
+
+      });
+    });
+    passwordController.addListener(() { setState(() {
+
+    });
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +74,7 @@ class _LoginScreenState extends State<LoginScreen> {
               Container(
                 alignment: Alignment.center,
                 //width: MediaQuery.of(context).size.width,
-                  child: ElevatedButton(onPressed: () async{
+                  child: ElevatedButton(onPressed: emailController.text.isEmpty && passwordController.text.isEmpty ? null : () async{
                 setState(() {
                   isLoading = true;
                 });
@@ -70,10 +91,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 });
               },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: CustomColors.circColor,
+                      backgroundColor: emailController.text.isEmpty && passwordController.text.isEmpty ? CustomColors.circColor : CustomColors.circleColor,
+                      disabledBackgroundColor: CustomColors.circColor,
                       fixedSize: const Size(367, 48)
                     ),
-                      child: const Text("Login"),
+                      child: const Text("Login", style: TextStyle(color: Colors.white),),
                   )),
               const SizedBox(height: 31,),
               Row(
@@ -93,16 +115,45 @@ class _LoginScreenState extends State<LoginScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  isLoading ? const CircularProgressIndicator(): SignInButton(
-                    Buttons.google, onPressed: () async{
-                    setState(() {
-                      isLoading = true;
-                    });
-                    await AuthService().signInWithGoogle();
-                    setState(() {
-                      isLoading = false;
-                    });
-                  }, text: 'Login With Google',),
+                  isLoading ? const CircularProgressIndicator():
+                  ElevatedButton(
+                    onPressed: () async{
+                      setState(() {
+                        isLoading = true;
+                      });
+                      await AuthService().signInWithGoogle();
+                      setState(() {
+                        isLoading = false;
+                      });
+                    },
+                    style: ElevatedButton.styleFrom(
+                      padding: EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 5),
+                      primary: CustomColors.backgroundColor,
+                      onPrimary: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        side: BorderSide(color: CustomColors.circColor)
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset('assets/images/googl.png', width: 30, height: 30,),
+                        SizedBox(width: 10),
+                        Text('Login with Google'),
+                      ],
+                    ),
+                  )
+                  // SignInButton(
+                  //   Buttons.google, onPressed: () async{
+                  //   setState(() {
+                  //     isLoading = true;
+                  //   });
+                  //   await AuthService().signInWithGoogle();
+                  //   setState(() {
+                  //     isLoading = false;
+                  //   });
+                  // }, text: 'Login With Google',),
                 ],
               ),
               SizedBox(height: 130,),

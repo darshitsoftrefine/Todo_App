@@ -2,8 +2,6 @@ import 'package:demo/auth_screen/custom_field.dart';
 import 'package:demo/themes_and_constants/themes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:sign_in_button/sign_in_button.dart';
-
 import '../screens/home.dart';
 import '../services/auth_service.dart';
 
@@ -100,16 +98,45 @@ class _RegisterScreenState extends State<RegisterScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  isLoading ? const CircularProgressIndicator(): SignInButton(
-                    Buttons.google, onPressed: () async{
-                    setState(() {
-                      isLoading = true;
-                    });
-                    await AuthService().signInWithGoogle();
-                    setState(() {
-                      isLoading = false;
-                    });
-                  }, text: 'Register with Google',),
+                  isLoading ? const CircularProgressIndicator():
+                  ElevatedButton(
+                    onPressed: () async{
+                      setState(() {
+                        isLoading = true;
+                      });
+                      await AuthService().signInWithGoogle();
+                      setState(() {
+                        isLoading = false;
+                      });
+                    },
+                    style: ElevatedButton.styleFrom(
+                      padding: EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 5),
+                      primary: CustomColors.backgroundColor,
+                      onPrimary: Colors.white,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          side: BorderSide(color: CustomColors.circColor)
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset('assets/images/googl.png', width: 30, height: 30,),
+                        SizedBox(width: 10),
+                        Text('Register with Google'),
+                      ],
+                    ),
+                  )
+                  // SignInButton(
+                  //   Buttons.google, onPressed: () async{
+                  //   setState(() {
+                  //     isLoading = true;
+                  //   });
+                  //   await AuthService().signInWithGoogle();
+                  //   setState(() {
+                  //     isLoading = false;
+                  //   });
+                  // }, text: 'Register with Google',),
                 ],
               ),
               SizedBox(height: 20,),
