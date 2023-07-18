@@ -9,7 +9,6 @@ import '../models/todo.dart';
 import '../services/auth_service.dart';
 import '../services/firestore_service.dart';
 
-const List<String> list = <String>['Today', 'Tomorrow'];
 class Home extends StatefulWidget {
   User user;
   Home(this.user);
@@ -21,12 +20,18 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
+
+  //Declaring Variables
+
   int counter = 1;
-  String dropdownValue = list.first;
   TextEditingController titleController = TextEditingController();
   final TextEditingController _desc = TextEditingController();
   TextEditingController timeController = TextEditingController();
   DateTime dateTime = DateTime.now();
+  bool _visible = false;
+  List<DocumentSnapshot> completedList = [];
+
+  //Notifications Logic
 
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
   FlutterLocalNotificationsPlugin();
@@ -82,6 +87,12 @@ class _HomeState extends State<Home> {
         payload: 'Ths s the data');
   }
 
+  void _toggle() {
+    setState(() {
+      _visible = !_visible;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -91,7 +102,10 @@ class _HomeState extends State<Home> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            FloatingActionButton(onPressed: (){}, child: Icon(Icons.check, size: 30,),  backgroundColor: CustomColors.circColor),
+            //Bottom Sheet
+            FloatingActionButton(onPressed: () {
+              _toggle();
+            }, child: Icon(Icons.check, size: 30,),  backgroundColor: CustomColors.circColor),
             FloatingActionButton(
               onPressed: () {
                 showModalBottomSheet(
@@ -173,14 +187,16 @@ class _HomeState extends State<Home> {
                                 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Please Enter title")));
                               } else {
                                 await FirestoreService().insertTodo(Timestamp.now(),titleController.text, timeController.text, widget.user.uid, false);
+                                //completedList.add(FirestoreService().insertTodo(Timestamp.now(),titleController.text, timeController.text, widget.user.uid, false));
                                 showNotification();
-                                Navigator.pop(context);
                                 titleController.clear();
                                 timeController.clear();
+                                Navigator.pop(context);
+
                               }
                             }, icon: Icon(Icons.send, color: CustomColors.primaryColor,))
                           ],
-                        )
+                        ),
                       ],
                     ),
                   );
@@ -195,14 +211,11 @@ class _HomeState extends State<Home> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        leading: Image.asset('assets/images/leading_icon.png'),
+        //leading: Image.asset('assets/images/leading_icon.png'),
         backgroundColor: CustomColors.backgroundColor,
-        title: const Text("Index"),
+        title: const Text("To-Do Tasks"),
         centerTitle: true,
         actions: [
-          CircleAvatar(
-            child: Icon(Icons.person),
-          ),
           IconButton(onPressed: ()async{
             await AuthService().signOut();
           }, icon: const Icon(Icons.logout, color: Colors.white,),)
@@ -215,53 +228,11 @@ class _HomeState extends State<Home> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Container(
-                      width: 76,
-                      height: 41,
-                      padding: EdgeInsets.only(left: 10, right: 1),
-                      decoration: BoxDecoration(
-                        color: CustomColors.onboardColor,
-                        borderRadius: BorderRadius.circular(8)
-                      ),
-                      child: Row(
-                        children: [
-                          Text("Today", style: TextStyle(color: CustomColors.primaryColor, fontSize: 12),),
-                          SizedBox(width: 5,),
-                          Icon(Icons.keyboard_arrow_down_outlined, color: CustomColors.primaryColor,)
-                        ],
-                      ),
-                    ),
-                  ],
+                Text("Pending Tasks", style: TextStyle(color: CustomColors.primaryColor, fontSize: 20, decoration: TextDecoration.underline),
                 ),
-            SizedBox(height: 20,),
-            //   Container(
-            //     padding: EdgeInsets.all(2),
-            //     decoration: BoxDecoration(
-            //       color: CustomColors.onboardColor
-            //     ),
-            //     child: DropdownButton<String>(
-            //     value: dropdownValue,
-            //     icon: Icon(Icons.keyboard_arrow_down, color: CustomColors.primaryColor,),
-            //     elevation: 16,
-            //     underline: SizedBox(),
-            //     style: TextStyle(color: CustomColors.circColor),
-            //     onChanged: (String? value) {
-            //       // This is called when the user selects an item.
-            //       setState(() {
-            //         dropdownValue = value!;
-            //       });
-            //     },
-            //     items: list.map<DropdownMenuItem<String>>((String value) {
-            //       return DropdownMenuItem<String>(
-            //         value: value,
-            //         child: Text(value),
-            //       );
-            //     }).toList(),
-            // ),
-            //   ),
+            SizedBox(height: 10,),
+
+                // Firebase display of todo Tasks
                 StreamBuilder(
                     stream: FirebaseFirestore.instance.collection('todo').orderBy('create', descending: true).snapshots(),
                     builder: (context, AsyncSnapshot snapshot){
@@ -275,7 +246,7 @@ class _HomeState extends State<Home> {
                               itemBuilder: (context, index){
                               //print(snapshot.data.docs[index]);
                                 final Map<String, dynamic> data = todoList[index].data() as Map<String, dynamic>;
-                                print(data);
+                                //print(data);
                                 TodoModel todo = TodoModel.fromJson(snapshot.data.docs[index]);
                                 return Padding(
                                   padding: const EdgeInsets.all(15),
@@ -284,6 +255,7 @@ class _HomeState extends State<Home> {
                                     elevation: 5,
                                     margin: const EdgeInsets.all(5),
                                     child: CheckboxListTile(
+                                      activeColor: CustomColors.circColor,
                                       controlAffinity: ListTileControlAffinity.leading,
                                       value: data['isDone'],
                                       onChanged: (bool? value) {
@@ -293,7 +265,7 @@ class _HomeState extends State<Home> {
                                       contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                                       checkboxShape: CircleBorder(),
                                       title: Text(data['title'].toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: CustomColors.primaryColor, decoration: data['isDone']? TextDecoration.lineThrough:null),),
-                                      subtitle: Text(data['time'].toString(), style: TextStyle(color: CustomColors.primaryColor),),
+                                      subtitle: data['time'].toString().isEmpty ?null: Text(data['time'].toString(), style: TextStyle(color: CustomColors.primaryColor),),
                                     ),
                                   ),
                                 );
@@ -316,10 +288,58 @@ class _HomeState extends State<Home> {
                       } return const Center(child: CircularProgressIndicator(),);
                     }
                 ),
-                Center(child: ElevatedButton(onPressed: () async{
-                  await FirestoreService().deleteTodo();
-                }, child: const Text("Completed")))
-              ],
+                // ElevatedButton(onPressed: (){}, child: Text("Completed")),
+                // Center(child: ElevatedButton(onPressed: () async{
+                //   await FirestoreService().deleteTodo();
+                // }, child: const Text("Completed"))),
+                SizedBox(height: 20,),
+                Text("Completed Tasks", style: TextStyle(color: CustomColors.primaryColor, fontSize: 20, decoration: TextDecoration.underline),
+                ),
+
+                Visibility(
+// Specify the boolean value that controls the visibility
+                  visible: _visible,
+// // Specify an alternative widget to display when hidden
+                  replacement: Text(
+                    'Press the button below to show the completed tasks',
+                    style: TextStyle(fontSize: 12,),
+                  ),
+// Specify the text widget to display when visible
+                  child: StreamBuilder(
+                      stream: FirebaseFirestore.instance.collection('todo').orderBy('create', descending: true).snapshots(),
+                      builder: (context, AsyncSnapshot snapshot) {
+                        if(snapshot.hasData){
+                          if(snapshot.data.docs.length > 0) {
+                            List<DocumentSnapshot> todoList = snapshot.data.docs;
+                            return ListView.builder(
+                                physics: const NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                itemCount: todoList.length,
+                                itemBuilder: (context, index) {
+                                  //print(snapshot.data.docs[index]);
+                                  final Map<String, dynamic> data = todoList[index]
+                                      .data() as Map<String, dynamic>;
+                                  //print(data);
+                                  TodoModel todo = TodoModel.fromJson(
+                                      snapshot.data.docs[index]);
+                                  return Padding(
+                                    padding: const EdgeInsets.all(15),
+                                    child: Card(
+                                      color: CustomColors.onboardColor,
+                                      elevation: 5,
+                                      margin: const EdgeInsets.all(5),
+                                      child: data['isDone']? ListTile(
+                                        title: Text(data['title'].toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: CustomColors.primaryColor),),
+                                        subtitle: data['time'].toString().isEmpty ?null: Text(data['time'].toString(), style: TextStyle(color: CustomColors.primaryColor),),
+                                      ): null,
+                                    ),
+                                  );
+                                });
+                          } } return CircularProgressIndicator();
+                      }
+                  ),
+                ),
+                  ],
             ),
           ),
         ),

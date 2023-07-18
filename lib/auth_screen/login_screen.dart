@@ -144,16 +144,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       ],
                     ),
                   )
-                  // SignInButton(
-                  //   Buttons.google, onPressed: () async{
-                  //   setState(() {
-                  //     isLoading = true;
-                  //   });
-                  //   await AuthService().signInWithGoogle();
-                  //   setState(() {
-                  //     isLoading = false;
-                  //   });
-                  // }, text: 'Login With Google',),
                 ],
               ),
               SizedBox(height: 130,),
