@@ -216,7 +216,6 @@ class _HomeState extends State<Home> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        //leading: Image.asset('assets/images/leading_icon.png'),
         backgroundColor: CustomColors.backgroundColor,
         title: const Text("To-Do Tasks"),
         centerTitle: true,
@@ -249,10 +248,7 @@ class _HomeState extends State<Home> {
                               shrinkWrap: true,
                                 itemCount: todoList.length,
                                 itemBuilder: (context, index){
-                                //print(snapshot.data.docs[index]);
                                   final Map<String, dynamic> data = todoList[index].data() as Map<String, dynamic>;
-                                  //print(data);
-                                  TodoModel todo = TodoModel.fromJson(snapshot.data.docs[index]);
                                   return Padding(
                                     padding: const EdgeInsets.all(15),
                                     child: Card(
