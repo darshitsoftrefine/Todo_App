@@ -15,6 +15,9 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
 
+
+  //Declaring Variables
+
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   bool isLoading = false;
@@ -57,6 +60,8 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+
+              //Login form
               Text("Login", style: TextStyle(fontSize: 32, fontWeight: FontWeight.w700, color: CustomColors.primaryColor),),
               const SizedBox(height: 10,),
               //Text("Please enter your details to access your account", style: TextStyle(color: Colors.grey.shade500, fontSize: 12),),
@@ -69,6 +74,10 @@ class _LoginScreenState extends State<LoginScreen> {
               const SizedBox(height: 15,),
               CustomField(label: 'Password', control: passwordController, obs: true, hint: '.   .   .   .   .   .   .',),
               const SizedBox(height: 70,),
+
+
+
+              //Login Button
               isLoading ? const Center(child: CircularProgressIndicator()):
               Container(
                 alignment: Alignment.center,
@@ -111,6 +120,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   ]
               ),
               const SizedBox(height: 30,),
+
+
+
+              //Google Sign in Button
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -143,6 +156,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   )
                 ],
               ),
+
+              //Register Screen Page Navigation
               const SizedBox(height: 130,),
               Container(
                 alignment: Alignment.center,

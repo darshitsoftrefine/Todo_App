@@ -12,8 +12,6 @@ class AuthService{
       return userCredential.user;
     } on FirebaseAuthException catch(e) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.message.toString()), backgroundColor: Colors.red,));
-    } catch(e){
-      print(e);
     }
     return null;
   }
@@ -25,8 +23,6 @@ class AuthService{
       return userCredential.user;
     } on FirebaseAuthException catch(e){
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.message.toString()), backgroundColor: Colors.red,));
-    } catch(e){
-      print(e);
     }
     return null;
 
@@ -37,17 +33,16 @@ class AuthService{
     try{
       GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
       if(googleUser != null){
-        GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+        GoogleSignInAuthentication? googleAuth = await googleUser.authentication;
 
         AuthCredential credential =  GoogleAuthProvider.credential(
-          accessToken: googleAuth?.accessToken,
-          idToken: googleAuth?.idToken,
+          accessToken: googleAuth.accessToken,
+          idToken: googleAuth.idToken,
         );
         UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
         return userCredential.user;
       }
     } catch(e){
-      print(e);
     }
     return null;
   }

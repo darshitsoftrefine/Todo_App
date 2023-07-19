@@ -2,13 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FirestoreCompleteService {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+  //Inserting pending Tasks after deleting it
   Future insertCompleteTodo(String docId) async {
     try {
       await firestore.collection('completed').add({
         //DocumentReference existingDoc = FirebaseFirestore.instance.doc('todo/docId')
       });
     } catch (e) {
-      print(e);
     }
   }
   Future deleteTodo() async {
@@ -26,7 +27,6 @@ class FirestoreCompleteService {
         }
       });
     } catch(e){
-      print(e);
     }
   }
 

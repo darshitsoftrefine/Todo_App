@@ -30,6 +30,8 @@ class _CompletedListState extends State<CompletedList> {
             children: [
             //Text("Completed Tasks", style: TextStyle(color: CustomColors.primaryColor, fontSize: 20)),
               const SizedBox(height: 10,),
+
+              //Completed Tasks display
               StreamBuilder(
                 stream: FirebaseFirestore.instance.collection('completed').orderBy('create', descending: true).snapshots(),
                   builder: (context, AsyncSnapshot snapshot) {
@@ -69,6 +71,8 @@ class _CompletedListState extends State<CompletedList> {
     } return const Center(child: CircularProgressIndicator(),);
                 }
                 ),
+
+              //Delete All completed Tasks
               ElevatedButton(onPressed: ()async{
                       await FirestoreCompleteService().deleteTodo();
               }, child: const Text("Clear Completed Tasks"))

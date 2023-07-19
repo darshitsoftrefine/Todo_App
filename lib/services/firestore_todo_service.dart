@@ -13,7 +13,6 @@ class FirestoreService {
         'isDone': isDone
       });
     } catch(e){
-        print(e);
     }
   }
 
@@ -26,7 +25,6 @@ class FirestoreService {
 
       });
     } catch(e){
-      print(e);
     }
 
   }
@@ -49,7 +47,6 @@ class FirestoreService {
       });
      //await firestore.collection('todo').doc(docId).delete();
     } catch(e){
-      print(e);
     }
   }
 }

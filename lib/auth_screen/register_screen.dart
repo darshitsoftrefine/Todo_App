@@ -14,6 +14,8 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
 
+  //Declaring Variables
+
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController nameController = TextEditingController();
@@ -59,6 +61,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+
+              //Register Form
               Text("Register", style: TextStyle(fontSize: 32, fontWeight: FontWeight.w700, color: CustomColors.primaryColor),),
               const SizedBox(height: 20,),
               Text("Username", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: CustomColors.primaryColor),),
@@ -77,6 +81,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
               const SizedBox(height: 15,),
               CustomField(label: 'City', control: cityController, obs: false, hint: 'Kolkata'),
               const SizedBox(height: 40,),
+
+              // Register Button
               isLoading ? const Center(child: CircularProgressIndicator()): Container(
                 alignment: Alignment.center,
                 child: ElevatedButton(
@@ -117,6 +123,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ]
               ),
               const SizedBox(height: 10,),
+
+              //Google Sign In Button
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -147,19 +155,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ],
                     ),
                   )
-                  // SignInButton(
-                  //   Buttons.google, onPressed: () async{
-                  //   setState(() {
-                  //     isLoading = true;
-                  //   });
-                  //   await AuthService().signInWithGoogle();
-                  //   setState(() {
-                  //     isLoading = false;
-                  //   });
-                  // }, text: 'Register with Google',),
                 ],
               ),
               const SizedBox(height: 20,),
+
+              //Back to Login Screen
               Container(
                 alignment: Alignment.center,
                 child: TextButton(onPressed: (){

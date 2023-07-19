@@ -91,25 +91,23 @@ class _HomeState extends State<Home> {
         payload: 'Ths s the data');
   }
 
-  void _toggle() {
-    setState(() {
-      _visible = !_visible;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: CustomColors.backgroundColor,
+
+      //Floating Action Buttons
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(bottom: 10.0, left: 15, right: 15),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            //Bottom Sheet
+           //Delete Button after checkboxListTile has been selected
             FloatingActionButton(onPressed: () async{
               await FirestoreService().deleteTodo();
             },  backgroundColor: CustomColors.circColor, child: const Icon(Icons.check, size: 30,)),
+
+            //Bottom Sheet to Add Task and Time
             FloatingActionButton(
               onPressed: () {
                 showModalBottomSheet(
