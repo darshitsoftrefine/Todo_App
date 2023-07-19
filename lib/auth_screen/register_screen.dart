@@ -89,9 +89,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     fixedSize: const Size(360, 50)
                   ),
                     onPressed: emailController.text.isEmpty && passwordController.text.isEmpty ? null :() async{
-                  setState(() {
-                    isLoading = true;
-                  });
                   if(emailController.text == "" || passwordController.text == ""){
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("All Fields are required"), backgroundColor: Colors.red,));
                   } else {
@@ -128,9 +125,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   isLoading ? const CircularProgressIndicator():
                   ElevatedButton(
                     onPressed: () async{
-                      setState(() {
-                        isLoading = true;
-                      });
                       await AuthService().signInWithGoogle();
                       setState(() {
                         isLoading = false;
@@ -163,11 +157,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   Navigator.pop(context);
                 }, child: RichText(
                   text: const TextSpan(
-                    text: 'Already have an account?',
+                    text: 'Already have an account ?',
                     style: TextStyle(color: Colors.grey, fontSize: 12),
                     children: [
                       TextSpan(
-                        text: 'Login',
+                        text: '  Login',
                         style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 12),
                       ),
                     ],

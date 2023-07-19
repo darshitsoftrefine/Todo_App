@@ -148,6 +148,12 @@ class _HomeState extends State<Home> {
                                     style: BorderStyle.solid
                                 ),
                               ),
+                              focusedBorder:  OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: CustomColors.circColor,
+                                  width: 1.0,
+                                ),
+                              ),
                               hintText: 'Enter Title',
                               hintStyle: TextStyle(color: CustomColors.primaryColor),
                               border: OutlineInputBorder(
@@ -189,7 +195,7 @@ class _HomeState extends State<Home> {
 
                             IconButton(onPressed: () async{
                               if(titleController.text == ""){
-                                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Please Enter title")));
+                                //ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Please Enter title")));
                               } else {
                                 await FirestoreService().insertTodo(Timestamp.now(),titleController.text, timeController.text, false);
                                 //completedList.add(FirestoreService().insertTodo(Timestamp.now(),titleController.text, timeController.text, widget.user.uid, false));

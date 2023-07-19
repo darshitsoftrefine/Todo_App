@@ -59,9 +59,12 @@ class _CompletedListState extends State<CompletedList> {
               });
     } else {
       return Center(
-          child: Column(
-            children: [
-              Text("No tasks completed. Hurry Up", style: TextStyle(color: CustomColors.primaryColor, fontWeight: FontWeight.w400, fontSize: 30),),
+        child: Column(
+          children: [
+            const SizedBox(height: 95,),
+            Image.asset('assets/images/no_todo.png'),
+              SizedBox(height: 10,),
+              Text("No completed tasks here!", style: TextStyle(color: CustomColors.primaryColor, fontWeight: FontWeight.w400, fontSize: 20),),
               const SizedBox(height: 10,),
 
             ],
@@ -73,12 +76,27 @@ class _CompletedListState extends State<CompletedList> {
                 ),
 
               //Delete All completed Tasks
-              ElevatedButton(onPressed: ()async{
-                      await FirestoreCompleteService().deleteTodo();
-              }, child: const Text("Clear Completed Tasks"))
+
+
             ],
           ),
         ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.only(left: 32, right: 32, top: 12, bottom: 28),
+        child: ElevatedButton(onPressed: () async {
+            await FirestoreCompleteService().deleteTodo();
+          },
+          style: ElevatedButton.styleFrom(
+          minimumSize: const Size(160, 40),
+          backgroundColor: CustomColors.circleColor,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(32)),
+        ),
+          child: const Text(
+            "Clear Completed Tasks",
+            style: TextStyle(fontSize: 18, color:Colors.white),
+          ),),
       ),
     );
   }

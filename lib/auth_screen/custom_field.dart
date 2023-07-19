@@ -1,3 +1,4 @@
+import 'package:demo/themes_and_constants/themes.dart';
 import 'package:flutter/material.dart';
 
 class CustomField extends StatelessWidget {
@@ -28,9 +29,9 @@ class CustomField extends StatelessWidget {
             width: 1.0,
           ),
         ),
-        focusedBorder: const OutlineInputBorder(
+        focusedBorder: OutlineInputBorder(
            borderSide: BorderSide(
-            color: Color(0xFF979797),
+            color: CustomColors.circColor,
             width: 1.0,
           ),
         ),
