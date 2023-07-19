@@ -52,12 +52,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
         elevation: 0.0,
         leading: IconButton(onPressed: (){}, icon: const Icon(Icons.arrow_back_ios),),
       ),
-      //resizeToAvoidBottomInset: false,
       body: Padding(
         padding: const EdgeInsets.only(top: 16.0, left: 24, right: 24),
         child: SingleChildScrollView(
-          // physics: const ClampingScrollPhysics(),
-          // primary: false,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

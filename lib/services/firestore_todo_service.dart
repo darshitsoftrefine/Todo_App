@@ -4,6 +4,8 @@ import 'package:demo/models/todo.dart';
 class FirestoreService {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
+
+  //insert Tasks
   Future insertTodo(Timestamp create, String title, String time, bool isDone) async {
     try{
       await firestore.collection('todo').add({
@@ -16,19 +18,7 @@ class FirestoreService {
     }
   }
 
-  Future updateTodo(String docId, String title, String date, String time) async {
-    try{
-      await firestore.collection('todo').doc(docId).update({
-        'title': title,
-        'date': date,
-        'time': time,
-
-      });
-    } catch(e){
-    }
-
-  }
-
+  //Delete tasks
   Future deleteTodo() async {
     try{
       var db = FirebaseFirestore.instance;

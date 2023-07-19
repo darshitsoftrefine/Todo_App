@@ -102,10 +102,13 @@ class _HomeState extends State<Home> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+
+
            //Delete Button after checkboxListTile has been selected
             FloatingActionButton(onPressed: () async{
               await FirestoreService().deleteTodo();
             },  backgroundColor: CustomColors.circColor, child: const Icon(Icons.check, size: 30,)),
+
 
             //Bottom Sheet to Add Task and Time
             FloatingActionButton(

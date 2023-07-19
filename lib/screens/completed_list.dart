@@ -28,8 +28,8 @@ class _CompletedListState extends State<CompletedList> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-            //Text("Completed Tasks", style: TextStyle(color: CustomColors.primaryColor, fontSize: 20)),
               const SizedBox(height: 10,),
+
 
               //Completed Tasks display
               StreamBuilder(

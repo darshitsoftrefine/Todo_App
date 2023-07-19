@@ -12,6 +12,8 @@ class FirestoreCompleteService {
     } catch (e) {
     }
   }
+
+  //Delete All completed Tasks
   Future deleteTodo() async {
     try{
       var db = FirebaseFirestore.instance;

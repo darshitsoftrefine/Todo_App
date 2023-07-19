@@ -10,31 +10,26 @@ class CustomField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      //enabled: true,
       style: const TextStyle(color: Colors.white),
       controller: control,
       obscureText: obs,
       decoration: InputDecoration(
-        //labelText: label, labelStyle: const TextStyle(color: Colors.black,),
         hintText: hint,
         hintStyle: const TextStyle(color: Colors.grey),
         border: const OutlineInputBorder(
-          //borderRadius: BorderRadius.circular(20.0),
           borderSide: BorderSide(
             color: Color(0xFF979797),
             style: BorderStyle.solid
           ),
         ),
         enabledBorder: const OutlineInputBorder(
-          //borderRadius: BorderRadius.circular(20.0),
           borderSide: BorderSide(
             color: Color(0xFF979797),
             width: 1.0,
           ),
         ),
         focusedBorder: const OutlineInputBorder(
-          //borderRadius: BorderRadius.circular(20.0),
-          borderSide: BorderSide(
+           borderSide: BorderSide(
             color: Color(0xFF979797),
             width: 1.0,
           ),
