@@ -2,16 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:demo/models/todo.dart';
 
 class FirestoreService {
-  var id = 0;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  Future insertTodo(Timestamp create, String title, String time, String userId, bool isDone) async {
+  Future insertTodo(Timestamp create, String title, String time, bool isDone) async {
     try{
       await firestore.collection('todo').add({
         "create": create,
         "title": title,
         "time": time,
-        'userId': userId,
         'isDone': isDone
       });
     } catch(e){
@@ -44,6 +42,7 @@ class FirestoreService {
         for(var i = 0; i < snapshot.docs.length; i++){
           //print('here ${snapshot.docs[i]['isDone']}');
             if(snapshot.docs[i]['isDone'] == true){
+              firestore.collection('completed').add(snapshot.docs[i].data());
              firestore.collection('todo').doc(snapshot.docs[i].id).delete();
             }
         }

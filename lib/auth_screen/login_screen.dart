@@ -1,10 +1,9 @@
 import 'package:demo/auth_screen/custom_field.dart';
 import 'package:demo/auth_screen/register_screen.dart';
+import 'package:demo/screens/bottom_bar.dart';
 import 'package:demo/themes_and_constants/themes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:sign_in_button/sign_in_button.dart';
-import '../screens/home.dart';
 import '../services/auth_service.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -48,7 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
       appBar: AppBar(
         backgroundColor: CustomColors.backgroundColor,
         elevation: 0.0,
-        leading: IconButton(onPressed: (){}, icon: Icon(Icons.arrow_back_ios),),
+        leading: IconButton(onPressed: (){}, icon: const Icon(Icons.arrow_back_ios),),
       ),
       //resizeToAvoidBottomInset: false,
       body: Padding(
@@ -83,7 +82,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 } else {
                  User? result = await AuthService().login(emailController.text, passwordController.text, context);
                  if(result != null){
-                   Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> Home(result)), (route) => false);
+                   Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> BottomBar(result)), (route) => false);
                  }
                       }
                 setState(() {
@@ -127,9 +126,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       });
                     },
                     style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 5),
-                      primary: CustomColors.backgroundColor,
-                      onPrimary: Colors.white,
+                      foregroundColor: Colors.white, backgroundColor: CustomColors.backgroundColor, padding: const EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 5),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                         side: BorderSide(color: CustomColors.circColor)
@@ -139,14 +136,14 @@ class _LoginScreenState extends State<LoginScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Image.asset('assets/images/googl.png', width: 30, height: 30,),
-                        SizedBox(width: 10),
-                        Text('Login with Google'),
+                        const SizedBox(width: 10),
+                        const Text('Login with Google'),
                       ],
                     ),
                   )
                 ],
               ),
-              SizedBox(height: 130,),
+              const SizedBox(height: 130,),
               Container(
                 alignment: Alignment.center,
                 child: TextButton(onPressed: (){
@@ -155,7 +152,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     MaterialPageRoute(builder: (context) => const RegisterScreen()),
                   );
                 }, child: RichText(
-                  text: TextSpan(
+                  text: const TextSpan(
                     text: "Don't have an account?",
                     style: TextStyle(color: Colors.grey, fontSize: 12),
                     children: [

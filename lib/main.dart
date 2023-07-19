@@ -1,4 +1,4 @@
-import 'package:demo/screens/home.dart';
+import 'package:demo/screens/bottom_bar.dart';
 import 'package:demo/services/auth_service.dart';
 import 'package:demo/auth_screen/login_screen.dart';
 import 'package:demo/services/notifications_service.dart';
@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
         stream: AuthService().firebaseAuth.authStateChanges(),
         builder: (context, AsyncSnapshot snapshot){
           if(snapshot.hasData){
-            return Home(snapshot.data);
+            return BottomBar(snapshot.data);
           }
             return const LoginScreen();
         },

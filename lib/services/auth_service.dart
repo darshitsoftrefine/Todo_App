@@ -15,6 +15,7 @@ class AuthService{
     } catch(e){
       print(e);
     }
+    return null;
   }
 
   //Login existing user
@@ -27,6 +28,7 @@ class AuthService{
     } catch(e){
       print(e);
     }
+    return null;
 
   }
 
@@ -47,6 +49,7 @@ class AuthService{
     } catch(e){
       print(e);
     }
+    return null;
   }
 
   // Sign Out

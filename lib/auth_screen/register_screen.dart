@@ -1,8 +1,8 @@
 import 'package:demo/auth_screen/custom_field.dart';
+import 'package:demo/screens/bottom_bar.dart';
 import 'package:demo/themes_and_constants/themes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import '../screens/home.dart';
 import '../services/auth_service.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -48,7 +48,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       appBar: AppBar(
         backgroundColor: CustomColors.backgroundColor,
         elevation: 0.0,
-        leading: IconButton(onPressed: (){}, icon: Icon(Icons.arrow_back_ios),),
+        leading: IconButton(onPressed: (){}, icon: const Icon(Icons.arrow_back_ios),),
       ),
       //resizeToAvoidBottomInset: false,
       body: Padding(
@@ -94,7 +94,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   } else {
                     User? result = await AuthService().register(emailController.text, passwordController.text, context);
                     if(result != null){
-                      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> Home(result)), (route) => false);
+                      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> BottomBar(result)), (route) => false);
 
                     }
                   }
@@ -132,9 +132,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       });
                     },
                     style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 5),
-                      primary: CustomColors.backgroundColor,
-                      onPrimary: Colors.white,
+                      foregroundColor: Colors.white, backgroundColor: CustomColors.backgroundColor, padding: const EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 5),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                           side: BorderSide(color: CustomColors.circColor)
@@ -144,8 +142,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Image.asset('assets/images/googl.png', width: 30, height: 30,),
-                        SizedBox(width: 10),
-                        Text('Register with Google'),
+                        const SizedBox(width: 10),
+                        const Text('Register with Google'),
                       ],
                     ),
                   )
@@ -161,13 +159,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   // }, text: 'Register with Google',),
                 ],
               ),
-              SizedBox(height: 20,),
+              const SizedBox(height: 20,),
               Container(
                 alignment: Alignment.center,
                 child: TextButton(onPressed: (){
                   Navigator.pop(context);
                 }, child: RichText(
-                  text: TextSpan(
+                  text: const TextSpan(
                     text: 'Already have an account?',
                     style: TextStyle(color: Colors.grey, fontSize: 12),
                     children: [

@@ -17,22 +17,22 @@ class CustomField extends StatelessWidget {
       decoration: InputDecoration(
         //labelText: label, labelStyle: const TextStyle(color: Colors.black,),
         hintText: hint,
-        hintStyle: TextStyle(color: Colors.grey),
-        border: OutlineInputBorder(
+        hintStyle: const TextStyle(color: Colors.grey),
+        border: const OutlineInputBorder(
           //borderRadius: BorderRadius.circular(20.0),
           borderSide: BorderSide(
             color: Color(0xFF979797),
             style: BorderStyle.solid
           ),
         ),
-        enabledBorder: OutlineInputBorder(
+        enabledBorder: const OutlineInputBorder(
           //borderRadius: BorderRadius.circular(20.0),
           borderSide: BorderSide(
             color: Color(0xFF979797),
             width: 1.0,
           ),
         ),
-        focusedBorder: OutlineInputBorder(
+        focusedBorder: const OutlineInputBorder(
           //borderRadius: BorderRadius.circular(20.0),
           borderSide: BorderSide(
             color: Color(0xFF979797),
