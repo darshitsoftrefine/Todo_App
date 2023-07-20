@@ -39,7 +39,6 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-
   }
 
   showNotification() {
@@ -71,6 +70,7 @@ class _HomeState extends State<Home> {
         payload: 'Ths s the data');
   }
 
+  //Notifications cancel
   void stopNotifications() async {
     flutterLocalNotificationsPlugin.cancel(01);
   }
