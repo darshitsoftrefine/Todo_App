@@ -31,7 +31,7 @@ class CustomField extends StatelessWidget {
         ),
         focusedBorder: OutlineInputBorder(
            borderSide: BorderSide(
-            color: CustomColors.circColor,
+            color: CustomColors.circleColor,
             width: 1.0,
           ),
         ),

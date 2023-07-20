@@ -94,6 +94,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   } else {
                     User? result = await AuthService().register(emailController.text, passwordController.text, context);
                     if(result != null){
+                      if(!mounted) return;
                       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> BottomBar(result)), (route) => false);
 
                     }

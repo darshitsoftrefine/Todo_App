@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:demo/models/todo.dart';
 
 class FirestoreService {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -15,6 +14,7 @@ class FirestoreService {
         'isDone': isDone
       });
     } catch(e){
+      //Error Message
     }
   }
 
@@ -32,6 +32,7 @@ class FirestoreService {
         }
       });
     } catch(e){
+      //Error Message
     }
   }
 }

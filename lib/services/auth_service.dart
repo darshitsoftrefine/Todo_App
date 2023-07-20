@@ -43,6 +43,7 @@ class AuthService{
         return userCredential.user;
       }
     } catch(e){
+      //Error Message
     }
     return null;
   }

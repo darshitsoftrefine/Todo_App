@@ -7,9 +7,10 @@ class FirestoreCompleteService {
   Future insertCompleteTodo(String docId) async {
     try {
       await firestore.collection('completed').add({
-        //DocumentReference existingDoc = FirebaseFirestore.instance.doc('todo/docId')
+
       });
     } catch (e) {
+      //Error Message
     }
   }
 
@@ -21,11 +22,13 @@ class FirestoreCompleteService {
       db.collection(todo).where('isDone', isEqualTo: true).get().then((snapshot) {
         for(var i = 0; i < snapshot.docs.length; i++){
           if(snapshot.docs[i]['isDone'] == true){
+            //firestore.collection('completed').doc(snapshot.docs[i]['time']).delete();
             firestore.collection('completed').doc(snapshot.docs[i].id).delete();
           }
         }
       });
     } catch(e){
+      //Error Message
     }
   }
 

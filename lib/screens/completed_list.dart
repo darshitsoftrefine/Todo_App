@@ -63,7 +63,7 @@ class _CompletedListState extends State<CompletedList> {
           children: [
             const SizedBox(height: 95,),
             Image.asset('assets/images/no_todo.png'),
-              SizedBox(height: 10,),
+              const SizedBox(height: 10,),
               Text("No completed tasks here!", style: TextStyle(color: CustomColors.primaryColor, fontWeight: FontWeight.w400, fontSize: 20),),
               const SizedBox(height: 10,),
 
