@@ -39,16 +39,7 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    const AndroidInitializationSettings androidInitializationSettings =
-        AndroidInitializationSettings("@mipmap/ic_launcher");
 
-    const InitializationSettings initializationSettings =
-        InitializationSettings(
-      android: androidInitializationSettings,
-      //iOS: iosInitializationSettings,
-      macOS: null,
-      linux: null,
-    );
   }
 
   showNotification() {
