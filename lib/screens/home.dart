@@ -10,7 +10,7 @@ import 'package:timezone/data/latest.dart' as tz;
 import '../services/auth_service.dart';
 import '../services/firestore_complete_service.dart';
 import '../services/firestore_todo_service.dart';
-
+//ignore: must_be_immutable
 class Home extends StatefulWidget {
   Home({super.key});
 
@@ -180,24 +180,24 @@ class _HomeState extends State<Home> {
                                 children: [
                                   IconButton(
                                       onPressed: () async {
-                                        final TimeOfDay? slectedTime =
+                                        final TimeOfDay? selectedTime =
                                             await showTimePicker(
                                                 context: context,
                                                 initialTime: TimeOfDay.now());
 
-                                        if (slectedTime == null) {
+                                        if (selectedTime == null) {
                                           return;
                                         }
 
                                         timeController.text = "Today at "
-                                            "${slectedTime.hour}:${slectedTime.minute}";
+                                            "${selectedTime.hour}:${selectedTime.minute}";
 
                                         DateTime newDT = DateTime(
                                           dateTime.year,
                                           dateTime.month,
                                           dateTime.day,
-                                          slectedTime.hour,
-                                          slectedTime.minute,
+                                          selectedTime.hour,
+                                          selectedTime.minute,
                                         );
                                         setState(() {
                                           dateTime = newDT;
