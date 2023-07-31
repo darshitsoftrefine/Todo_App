@@ -113,7 +113,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         child: Divider(color: Colors.grey,)
                     ),
 
-                    Text("  or  ", style: TextStyle(color: Colors.grey),),
+                    Text(ConstantStrings.orText, style: TextStyle(color: Colors.grey),),
                     Expanded(
                         child: Divider(color: Colors.grey,)
                     ),

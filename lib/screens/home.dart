@@ -91,7 +91,7 @@ class _HomeState extends State<Home> {
             //Delete Button after checkboxListTile has been selected
             FloatingActionButton(
                 onPressed: () async {
-                  await FirestoreService().deleteTodo();
+                  await FirestoreTodoService().deleteTodo();
                   stopNotifications();
                 },
                 backgroundColor: CustomColors.circColor,
@@ -211,7 +211,7 @@ class _HomeState extends State<Home> {
                                       onPressed: () async {
                                         if (titleController.text == "") {
                                         } else {
-                                          await FirestoreService().insertTodo(
+                                          await FirestoreTodoService().insertTodo(
                                               Timestamp.now(),
                                               titleController.text,
                                               timeController.text,

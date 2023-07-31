@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class FirestoreService {
+class FirestoreTodoService {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
 

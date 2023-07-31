@@ -6,9 +6,9 @@ class AuthService{
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
   //Register new user
-  Future<User?> register(String email, String passsword, BuildContext context) async {
+  Future<User?> register(String email, String password, BuildContext context) async {
     try{
-      UserCredential userCredential = await firebaseAuth.createUserWithEmailAndPassword(email: email, password: passsword);
+      UserCredential userCredential = await firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
       return userCredential.user;
     } on FirebaseAuthException catch(e) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.message.toString()), backgroundColor: Colors.red,));
