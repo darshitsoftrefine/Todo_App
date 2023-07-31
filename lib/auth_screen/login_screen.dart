@@ -1,10 +1,12 @@
 import 'package:demo/auth_screen/custom_field.dart';
 import 'package:demo/auth_screen/register_screen.dart';
 import 'package:demo/screens/bottom_bar.dart';
+import 'package:demo/themes_and_constants/image_constants.dart';
 import 'package:demo/themes_and_constants/themes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../services/auth_service.dart';
+import '../themes_and_constants/string_constants.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -60,17 +62,17 @@ class _LoginScreenState extends State<LoginScreen> {
             children: [
 
               //Login form
-              Text("Login", style: TextStyle(fontSize: 32, fontWeight: FontWeight.w700, color: CustomColors.primaryColor),),
+              Text(ConstantStrings.loginText, style: TextStyle(fontSize: 32, fontWeight: FontWeight.w700, color: CustomColors.primaryColor),),
               const SizedBox(height: 10,),
               //Text("Please enter your details to access your account", style: TextStyle(color: Colors.grey.shade500, fontSize: 12),),
               const SizedBox(height: 20,),
-              Text("Email", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: CustomColors.primaryColor),),
+              Text(ConstantStrings.emailText, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: CustomColors.primaryColor),),
               const SizedBox(height: 15,),
-              CustomField(label: 'Email Id', control: emailController, obs: false, hint: 'Enter your E-mail',),
+              CustomField(label: ConstantStrings.emailLabelText, control: emailController, obs: false, hint: ConstantStrings.emailHintText,),
               const SizedBox(height: 25,),
-              Text("Password", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: CustomColors.primaryColor),),
+              Text(ConstantStrings.passwordText, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: CustomColors.primaryColor),),
               const SizedBox(height: 15,),
-              CustomField(label: 'Password', control: passwordController, obs: true, hint: '.   .   .   .   .   .   .',),
+              CustomField(label: ConstantStrings.passwordText, control: passwordController, obs: true, hint: ConstantStrings.passwordHintText,),
               const SizedBox(height: 70,),
 
 
@@ -82,7 +84,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 //width: MediaQuery.of(context).size.width,
                   child: ElevatedButton(onPressed: emailController.text.isEmpty && passwordController.text.isEmpty ? null : () async{
                 if(emailController.text == "" || passwordController.text == ""){
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("All Fields are required"), backgroundColor: Colors.red,));
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text(ConstantStrings.snackText), backgroundColor: Colors.red,));
                 } else {
                  User? result = await AuthService().login(emailController.text, passwordController.text, context);
                  if(result != null){
@@ -99,7 +101,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       disabledBackgroundColor: CustomColors.circColor,
                       fixedSize: const Size(367, 48)
                     ),
-                      child: const Text("Login", style: TextStyle(color: Colors.white),),
+                      child: const Text(ConstantStrings.loginText, style: TextStyle(color: Colors.white),),
                   )),
               const SizedBox(height: 31,),
               Row(
@@ -141,9 +143,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Image.asset('assets/images/googl.png', width: 30, height: 30,),
+                        Image.asset(ConstantImages.googleImage, width: 30, height: 30,),
                         const SizedBox(width: 10),
-                        const Text('Login with Google'),
+                        const Text(ConstantStrings.googleLoginText),
                       ],
                     ),
                   )
@@ -161,11 +163,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   );
                 }, child: RichText(
                   text: const TextSpan(
-                    text: "Don't have an account ?",
+                    text: ConstantStrings.dontAccountText,
                     style: TextStyle(color: Colors.grey, fontSize: 12),
                     children: [
                       TextSpan(
-                        text: '  Register',
+                        text: " ${ConstantStrings.registerText}",
                         style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 12),
                       ),
 

@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:demo/services/firestore_complete_service.dart';
+import 'package:demo/themes_and_constants/image_constants.dart';
+import 'package:demo/themes_and_constants/string_constants.dart';
 import 'package:flutter/material.dart';
 
 import '../themes_and_constants/themes.dart';
@@ -19,7 +21,7 @@ class _CompletedListState extends State<CompletedList> {
       appBar: AppBar(
         backgroundColor: CustomColors.backgroundColor,
         elevation: 0,
-        title: const Text("Completed Tasks"),
+        title: const Text(ConstantStrings.completedTasksTitle),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -62,9 +64,9 @@ class _CompletedListState extends State<CompletedList> {
         child: Column(
           children: [
             const SizedBox(height: 95,),
-            Image.asset('assets/images/no_todo.png'),
+            Image.asset(ConstantImages.notodoImage),
               const SizedBox(height: 10,),
-              Text("No completed tasks here!", style: TextStyle(color: CustomColors.primaryColor, fontWeight: FontWeight.w400, fontSize: 20),),
+              Text(ConstantStrings.noTasksText, style: TextStyle(color: CustomColors.primaryColor, fontWeight: FontWeight.w400, fontSize: 20),),
               const SizedBox(height: 10,),
 
             ],
@@ -94,7 +96,7 @@ class _CompletedListState extends State<CompletedList> {
               borderRadius: BorderRadius.circular(32)),
         ),
           child: const Text(
-            "Clear Completed Tasks",
+            ConstantStrings.clearText,
             style: TextStyle(fontSize: 18, color:Colors.white),
           ),),
       ),

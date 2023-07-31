@@ -1,5 +1,7 @@
 import 'package:demo/auth_screen/custom_field.dart';
 import 'package:demo/screens/bottom_bar.dart';
+import 'package:demo/themes_and_constants/image_constants.dart';
+import 'package:demo/themes_and_constants/string_constants.dart';
 import 'package:demo/themes_and_constants/themes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -60,23 +62,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
             children: [
 
               //Register Form
-              Text("Register", style: TextStyle(fontSize: 32, fontWeight: FontWeight.w700, color: CustomColors.primaryColor),),
+              Text(ConstantStrings.registerText, style: TextStyle(fontSize: 32, fontWeight: FontWeight.w700, color: CustomColors.primaryColor),),
               const SizedBox(height: 20,),
-              Text("Username", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: CustomColors.primaryColor),),
+              Text(ConstantStrings.registerNameText, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: CustomColors.primaryColor),),
               const SizedBox(height: 15,),
-              CustomField(label: 'Name', control: nameController, obs: false, hint: 'Enter your Username'),
+              CustomField(label: ConstantStrings.registerLabelText, control: nameController, obs: false, hint: ConstantStrings.registerEmailHintText),
               const SizedBox(height: 25,),
-              Text("Email", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: CustomColors.primaryColor),),
+              Text(ConstantStrings.emailText, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: CustomColors.primaryColor),),
               const SizedBox(height: 15,),
-              CustomField(label: 'Email Id', control: emailController, obs: false, hint: 'name@company.com',),
+              CustomField(label: ConstantStrings.emailLabelText, control: emailController, obs: false, hint: ConstantStrings.registerEmailHintText,),
               const SizedBox(height: 25,),
-              Text("Password", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: CustomColors.primaryColor),),
+              Text(ConstantStrings.passwordText, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: CustomColors.primaryColor),),
               const SizedBox(height: 15,),
-              CustomField(label: 'Password', control: passwordController, obs: true, hint: 'Password',),
+              CustomField(label: ConstantStrings.passwordText, control: passwordController, obs: true, hint: ConstantStrings.passwordHintText,),
               const SizedBox(height: 25,),
-              Text("City", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: CustomColors.primaryColor),),
+              Text(ConstantStrings.registerCityText, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: CustomColors.primaryColor),),
               const SizedBox(height: 15,),
-              CustomField(label: 'City', control: cityController, obs: false, hint: 'Kolkata'),
+              CustomField(label: ConstantStrings.registerCityText, control: cityController, obs: false, hint: ConstantStrings.registerCityHintText),
               const SizedBox(height: 40,),
 
               // Register Button
@@ -90,7 +92,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                     onPressed: emailController.text.isEmpty && passwordController.text.isEmpty ? null :() async{
                   if(emailController.text == "" || passwordController.text == ""){
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("All Fields are required"), backgroundColor: Colors.red,));
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text(ConstantStrings.snackText), backgroundColor: Colors.red,));
                   } else {
                     User? result = await AuthService().register(emailController.text, passwordController.text, context);
                     if(result != null){
@@ -102,7 +104,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   setState(() {
                     isLoading = false;
                   });
-                }, child: const Text("Register")),
+                }, child: const Text(ConstantStrings.registerText)),
               ),
               const SizedBox(height: 18,),
               Row(
@@ -141,9 +143,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Image.asset('assets/images/googl.png', width: 30, height: 30,),
+                        Image.asset(ConstantImages.googleImage, width: 30, height: 30,),
                         const SizedBox(width: 10),
-                        const Text('Register with Google'),
+                        const Text(ConstantStrings.registerGoogleText),
                       ],
                     ),
                   )
@@ -158,11 +160,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   Navigator.pop(context);
                 }, child: RichText(
                   text: const TextSpan(
-                    text: 'Already have an account ?',
+                    text: ConstantStrings.alreadyAccountText,
                     style: TextStyle(color: Colors.grey, fontSize: 12),
                     children: [
                       TextSpan(
-                        text: '  Login',
+                        text: " ${ConstantStrings.loginText}",
                         style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 12),
                       ),
                     ],

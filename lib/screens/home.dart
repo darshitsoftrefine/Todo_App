@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:demo/themes_and_constants/image_constants.dart';
+import 'package:demo/themes_and_constants/string_constants.dart';
 import 'package:demo/themes_and_constants/themes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -126,7 +128,7 @@ class _HomeState extends State<Home> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "Add Task",
+                                ConstantStrings.addTaskText,
                                 style: TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.w700,
@@ -157,7 +159,7 @@ class _HomeState extends State<Home> {
                                         width: 1.0,
                                       ),
                                     ),
-                                    hintText: 'Enter Title',
+                                    hintText: ConstantStrings.titleHintText,
                                     hintStyle: TextStyle(
                                         color: CustomColors.primaryColor),
                                     border: OutlineInputBorder(
@@ -246,7 +248,7 @@ class _HomeState extends State<Home> {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: CustomColors.backgroundColor,
-        title: const Text("To-Do Tasks"),
+        title: const Text(ConstantStrings.todoTitleText),
         centerTitle: true,
         actions: [
           IconButton(
@@ -268,7 +270,7 @@ class _HomeState extends State<Home> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Pending Tasks",
+                  ConstantStrings.pendingText,
                   style:
                       TextStyle(color: CustomColors.primaryColor, fontSize: 20),
                 ),
@@ -347,12 +349,12 @@ class _HomeState extends State<Home> {
                                 const SizedBox(
                                   height: 75,
                                 ),
-                                Image.asset('assets/images/no_todo.png'),
+                                Image.asset(ConstantImages.notodoImage),
                                 const SizedBox(
                                   height: 10,
                                 ),
                                 Text(
-                                  "What do you want to do today?",
+                                  ConstantStrings.noTodoTitle,
                                   style: TextStyle(
                                       color: CustomColors.primaryColor,
                                       fontWeight: FontWeight.w400,
@@ -362,7 +364,7 @@ class _HomeState extends State<Home> {
                                   height: 10,
                                 ),
                                 Text(
-                                  "Tap + to add your tasks",
+                                  ConstantStrings.notTodoSubtitle,
                                   style: TextStyle(
                                       color: CustomColors.primaryColor,
                                       fontSize: 16),

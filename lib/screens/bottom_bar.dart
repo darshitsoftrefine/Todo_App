@@ -2,6 +2,7 @@ import 'package:demo/screens/home.dart';
 import 'package:demo/themes_and_constants/themes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import '../themes_and_constants/string_constants.dart';
 import 'completed_list.dart';
 
 class BottomBar extends StatefulWidget {
@@ -43,13 +44,13 @@ class _BottomBarState extends State<BottomBar> {
             icon: Icon(
               Icons.insert_chart_outlined,
             ),
-            label: 'To Do',
+            label: ConstantStrings.bottomLabelTodoText,
           ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.check,
             ),
-            label: 'Completed',
+            label: ConstantStrings.bottomLabelCompletedText,
           ),
         ],
         currentIndex: _selectedIndex,
