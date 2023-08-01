@@ -4,15 +4,14 @@ class FirestoreCompleteService {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   //Inserting pending Tasks after deleting it
-  Future insertCompleteTodo(String docId) async {
-    try {
-      await firestore.collection('completed').add({
-
-      });
-    } catch (e) {
-      //Error Message
-    }
-  }
+  // Future insertCompleteTodo(String docId) async {
+  //   try {
+  //     await firestore.collection('completed').add({
+  //     });
+  //   } catch (e) {
+  //     //Error Message
+  //   }
+  // }
 
   //Delete All completed Tasks
   Future deleteTodo() async {

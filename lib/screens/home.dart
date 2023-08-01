@@ -10,7 +10,7 @@ import 'package:timezone/data/latest.dart' as tz;
 import '../services/auth_service.dart';
 import '../services/firestore_complete_service.dart';
 import '../services/firestore_todo_service.dart';
-//ignore: must_be_immutable
+
 class Home extends StatefulWidget {
   Home({super.key});
 
@@ -211,6 +211,7 @@ class _HomeState extends State<Home> {
                                       onPressed: () async {
                                         if (titleController.text == "") {
                                         } else {
+                                          //await firestore.collection('users').doc()
                                           await FirestoreTodoService().insertTodo(
                                               Timestamp.now(),
                                               titleController.text,
@@ -312,9 +313,9 @@ class _HomeState extends State<Home> {
                                             .collection('todo')
                                             .doc(todoList[index].id)
                                             .update({'isDone': value!});
-                                        await FirestoreCompleteService()
-                                            .insertCompleteTodo(
-                                                todoList[index].id);
+                                        // await FirestoreCompleteService()
+                                        //     .insertCompleteTodo(
+                                        //         todoList[index].id);
                                       },
                                       contentPadding:
                                           const EdgeInsets.symmetric(

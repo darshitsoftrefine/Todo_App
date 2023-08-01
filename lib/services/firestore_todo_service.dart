@@ -18,6 +18,20 @@ class FirestoreTodoService {
     }
   }
 
+  Future updateTodo(Timestamp create, String docId, String title, String time, bool isDone) async {
+    try{// Add users collection
+      await firestore.collection('todo').doc(docId).update({
+        'create': create,
+        'title': title,
+        'time': time,
+        'isDone': isDone
+      });
+    } catch(e){
+      print(e);
+    }
+
+  }
+
   //Delete tasks
   Future deleteTodo() async {
     try{
