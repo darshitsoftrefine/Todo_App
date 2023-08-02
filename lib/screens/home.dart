@@ -212,7 +212,7 @@ class _HomeState extends State<Home> {
                                         if (titleController.text == "") {
                                         } else {
                                           //await firestore.collection('users').doc()
-                                          await FirestoreTodoService().insertTodo(
+                                          await AuthService().insertTodoUser(
                                               Timestamp.now(),
                                               titleController.text,
                                               timeController.text,
@@ -282,13 +282,14 @@ class _HomeState extends State<Home> {
                 // Firebase display of todo Tasks
                 StreamBuilder(
                     stream: FirebaseFirestore.instance
-                        .collection('todo')
+                        .collection('users')
                         .orderBy('create', descending: true)
                         .snapshots(),
                     builder: (context, AsyncSnapshot snapshot) {
                       if (snapshot.hasData) {
                         if (snapshot.data.docs.length > 0) {
                           List<DocumentSnapshot> todoList = snapshot.data.docs;
+                          //var id = snapshot.data.id;
                           return ListView.builder(
                               physics: const NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
@@ -310,7 +311,7 @@ class _HomeState extends State<Home> {
                                       value: data['isDone'],
                                       onChanged: (bool? value) async {
                                         FirebaseFirestore.instance
-                                            .collection('todo')
+                                            .collection('users')
                                             .doc(todoList[index].id)
                                             .update({'isDone': value!});
                                         // await FirestoreCompleteService()

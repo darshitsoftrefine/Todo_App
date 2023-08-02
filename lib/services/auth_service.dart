@@ -7,6 +7,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 class AuthService {
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
+  var docId;
 
   //Register new user
   Future<User?> register(String email, String password,
@@ -29,15 +30,15 @@ class AuthService {
       var id;
       UserCredential userCredential = await firebaseAuth
           .signInWithEmailAndPassword(email: email, password: password);
-      Future<Null> firestore = FirebaseFirestore.instance.collection('users')
-          .add({
+      FirebaseFirestore firestores = FirebaseFirestore.instance;
+      CollectionReference<Object?> usersCollection = firestores.collection('users');
+
+// Specify the id of the document you want to create or update
+      DocumentReference<Object?> userDoc = usersCollection.doc(userCredential.user?.uid);
+      userDoc.set({
+        'email': userCredential.user!.email.toString(),
         'uid': userCredential.user!.uid,
-        'email': email.toString(),
-        'todo': {}
-      })
-          .then((DocumentReference doc) {
-        id = doc.id;
-        print(id);
+        'todo': {},
       });
       // DocumentReference docRef = FirebaseFirestore.instance.collection('users').doc(id);
       // CollectionReference subColRef = docRef.collection('todo');
@@ -70,16 +71,21 @@ class AuthService {
         );
         UserCredential userCredential = await FirebaseAuth.instance
             .signInWithCredential(credential);
-        FirebaseFirestore firestore = FirebaseFirestore.instance.collection(
-            'users').add({
+        FirebaseFirestore firestores = FirebaseFirestore.instance;
+        CollectionReference<Object?> usersCollection = firestores.collection('users');
+
+// Specify the id of the document you want to create or update
+        DocumentReference<Object?> userDoc = usersCollection.doc(userCredential.user?.uid);
+       userDoc.set({
           'email': userCredential.user!.email.toString(),
           'uid': userCredential.user!.uid,
-          'todo': {},
-        }).then((DocumentReference doc) {
-          id = doc.id;
-          print(id);
-        })
-        as FirebaseFirestore;
+          'todo': FieldValue.arrayUnion([
+            {
+              'name': name;
+            }
+          ])
+          {},
+        });
         // DocumentReference docRef = FirebaseFirestore.instance.collection('users').doc(id);
         // CollectionReference subColRef = docRef.collection('todo');
         // subColRef.add({
@@ -96,8 +102,52 @@ class AuthService {
 
   // Sign Out
   Future signOut() async {
+    //FirebaseFirestore fire = FirebaseFirestore.instance.collection('users').doc(id).delete() as FirebaseFirestore;
     await GoogleSignIn().signOut();
     await firebaseAuth.signOut();
+  }
+
+  Future insertTodoUser(Timestamp create, String title, String time, bool isDone) async{
+    FirebaseFirestore fire = FirebaseFirestore.instance;
+    FirebaseFirestore db = FirebaseFirestore.instance;
+    // final docRef = db.collection("users").doc("XcZlpfCItqtwb91pdB6T");
+    // docRef.get().then(
+    //       (DocumentSnapshot doc) {
+    //     final data = doc.data() as Map<String, dynamic>;
+    //     print(data);
+    //   },
+    //   onError: (e) => print("Error getting document: $e"),
+    // );
+    // db.collection("users").where("email", isNotEqualTo: "").get().then(
+    //       (querySnapshot) {
+    //     print("Successfully completed");
+    //     for (var docSnapshot in querySnapshot.docs) {
+    //       print('${docSnapshot.id} => ${docSnapshot.data()}');
+    //     }
+    //   },
+    //   onError: (e) => print("Error completing: $e"),
+    // );
+    fire.collection('users').where("email", isNotEqualTo: "").get().then((querySnapshot) {
+      for(var docSnapshot in querySnapshot.docs){
+        print('${docSnapshot.id} => ${docSnapshot.data()}');
+      }
+    } );
+
+    CollectionReference todoList = fire.collection('users');
+    print(docId);
+    await todoList.doc().set({
+    'create': create,
+    'title': title,
+    'time': time,
+    'isDone': isDone,
+  });
+        }
+
+
+  Future deleteUser() async{
+    FirebaseFirestore fire = FirebaseFirestore.instance;
+    CollectionReference todo = fire.collection('users');
+    await todo.doc(docId).delete();
   }
 }
 //
@@ -136,3 +186,9 @@ class AuthService {
 //
 //   }
 //}
+// await AuthService().insertTodoUser(
+// widget.user?.uid.toString(),
+// Timestamp.now(),
+// titleController.text,
+// timeController.text,
+// false);

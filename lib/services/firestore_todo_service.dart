@@ -20,7 +20,7 @@ class FirestoreTodoService {
 
   Future updateTodo(Timestamp create, String docId, String title, String time, bool isDone) async {
     try{// Add users collection
-      await firestore.collection('todo').doc(docId).update({
+      await firestore.collection('users').doc(docId).update({
         'create': create,
         'title': title,
         'time': time,
@@ -36,12 +36,12 @@ class FirestoreTodoService {
   Future deleteTodo() async {
     try{
       var db = FirebaseFirestore.instance;
-      var todo = 'todo';
+      var todo = 'users';
       db.collection(todo).where('isDone', isEqualTo: true).get().then((snapshot) {
         for(var i = 0; i < snapshot.docs.length; i++){
             if(snapshot.docs[i]['isDone'] == true){
               firestore.collection('completed').add(snapshot.docs[i].data());
-             firestore.collection('todo').doc(snapshot.docs[i].id).delete();
+             firestore.collection('users').doc(snapshot.docs[i].id).delete();
             }
         }
       });
