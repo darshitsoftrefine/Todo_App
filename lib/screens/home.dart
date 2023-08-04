@@ -29,6 +29,7 @@ class _HomeState extends State<Home> {
   final TextEditingController _desc = TextEditingController();
   TextEditingController timeController = TextEditingController();
   DateTime dateTime = DateTime.now();
+  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
   List<DocumentSnapshot> completedList = [];
   List<DocumentSnapshot> incompleteList = [];
@@ -79,6 +80,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    var uids = firebaseAuth.currentUser?.uid;
     return Scaffold(
       backgroundColor: CustomColors.backgroundColor,
 
@@ -282,22 +284,22 @@ class _HomeState extends State<Home> {
                 // Firebase display of todo Tasks
                 StreamBuilder(
                     stream: FirebaseFirestore.instance
-                        .collection('users')
-                        .orderBy('create', descending: true)
-                        .snapshots(),
+                        .collection('users').doc(uids).snapshots(),
                     builder: (context, AsyncSnapshot snapshot) {
                       if (snapshot.hasData) {
-                        if (snapshot.data.docs.length > 0) {
-                          List<DocumentSnapshot> todoList = snapshot.data.docs;
+                        //print("data ${snapshot.data.data()}");
+                        if (snapshot.data.data().length > 0) {
+                         // print("todo ${snapshot.data.data()["todo"]}");
+                          var todoList = snapshot.data["todo"];
                           //var id = snapshot.data.id;
+                          //print("jo ${todoList}");
+
                           return ListView.builder(
                               physics: const NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
                               itemCount: todoList.length,
                               itemBuilder: (context, index) {
-                                final Map<String, dynamic> data =
-                                    todoList[index].data()
-                                        as Map<String, dynamic>;
+                                //print(todoList[index]['isDone']);
                                 return Padding(
                                   padding: const EdgeInsets.all(15),
                                   child: Card(
@@ -308,12 +310,16 @@ class _HomeState extends State<Home> {
                                       activeColor: CustomColors.circColor,
                                       controlAffinity:
                                           ListTileControlAffinity.leading,
-                                      value: data['isDone'],
-                                      onChanged: (bool? value) async {
-                                        FirebaseFirestore.instance
-                                            .collection('users')
-                                            .doc(todoList[index].id)
-                                            .update({'isDone': value!});
+                                      value: todoList[index]['isDone'],
+                                      onChanged:  (bool? value) async{
+                                          await FirebaseFirestore.instance
+                                              .collection('users')
+                                              .doc(uids)
+                                              .update({
+                                            todoList[index]['isDone'].toString(): value!
+                                          });
+
+
                                         // await FirestoreCompleteService()
                                         //     .insertCompleteTodo(
                                         //         todoList[index].id);
@@ -323,19 +329,19 @@ class _HomeState extends State<Home> {
                                               horizontal: 10, vertical: 5),
                                       checkboxShape: const CircleBorder(),
                                       title: Text(
-                                        data['title'].toString(),
+                                        todoList[index]['title'],
                                         style: TextStyle(
                                             fontSize: 16,
                                             fontWeight: FontWeight.w400,
                                             color: CustomColors.primaryColor,
-                                            decoration: data['isDone']
+                                            decoration: todoList[index]['isDone']
                                                 ? TextDecoration.lineThrough
                                                 : null),
                                       ),
-                                      subtitle: data['time'].toString().isEmpty
+                                      subtitle: todoList[index]['time'].toString().isEmpty
                                           ? null
                                           : Text(
-                                              data['time'].toString(),
+                                              todoList[index]['time'].toString(),
                                               style: TextStyle(
                                                   color: CustomColors
                                                       .primaryColor),

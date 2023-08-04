@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +6,8 @@ import 'package:google_sign_in/google_sign_in.dart';
 class AuthService {
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
-  var docId;
+  var logDocId;
+  var googLodId;
 
   //Register new user
   Future<User?> register(String email, String password,
@@ -31,10 +31,13 @@ class AuthService {
       UserCredential userCredential = await firebaseAuth
           .signInWithEmailAndPassword(email: email, password: password);
       FirebaseFirestore firestores = FirebaseFirestore.instance;
-      CollectionReference<Object?> usersCollection = firestores.collection('users');
+      CollectionReference<Object?> usersCollection = firestores.collection(
+          'users');
 
 // Specify the id of the document you want to create or update
-      DocumentReference<Object?> userDoc = usersCollection.doc(userCredential.user?.uid);
+      DocumentReference<Object?> userDoc = usersCollection.doc(
+          userCredential.user?.uid);
+      logDocId = userCredential.user?.uid;
       userDoc.set({
         'email': userCredential.user!.email.toString(),
         'uid': userCredential.user!.uid,
@@ -60,6 +63,7 @@ class AuthService {
   Future<User?> signInWithGoogle() async {
     try {
       var id;
+      var uids = firebaseAuth.currentUser?.uid;
       CollectionReference users = firestore.collection('users');
       GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
       if (googleUser != null) {
@@ -71,20 +75,17 @@ class AuthService {
         );
         UserCredential userCredential = await FirebaseAuth.instance
             .signInWithCredential(credential);
-        FirebaseFirestore firestores = FirebaseFirestore.instance;
-        CollectionReference<Object?> usersCollection = firestores.collection('users');
+        CollectionReference<Object?> usersCollection = firestore.collection(
+            'users');
 
 // Specify the id of the document you want to create or update
-        DocumentReference<Object?> userDoc = usersCollection.doc(userCredential.user?.uid);
-       userDoc.set({
+        DocumentReference<Object?> userDoc = usersCollection.doc(
+            userCredential.user?.uid);
+        googLodId = userCredential.user?.uid;
+        userDoc.set({
           'email': userCredential.user!.email.toString(),
           'uid': userCredential.user!.uid,
-          'todo': FieldValue.arrayUnion([
-            {
-              'name': name;
-            }
-          ])
-          {},
+          'todo': {},
         });
         // DocumentReference docRef = FirebaseFirestore.instance.collection('users').doc(id);
         // CollectionReference subColRef = docRef.collection('todo');
@@ -107,9 +108,11 @@ class AuthService {
     await firebaseAuth.signOut();
   }
 
-  Future insertTodoUser(Timestamp create, String title, String time, bool isDone) async{
+  Future insertTodoUser(Timestamp create, String title, String time, bool isDone) async {
+
     FirebaseFirestore fire = FirebaseFirestore.instance;
     FirebaseFirestore db = FirebaseFirestore.instance;
+    var uids = firebaseAuth.currentUser?.uid;
     // final docRef = db.collection("users").doc("XcZlpfCItqtwb91pdB6T");
     // docRef.get().then(
     //       (DocumentSnapshot doc) {
@@ -127,29 +130,54 @@ class AuthService {
     //   },
     //   onError: (e) => print("Error completing: $e"),
     // );
-    fire.collection('users').where("email", isNotEqualTo: "").get().then((querySnapshot) {
-      for(var docSnapshot in querySnapshot.docs){
+    fire.collection('users').where("email", isNotEqualTo: "").get().then((
+        querySnapshot) {
+      for (var docSnapshot in querySnapshot.docs) {
         print('${docSnapshot.id} => ${docSnapshot.data()}');
       }
-    } );
+    });
+    var a = await FirebaseFirestore.instance
+        .collection("users")
+        .doc(uids)
+        .get();
+    if (a.exists) {
+      final DocumentReference documentReference = FirebaseFirestore.instance
+          .collection("users")
+          .doc(uids);
+      //print(documentReference.snapshots().length);
 
-    CollectionReference todoList = fire.collection('users');
-    print(docId);
-    await todoList.doc().set({
-    'create': create,
-    'title': title,
-    'time': time,
-    'isDone': isDone,
-  });
-        }
+      var index = 8;
+      index++;
+      return await documentReference.set({
+        //your data
+        'todo': FieldValue.arrayUnion([
+          {
+            'create': create,
+            'title': title,
+            'time': time,
+            'isDone': isDone,
+          }
+        ])
 
+      }, SetOptions(merge: true));
 
-  Future deleteUser() async{
-    FirebaseFirestore fire = FirebaseFirestore.instance;
-    CollectionReference todo = fire.collection('users');
-    await todo.doc(docId).delete();
+      //   await todoList.doc(ui).update({
+      //   'create': create,
+      //   'title': title,
+      //   'time': time,
+      //   'isDone': isDone,
+      // });
+    }
   }
-}
+
+    Future deleteUser() async {
+      var uids = firebaseAuth.currentUser?.uid;
+      final DocumentReference documentReference = FirebaseFirestore.instance
+          .collection("users")
+          .doc(uids);
+
+    }
+  }
 //
 //
 //   Future<String?> addSubCollection({String? id}) async{
