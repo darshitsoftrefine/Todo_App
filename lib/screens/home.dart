@@ -8,7 +8,6 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
 import '../services/auth_service.dart';
-import '../services/firestore_complete_service.dart';
 import '../services/firestore_todo_service.dart';
 
 class Home extends StatefulWidget {
@@ -30,6 +29,7 @@ class _HomeState extends State<Home> {
   TextEditingController timeController = TextEditingController();
   DateTime dateTime = DateTime.now();
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+
 
   List<DocumentSnapshot> completedList = [];
   List<DocumentSnapshot> incompleteList = [];
@@ -92,6 +92,7 @@ class _HomeState extends State<Home> {
           children: [
             //Delete Button after checkboxListTile has been selected
             FloatingActionButton(
+                heroTag: "btn1",
                 onPressed: () async {
                   await FirestoreTodoService().deleteTodo();
                   stopNotifications();
@@ -104,6 +105,7 @@ class _HomeState extends State<Home> {
 
             //Bottom Sheet to Add Task and Time
             FloatingActionButton(
+              heroTag: "btn2",
               onPressed: () {
                 showModalBottomSheet(
                     shape: const RoundedRectangleBorder(
@@ -218,7 +220,9 @@ class _HomeState extends State<Home> {
                                               Timestamp.now(),
                                               titleController.text,
                                               timeController.text,
-                                              false);
+                                              false,
+
+                                          );
                                           showNotification();
                                           titleController.clear();
                                           timeController.clear();
@@ -283,23 +287,25 @@ class _HomeState extends State<Home> {
 
                 // Firebase display of todo Tasks
                 StreamBuilder(
-                    stream: FirebaseFirestore.instance
-                        .collection('users').doc(uids).snapshots(),
+                stream: firestore.collection('users').doc(uids).collection('todo').orderBy("create", descending: true).snapshots(),
                     builder: (context, AsyncSnapshot snapshot) {
+                      //print(snapshot.data);
                       if (snapshot.hasData) {
-                        //print("data ${snapshot.data.data()}");
-                        if (snapshot.data.data().length > 0) {
+                        final documents = snapshot.data!.docs;
+                        //print(documents);
+                        //print("data ${snapshot.data}");
+                        if (documents.length > 0) {
                          // print("todo ${snapshot.data.data()["todo"]}");
-                          var todoList = snapshot.data["todo"];
+                          //var todoList = snapshot.data;
+
                           //var id = snapshot.data.id;
                           //print("jo ${todoList}");
 
                           return ListView.builder(
                               physics: const NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
-                              itemCount: todoList.length,
+                              itemCount: documents.length,
                               itemBuilder: (context, index) {
-                                //print(todoList[index]['isDone']);
                                 return Padding(
                                   padding: const EdgeInsets.all(15),
                                   child: Card(
@@ -308,40 +314,37 @@ class _HomeState extends State<Home> {
                                     margin: const EdgeInsets.all(5),
                                     child: CheckboxListTile(
                                       activeColor: CustomColors.circColor,
-                                      controlAffinity:
-                                          ListTileControlAffinity.leading,
-                                      value: todoList[index]['isDone'],
+                                      controlAffinity: ListTileControlAffinity.leading,
+                                      value: documents[index]['isDone'],
                                       onChanged:  (bool? value) async{
+                                      //     final idWidgets = documents.map((doc) {
+                                      // Get the document id from the document
+                                      //     final docId = doc.id;
                                           await FirebaseFirestore.instance
                                               .collection('users')
-                                              .doc(uids)
-                                              .update({
-                                            todoList[index]['isDone'].toString(): value!
-                                          });
-
-
-                                        // await FirestoreCompleteService()
-                                        //     .insertCompleteTodo(
-                                        //         todoList[index].id);
+                                              .doc(uids).collection('todo').doc(documents[index].id).update(
+                                              {
+                                                'isDone': value!
+                                              });
                                       },
                                       contentPadding:
                                           const EdgeInsets.symmetric(
                                               horizontal: 10, vertical: 5),
                                       checkboxShape: const CircleBorder(),
                                       title: Text(
-                                        todoList[index]['title'],
+                                        documents[index]['title'],
                                         style: TextStyle(
                                             fontSize: 16,
                                             fontWeight: FontWeight.w400,
                                             color: CustomColors.primaryColor,
-                                            decoration: todoList[index]['isDone']
+                                            decoration: documents[index]['isDone']
                                                 ? TextDecoration.lineThrough
                                                 : null),
                                       ),
-                                      subtitle: todoList[index]['time'].toString().isEmpty
+                                      subtitle: documents[index]['time'].toString().isEmpty
                                           ? null
                                           : Text(
-                                              todoList[index]['time'].toString(),
+                                              documents[index]['time'].toString(),
                                               style: TextStyle(
                                                   color: CustomColors
                                                       .primaryColor),

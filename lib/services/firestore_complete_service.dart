@@ -1,28 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class FirestoreCompleteService {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
+  FirebaseAuth auth = FirebaseAuth.instance;
 
-  //Inserting pending Tasks after deleting it
-  // Future insertCompleteTodo(String docId) async {
-  //   try {
-  //     await firestore.collection('completed').add({
-  //     });
-  //   } catch (e) {
-  //     //Error Message
-  //   }
-  // }
 
   //Delete All completed Tasks
   Future deleteTodo() async {
     try{
+      var uids = auth.currentUser!.uid;
       var db = FirebaseFirestore.instance;
-      var todo = 'completed';
-      db.collection(todo).where('isDone', isEqualTo: true).get().then((snapshot) {
+      db.collection('users').doc(uids).collection('completed').where('isDone', isEqualTo: true).get().then((snapshot) {
         for(var i = 0; i < snapshot.docs.length; i++){
           if(snapshot.docs[i]['isDone'] == true){
-            //firestore.collection('completed').doc(snapshot.docs[i]['time']).delete();
-            firestore.collection('completed').doc(snapshot.docs[i].id).delete();
+            firestore.collection('users').doc(uids).collection('completed').doc(snapshot.docs[i].id).delete();
           }
         }
       });

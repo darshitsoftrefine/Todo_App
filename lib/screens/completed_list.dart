@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:demo/services/firestore_complete_service.dart';
 import 'package:demo/themes_and_constants/image_constants.dart';
 import 'package:demo/themes_and_constants/string_constants.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../themes_and_constants/themes.dart';
@@ -14,8 +15,11 @@ class CompletedList extends StatefulWidget {
 }
 
 class _CompletedListState extends State<CompletedList> {
+  FirebaseAuth auth = FirebaseAuth.instance;
+
   @override
   Widget build(BuildContext context) {
+    var uids = auth.currentUser!.uid;
     return Scaffold(
       backgroundColor: CustomColors.backgroundColor,
       appBar: AppBar(
@@ -35,9 +39,10 @@ class _CompletedListState extends State<CompletedList> {
 
               //Completed Tasks display
               StreamBuilder(
-                stream: FirebaseFirestore.instance.collection('completed').orderBy('create', descending: true).snapshots(),
+                stream: FirebaseFirestore.instance.collection('users').doc(uids).collection('completed').snapshots(),
                   builder: (context, AsyncSnapshot snapshot) {
     if(snapshot.hasData){
+      print(snapshot.data.docs);
     if(snapshot.data.docs.length > 0){
           List<DocumentSnapshot> completedTodoList = snapshot.data.docs;
           return ListView.builder(
@@ -54,7 +59,7 @@ class _CompletedListState extends State<CompletedList> {
                     child: ListTile(
                       contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                       title: Text(completedTodoList[index]['title'], style: TextStyle(color: CustomColors.primaryColor),),
-                      subtitle: completedTodoList[index]['time'].toString().isEmpty ? null: Text(completedTodoList[index]['time'], style: TextStyle(color: CustomColors.primaryColor),),
+                      subtitle: Text(completedTodoList[index]['time'], style: TextStyle(color: CustomColors.primaryColor),),
                     ),
                   ),
                 );

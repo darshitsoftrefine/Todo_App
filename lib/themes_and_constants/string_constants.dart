@@ -13,7 +13,7 @@ class ConstantStrings {
   static const dontAccountText = "Don't have an account ?";
 
 
-  static const registerText = "Register";
+  static const registerText = "  Register";
   static const registerNameText = "Username";
   static const registerEmailHIntText = 'Enter your Username';
   static const registerLabelText = 'Name';

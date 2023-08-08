@@ -1,6 +1,7 @@
 import 'package:demo/auth_screen/custom_field.dart';
 import 'package:demo/auth_screen/register_screen.dart';
 import 'package:demo/screens/bottom_bar.dart';
+import 'package:demo/themes_and_constants/image_constants.dart';
 import 'package:demo/themes_and_constants/themes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -142,9 +143,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Image.asset('assets/images/googl.png', width: 30, height: 30,),
+                        Image.asset(ConstantImages.googleImage, width: 30, height: 30,),
                         const SizedBox(width: 10),
-                        const Text('Login with Google'),
+                        const Text(ConstantStrings.googleLoginText),
                       ],
                     ),
                   )
@@ -162,11 +163,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   );
                 }, child: RichText(
                   text: const TextSpan(
-                    text: "Don't have an account ?",
+                    text: ConstantStrings.dontAccountText,
                     style: TextStyle(color: Colors.grey, fontSize: 12),
                     children: [
                       TextSpan(
-                        text: '  Register',
+                        text: ConstantStrings.registerText,
                         style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 12),
                       ),
 
