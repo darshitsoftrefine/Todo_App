@@ -55,9 +55,6 @@ class AuthService {
       // 'name': userCredential.user!.email
       // });
       return userCredential.user;
-      // FirebaseFirestore firestore = FirebaseFirestore.instance.collection('users').add({
-      //   'email': email.toString(),
-      // }) as FirebaseFirestore;
     } on FirebaseAuthException catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(e.message.toString()), backgroundColor: Colors.red,));
@@ -88,12 +85,6 @@ class AuthService {
           'email': userCredential.user!.email.toString(),
           'uid': userCredential.user!.uid,
         });
-        // DocumentReference docRef = FirebaseFirestore.instance.collection('users').doc(id);
-        // CollectionReference subColRef = docRef.collection('todo');
-        // subColRef.add({
-        //   'name': userCredential.user!.email.toString()
-        // });
-        //await addSubCollection(id: id);
         return userCredential.user;
       }
     } catch (e) {
@@ -126,46 +117,9 @@ class AuthService {
       // Add other properties as needed
     });
   }
+
+
+  Future deleteUser() async {
+    await firebaseAuth.currentUser!.delete();
   }
-//
-//
-//   Future<String?> addSubCollection({String? id}) async{
-//     CollectionReference users = firestore.collection('users');
-//     users.doc(id).collection('todo').add({
-//       'id': id,
-//       'created_at': DateTime.now()
-//     });
-//     return 'Success';
-//   }
-// }
-// Future  sijks() async{
-//   try {
-//     String? fg;
-//     var db = FirebaseFirestore.instance;
-//     var todo = 'users';
-//     db.collection(todo).where('email', isNotEqualTo: "").get().then((
-//         snapshot) {
-//       for (var i = 0; i < snapshot.docs.length; i++) {
-//         var id = db.collection('users').doc(snapshot.docs[i].id);
-//         print(id);
-//         fg = id as String?;
-//       }
-//     });
-//     return fg;
-//     var id;
-//     await FirebaseFirestore.instance.collection('users').add({
-//
-//     }).then((DocumentReference doc) {
-//       id = doc.id;
-//     });
-//     return id;
-//   }catch(e){
-//
-//   }
-//}
-// await AuthService().insertTodoUser(
-// widget.user?.uid.toString(),
-// Timestamp.now(),
-// titleController.text,
-// timeController.text,
-// false);
+  }

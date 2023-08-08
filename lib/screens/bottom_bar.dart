@@ -1,4 +1,5 @@
 import 'package:demo/screens/home.dart';
+import 'package:demo/screens/settings_screen.dart';
 import 'package:demo/themes_and_constants/themes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +20,7 @@ class _BottomBarState extends State<BottomBar> {
   final List<Widget> _widgetOptions = <Widget>[
     Home(),
     const CompletedList(),
+    Settings(),
   ];
 
   void _onItemTap(int index) {
@@ -51,6 +53,12 @@ class _BottomBarState extends State<BottomBar> {
               Icons.check,
             ),
             label: ConstantStrings.bottomLabelCompletedText,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.settings,
+            ),
+            label: "Settings",
           ),
         ],
         currentIndex: _selectedIndex,
