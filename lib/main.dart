@@ -2,6 +2,7 @@ import 'package:demo/screens/bottom_bar.dart';
 import 'package:demo/services/auth_service.dart';
 import 'package:demo/auth_screen/login_screen.dart';
 import 'package:demo/services/notifications_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:timezone/data/latest.dart' as tz;
@@ -27,12 +28,14 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: StreamBuilder(
-        stream: AuthService().firebaseAuth.authStateChanges(),
+        //stream: FirebaseAuth.instance.userChanges(),
+        stream:  AuthService.firebaseAuth.userChanges(),
         builder: (context, AsyncSnapshot snapshot){
           if(snapshot.hasData){
             return BottomBar(snapshot.data);
-          }
+          }else {
             return const LoginScreen();
+          }
         },
       )
       //Widget_Tree
