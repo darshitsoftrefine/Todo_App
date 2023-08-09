@@ -34,19 +34,21 @@ class _SettingsState extends State<Settings> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text("Email: ${auth.currentUser!.email}",style: TextStyle(color: CustomColors.primaryColor, fontSize: 16, fontWeight: FontWeight.bold),),
-                SizedBox(height: 50,),
+                const SizedBox(height: 50,),
                 Text('Delete User Credentials', style: TextStyle(color: CustomColors.primaryColor, fontSize: 18, fontWeight: FontWeight.bold),),
-                SizedBox(height: 10,),
+                const SizedBox(height: 10,),
                 ElevatedButton.icon(
                   onPressed: () async{
                     await AuthService().deleteUser();
                   },
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.delete,
                     size: 24.0,
                   ),
-                  label: Text('Delete'),
+                  label: const Text('Delete'),
                 ),
+                const SizedBox(height: 90,),
+                Text("(If You Delete your account your Tasks Will be gone)", style: TextStyle(color: CustomColors.primaryColor),)
               ],
             ),
           ),

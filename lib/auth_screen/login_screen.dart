@@ -1,6 +1,5 @@
 import 'package:demo/auth_screen/custom_field.dart';
 import 'package:demo/auth_screen/register_screen.dart';
-import 'package:demo/screens/bottom_bar.dart';
 import 'package:demo/themes_and_constants/image_constants.dart';
 import 'package:demo/themes_and_constants/themes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
