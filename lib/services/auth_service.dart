@@ -120,6 +120,10 @@ class AuthService {
 
 
   Future deleteUser() async {
+    var uid = firebaseAuth.currentUser!.uid;
+    var docRef = FirebaseFirestore.instance.collection ('users').doc(uid);
+    await docRef.delete();
     await firebaseAuth.currentUser!.delete();
+
   }
   }

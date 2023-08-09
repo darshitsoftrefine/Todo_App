@@ -3,6 +3,8 @@ import 'package:demo/themes_and_constants/themes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../themes_and_constants/string_constants.dart';
+
 class Settings extends StatefulWidget {
   const Settings({super.key});
 
@@ -17,6 +19,12 @@ class _SettingsState extends State<Settings> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: CustomColors.backgroundColor,
+      appBar: AppBar(
+        backgroundColor: CustomColors.backgroundColor,
+        elevation: 0,
+        title: const Text(ConstantStrings.settingsText),
+        centerTitle: true,
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(5.0),
@@ -26,9 +34,16 @@ class _SettingsState extends State<Settings> {
               //crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text('Delete User Credentials', style: TextStyle(color: CustomColors.primaryColor, fontSize: 18, fontWeight: FontWeight.bold),),
-                ElevatedButton(onPressed: () async{
-                  await AuthService().deleteUser();
-                }, child: Text("Delete User"))
+                ElevatedButton.icon(
+                  onPressed: () async{
+                    await AuthService().deleteUser();
+                  },
+                  icon: Icon( // <-- Icon
+                    Icons.delete,
+                    size: 24.0,
+                  ),
+                  label: Text('Delete'), // <-- Text
+                ),
               ],
             ),
           ),

@@ -11,6 +11,7 @@ class ConstantStrings {
 
   static const snackText = "All Fields are required";
   static const dontAccountText = "Don't have an account ?";
+  static const settingsText = "Change Settings";
 
 
   static const registerText = "  Register";
