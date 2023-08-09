@@ -27,22 +27,25 @@ class _SettingsState extends State<Settings> {
       ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(5.0),
+          padding: const EdgeInsets.only(top: 10, left: 14, right: 14, bottom: 10),
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              //crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                Text("Email: ${auth.currentUser!.email}",style: TextStyle(color: CustomColors.primaryColor, fontSize: 16, fontWeight: FontWeight.bold),),
+                SizedBox(height: 50,),
                 Text('Delete User Credentials', style: TextStyle(color: CustomColors.primaryColor, fontSize: 18, fontWeight: FontWeight.bold),),
+                SizedBox(height: 10,),
                 ElevatedButton.icon(
                   onPressed: () async{
                     await AuthService().deleteUser();
                   },
-                  icon: Icon( // <-- Icon
+                  icon: Icon(
                     Icons.delete,
                     size: 24.0,
                   ),
-                  label: Text('Delete'), // <-- Text
+                  label: Text('Delete'),
                 ),
               ],
             ),
