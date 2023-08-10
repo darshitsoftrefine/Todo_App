@@ -135,40 +135,7 @@ class _HomeState extends State<Home> {
                               const SizedBox(
                                 height: 14,
                               ),
-                              SizedBox(
-                                width: 330,
-                                height: 50,
-                                child: TextField(
-                                  autofocus: true,
-                                  style: const TextStyle(color: Colors.white),
-                                  textCapitalization:
-                                      TextCapitalization.sentences,
-                                  controller: titleController,
-                                  decoration: InputDecoration(
-                                    enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      borderSide: const BorderSide(
-                                          color: Colors.grey,
-                                          style: BorderStyle.solid),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: CustomColors.circColor,
-                                        width: 1.0,
-                                      ),
-                                    ),
-                                    hintText: ConstantStrings.titleHintText,
-                                    hintStyle: TextStyle(
-                                        color: CustomColors.primaryColor),
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      borderSide: const BorderSide(
-                                          color: Colors.grey,
-                                          style: BorderStyle.solid),
-                                    ),
-                                  ),
-                                ),
-                              ),
+                              CustomWidgets().textFieldBottomSheet(titleController),
                               const SizedBox(
                                 height: 40,
                               ),
@@ -208,6 +175,7 @@ class _HomeState extends State<Home> {
                                   IconButton(
                                       onPressed: () async {
                                         if (titleController.text == "") {
+                                          return;
                                         } else {
                                           //await firestore.collection('users').doc()
                                           await AuthService().insertTodoUser(

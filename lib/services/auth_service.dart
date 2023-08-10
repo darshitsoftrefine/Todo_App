@@ -14,8 +14,7 @@ class AuthService {
     try {
       UserCredential userCredential = await firebaseAuth
           .createUserWithEmailAndPassword(email: email, password: password);
-      FirebaseFirestore firestores = FirebaseFirestore.instance;
-      CollectionReference<Object?> usersCollection = firestores.collection(
+      CollectionReference<Object?> usersCollection = firestore.collection(
           'users');
 
 // Specify the id of the document you want to create or update
@@ -49,11 +48,6 @@ class AuthService {
         'email': userCredential.user!.email.toString(),
         'uid': userCredential.user!.uid,
       });
-      // DocumentReference docRef = FirebaseFirestore.instance.collection('users').doc(id);
-      // CollectionReference subColRef = docRef.collection('todo');
-      // subColRef.add({
-      // 'name': userCredential.user!.email
-      // });
       return userCredential.user;
     } on FirebaseAuthException catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -77,8 +71,6 @@ class AuthService {
             .signInWithCredential(credential);
         CollectionReference<Object?> usersCollection = firestore.collection(
             'users');
-
-// Specify the id of the document you want to create or update
         DocumentReference<Object?> userDoc = usersCollection.doc(
             userCredential.user?.uid);
         userDoc.set({
@@ -104,11 +96,8 @@ class AuthService {
     var ui = auth.currentUser?.uid;
     final CollectionReference collection = FirebaseFirestore.instance.collection('users');
     final DocumentReference document = collection.doc(ui);
-
-    // Create a new subcollection reference
     final CollectionReference subcollection = document.collection('todo');
 
-    // Add a document to the subcollection
     await subcollection.add({
       'create': create,
       'isDone': isDone,

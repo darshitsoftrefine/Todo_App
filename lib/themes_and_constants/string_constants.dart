@@ -14,7 +14,7 @@ class ConstantStrings {
   static const settingsText = "Your Profile";
 
 
-  static const registerText = "  Register";
+  static const registerText = " Register";
   static const registerNameText = "Username";
   static const registerEmailHIntText = 'Enter your Username';
   static const registerLabelText = 'Name';

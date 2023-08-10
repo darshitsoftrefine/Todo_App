@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 
 class FirestoreCompleteService {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -19,6 +20,9 @@ class FirestoreCompleteService {
         }
       });
     } catch(e){
+      if (kDebugMode) {
+        print(e);
+      }
       //Error Message
     }
   }

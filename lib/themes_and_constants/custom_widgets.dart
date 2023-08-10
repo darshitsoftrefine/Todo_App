@@ -4,7 +4,9 @@ import 'package:demo/themes_and_constants/themes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../auth_screen/register_screen.dart';
 import '../services/auth_service.dart';
+import '../services/firestore_complete_service.dart';
 import 'image_constants.dart';
 
 
@@ -157,6 +159,183 @@ class CustomWidgets {
          ),
        ),
      ),
+   );
+ }
+
+ Widget textFieldBottomSheet(TextEditingController controller){
+   return SizedBox(
+     width: 330,
+     height: 50,
+     child: TextField(
+       autofocus: true,
+       style: const TextStyle(color: Colors.white),
+       textCapitalization:
+       TextCapitalization.sentences,
+       controller: controller,
+       decoration: InputDecoration(
+         enabledBorder: OutlineInputBorder(
+           borderRadius: BorderRadius.circular(10.0),
+           borderSide: const BorderSide(
+               color: Colors.grey,
+               style: BorderStyle.solid),
+         ),
+         focusedBorder: OutlineInputBorder(
+           borderSide: BorderSide(
+             color: CustomColors.circColor,
+             width: 1.0,
+           ),
+         ),
+         hintText: ConstantStrings.titleHintText,
+         hintStyle: TextStyle(
+             color: CustomColors.primaryColor),
+         border: OutlineInputBorder(
+           borderRadius: BorderRadius.circular(10.0),
+           borderSide: const BorderSide(
+               color: Colors.grey,
+               style: BorderStyle.solid),
+         ),
+       ),
+     ),
+   );
+ }
+
+ Widget completedList(){
+   FirebaseAuth auth = FirebaseAuth.instance;
+   FirebaseFirestore firestore = FirebaseFirestore.instance;
+   var uids = auth.currentUser!.uid;
+   return SingleChildScrollView(
+     child: Padding(
+       padding: const EdgeInsets.all(15.0),
+       child: Column(
+         crossAxisAlignment: CrossAxisAlignment.start,
+         children: [
+           const SizedBox(height: 10,),
+
+
+           //Completed Tasks display
+           StreamBuilder(
+               stream: FirebaseFirestore.instance.collection('users').doc(uids).collection('completed').snapshots(),
+               builder: (context, AsyncSnapshot snapshot) {
+                 if(snapshot.hasData){
+
+                   if(snapshot.data.docs.length > 0){
+                     List<DocumentSnapshot> completedTodoList = snapshot.data.docs;
+                     return ListView.builder(
+                         physics: const NeverScrollableScrollPhysics(),
+                         shrinkWrap: true,
+                         itemCount: completedTodoList.length,
+                         itemBuilder: (context, index){
+                           return Padding(
+                             padding: const EdgeInsets.all(10.0),
+                             child: Card(
+                               color: CustomColors.onboardColor,
+                               elevation: 5,
+                               margin: const EdgeInsets.all(5),
+                               child: ListTile(
+                                 contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                                 title: Text(completedTodoList[index]['title'], style: TextStyle(color: CustomColors.primaryColor),),
+                                 subtitle: Text(completedTodoList[index]['time'], style: TextStyle(color: CustomColors.primaryColor),),
+                               ),
+                             ),
+                           );
+                         });
+                   } else {
+                     return Center(
+                       child: Column(
+                         children: [
+                           const SizedBox(height: 95,),
+                           Image.asset(ConstantImages.notodoImage),
+                           const SizedBox(height: 10,),
+                           Text(ConstantStrings.noTasksText, style: TextStyle(color: CustomColors.primaryColor, fontWeight: FontWeight.w400, fontSize: 20),),
+                           const SizedBox(height: 10,),
+
+                         ],
+                       ),
+                     );
+                   }
+                 }                return const Center(child: CircularProgressIndicator(),);
+               }
+           ),
+
+           //Delete All completed Tasks
+
+
+         ],
+       ),
+     ),
+   );
+ }
+ Widget settingsBody(){
+   FirebaseAuth auth = FirebaseAuth.instance;
+   return SafeArea(
+     child: Padding(
+       padding: const EdgeInsets.only(top: 10, left: 14, right: 14, bottom: 10),
+       child: Center(
+         child: Column(
+           mainAxisAlignment: MainAxisAlignment.center,
+           crossAxisAlignment: CrossAxisAlignment.center,
+           children: [
+             Text("Email: ${auth.currentUser!.email}",style: TextStyle(color: CustomColors.primaryColor, fontSize: 16, fontWeight: FontWeight.bold),),
+             const SizedBox(height: 50,),
+             Text('Delete User Credentials', style: TextStyle(color: CustomColors.primaryColor, fontSize: 18, fontWeight: FontWeight.bold),),
+             const SizedBox(height: 10,),
+             ElevatedButton.icon(
+               onPressed: () async{
+                 await AuthService().deleteUser();
+               },
+               icon: const Icon(
+                 Icons.delete,
+                 size: 24.0,
+               ),
+               label: const Text('Delete'),
+             ),
+             const SizedBox(height: 90,),
+             Text("(If You Delete your account your Tasks Will be gone)", style: TextStyle(color: CustomColors.primaryColor),)
+           ],
+         ),
+       ),
+     ),
+   );
+ }
+ Widget bottomLoginBar(BuildContext context){
+   return Padding(
+     padding: const EdgeInsets.only(top: 10.0, bottom: 5),
+     child: TextButton(onPressed: (){
+       Navigator.push(
+         context,
+         MaterialPageRoute(builder: (context) => const RegisterScreen()),
+       );
+     }, child: RichText(
+       text: const TextSpan(
+         text: ConstantStrings.dontAccountText,
+         style: TextStyle(color: Colors.grey, fontSize: 12),
+         children: [
+           TextSpan(
+             text: ConstantStrings.registerText,
+             style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 12),
+           ),
+         ],
+       ),
+     )),
+   );
+ }
+
+ Widget bottomCompletedButton(){
+   return Padding(
+     padding: const EdgeInsets.only(left: 32, right: 32, top: 12, bottom: 28),
+     child: ElevatedButton(onPressed: () async {
+       await FirestoreCompleteService().deleteTodo();
+     },
+       style: ElevatedButton.styleFrom(
+         minimumSize: const Size(160, 40),
+         backgroundColor: CustomColors.circleColor,
+         shape: RoundedRectangleBorder(
+             borderRadius: BorderRadius.circular(32)),
+       ),
+       child: const Text(
+         ConstantStrings.clearText,
+         style: TextStyle(fontSize: 18, color:Colors.white),
+       ),),
    );
  }
 }
