@@ -13,8 +13,7 @@ class FirestoreTodoService {
       firestore.collection('users').doc(uids).collection('todo').where('isDone', isEqualTo: true).get().then((snapshot) {
         for(var i = 0; i < snapshot.docs.length; i++){
             if(snapshot.docs[i]['isDone'] == true){
-              // print(snapshot.docs[i].data());
-              // print(snapshot.docs[i].id);
+
               firestore.collection('users').doc(uids).collection('completed').add(snapshot.docs[i].data());
              firestore.collection('users').doc(uids).collection('todo').doc(snapshot.docs[i].id).delete();
             }

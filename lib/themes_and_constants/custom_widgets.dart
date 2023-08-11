@@ -232,9 +232,9 @@ class CustomWidgets {
                                elevation: 5,
                                margin: const EdgeInsets.all(5),
                                child: ListTile(
-                                 contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                                 contentPadding: const EdgeInsets.symmetric(horizontal: 30, vertical: 1),
                                  title: Text(completedTodoList[index]['title'], style: TextStyle(color: CustomColors.primaryColor),),
-                                 subtitle: Text(completedTodoList[index]['time'], style: TextStyle(color: CustomColors.primaryColor),),
+                                 subtitle: completedTodoList[index]['time'].toString().isEmpty? null : Text(completedTodoList[index]['time'], style: TextStyle(color: CustomColors.primaryColor),),
                                ),
                              ),
                            );
