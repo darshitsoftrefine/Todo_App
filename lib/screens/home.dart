@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:demo/themes_and_constants/custom_widgets.dart';
-import 'package:demo/themes_and_constants/image_constants.dart';
 import 'package:demo/themes_and_constants/string_constants.dart';
 import 'package:demo/themes_and_constants/themes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -102,7 +101,6 @@ class _HomeState extends State<Home> {
                         top: Radius.circular(25.0),
                       ),
                     ),
-                    clipBehavior: Clip.antiAliasWithSaveLayer,
                     context: context,
                     isScrollControlled: true,
                     builder: (context) {
@@ -116,84 +114,86 @@ class _HomeState extends State<Home> {
                             left: 25,
                           ),
                           color: CustomColors.onboardColor,
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                ConstantStrings.addTaskText,
-                                style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w700,
-                                    color: CustomColors.primaryColor),
-                              ),
-                              const SizedBox(
-                                height: 14,
-                              ),
-                              CustomWidgets().textFieldBottomSheet(titleController),
-                              const SizedBox(
-                                height: 40,
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  IconButton(
-                                      onPressed: () async {
-                                        final TimeOfDay? selectedTime =
-                                            await showTimePicker(
-                                                context: context,
-                                                initialTime: TimeOfDay.now());
+                          child: SingleChildScrollView(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  ConstantStrings.addTaskText,
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w700,
+                                      color: CustomColors.primaryColor),
+                                ),
+                                const SizedBox(
+                                  height: 14,
+                                ),
+                                CustomWidgets().textFieldBottomSheet(titleController),
+                                const SizedBox(
+                                  height: 40,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    IconButton(
+                                        onPressed: () async {
+                                          final TimeOfDay? selectedTime =
+                                              await showTimePicker(
+                                                  context: context,
+                                                  initialTime: TimeOfDay.now());
 
-                                        if (selectedTime == null) {
-                                          return;
-                                        }
+                                          if (selectedTime == null) {
+                                            return;
+                                          }
 
-                                        timeController.text =
-                                            "${selectedTime.hour.toString().padLeft(2, '0')}:${selectedTime.minute.toString().padLeft(2, '0')}";
+                                          timeController.text =
+                                              "${selectedTime.hour.toString().padLeft(2, '0')}:${selectedTime.minute.toString().padLeft(2, '0')}";
 
-                                        DateTime newDT = DateTime(
-                                          dateTime.year,
-                                          dateTime.month,
-                                          dateTime.day,
-                                          selectedTime.hour,
-                                          selectedTime.minute,
-                                        );
-                                        setState(() {
-                                          dateTime = newDT;
-                                        });
-                                      },
-                                      icon: Icon(
-                                        Icons.timer_outlined,
-                                        color: CustomColors.primaryColor,
-                                      )),
-                                  IconButton(
-                                      onPressed: () async {
-                                        if (titleController.text == "") {
-                                          return;
-                                        } else {
-                                          //await firestore.collection('users').doc()
-                                          await AuthService().insertTodoUser(
-                                              Timestamp.now(),
-                                              titleController.text,
-                                              timeController.text,
-                                              false,
-
+                                          DateTime newDT = DateTime(
+                                            dateTime.year,
+                                            dateTime.month,
+                                            dateTime.day,
+                                            selectedTime.hour,
+                                            selectedTime.minute,
                                           );
-                                          showNotification();
-                                          titleController.clear();
-                                          timeController.clear();
-                                          if(!mounted) return;
-                                          Navigator.pop(context);
-                                        }
-                                      },
-                                      icon: Icon(
-                                        Icons.send,
-                                        color: CustomColors.primaryColor,
-                                      ))
-                                ],
-                              ),
-                            ],
+                                          setState(() {
+                                            dateTime = newDT;
+                                          });
+                                        },
+                                        icon: Icon(
+                                          Icons.timer_outlined,
+                                          color: CustomColors.primaryColor,
+                                        )),
+                                    IconButton(
+                                        onPressed: () async {
+                                          if (titleController.text == "") {
+                                            return;
+                                          } else {
+                                            //await firestore.collection('users').doc()
+                                            await AuthService().insertTodoUser(
+                                                Timestamp.now(),
+                                                titleController.text,
+                                                timeController.text,
+                                                false,
+
+                                            );
+                                            showNotification();
+                                            titleController.clear();
+                                            timeController.clear();
+                                            // ignore: use_build_context_synchronously
+                                            Navigator.pop(context);
+                                          }
+                                        },
+                                        icon: Icon(
+                                          Icons.send,
+                                          color: CustomColors.primaryColor,
+                                        ))
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       );
