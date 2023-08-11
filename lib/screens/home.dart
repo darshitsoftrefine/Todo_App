@@ -28,8 +28,9 @@ class _HomeState extends State<Home> {
   TextEditingController timeController = TextEditingController();
   DateTime dateTime = DateTime.now();
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-  //Notifications Logic
 
+
+  //Notifications Logic
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
 

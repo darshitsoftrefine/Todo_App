@@ -10,12 +10,12 @@ class FirestoreCompleteService {
   //Delete All completed Tasks
   Future deleteTodo() async {
     try{
-      var uids = auth.currentUser!.uid;
+      var uid = auth.currentUser!.uid;
       var db = FirebaseFirestore.instance;
-      db.collection('users').doc(uids).collection('completed').where('isDone', isEqualTo: true).get().then((snapshot) {
+      db.collection('users').doc(uid).collection('completed').where('isDone', isEqualTo: true).get().then((snapshot) {
         for(var i = 0; i < snapshot.docs.length; i++){
           if(snapshot.docs[i]['isDone'] == true){
-            firestore.collection('users').doc(uids).collection('completed').doc(snapshot.docs[i].id).delete();
+            firestore.collection('users').doc(uid).collection('completed').doc(snapshot.docs[i].id).delete();
           }
         }
       });

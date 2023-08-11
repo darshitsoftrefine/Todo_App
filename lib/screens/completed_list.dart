@@ -1,7 +1,6 @@
 import 'package:demo/themes_and_constants/custom_widgets.dart';
 import 'package:demo/themes_and_constants/string_constants.dart';
 import 'package:flutter/material.dart';
-
 import '../themes_and_constants/themes.dart';
 
 class CompletedList extends StatefulWidget {

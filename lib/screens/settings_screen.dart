@@ -1,6 +1,5 @@
 import 'package:demo/themes_and_constants/custom_widgets.dart';
 import 'package:demo/themes_and_constants/themes.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../themes_and_constants/string_constants.dart';

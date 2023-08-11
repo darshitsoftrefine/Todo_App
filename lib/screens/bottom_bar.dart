@@ -40,7 +40,6 @@ class _BottomBarState extends State<BottomBar> {
         selectedItemColor: CustomColors.circColor,
         backgroundColor: Colors.black,
         unselectedItemColor: Colors.grey,
-        // unselectedItemColor: Colors.black,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(

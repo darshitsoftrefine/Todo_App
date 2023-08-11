@@ -2,7 +2,6 @@ import 'package:demo/auth_screen/custom_field.dart';
 import 'package:demo/auth_screen/register_screen.dart';
 import 'package:demo/themes_and_constants/image_constants.dart';
 import 'package:demo/themes_and_constants/themes.dart';
-
 import 'package:flutter/material.dart';
 import '../services/auth_service.dart';
 import '../themes_and_constants/string_constants.dart';
@@ -135,7 +134,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             style: TextStyle(color: Colors.grey, fontSize: 12),
                             children: [
                               TextSpan(
-                                text: ConstantStrings.registerText,
+                                text: " ${ConstantStrings.registerText}",
                                 style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 12),
                               ),
                             ],

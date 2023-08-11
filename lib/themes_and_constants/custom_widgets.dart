@@ -201,8 +201,7 @@ class CustomWidgets {
 
  Widget completedList(){
    FirebaseAuth auth = FirebaseAuth.instance;
-   FirebaseFirestore firestore = FirebaseFirestore.instance;
-   var uids = auth.currentUser!.uid;
+   var uid = auth.currentUser!.uid;
    return SingleChildScrollView(
      child: Padding(
        padding: const EdgeInsets.all(15.0),
@@ -214,7 +213,7 @@ class CustomWidgets {
 
            //Completed Tasks display
            StreamBuilder(
-               stream: FirebaseFirestore.instance.collection('users').doc(uids).collection('completed').snapshots(),
+               stream: FirebaseFirestore.instance.collection('users').doc(uid).collection('completed').snapshots(),
                builder: (context, AsyncSnapshot snapshot) {
                  if(snapshot.hasData){
 
@@ -266,7 +265,6 @@ class CustomWidgets {
    );
  }
  Widget settingsBody(BuildContext context){
-   FirebaseAuth auth = FirebaseAuth.instance;
    return SafeArea(
      child: Padding(
        padding: const EdgeInsets.only(top: 10, left: 34, right: 34, bottom: 10),
