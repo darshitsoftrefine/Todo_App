@@ -1,8 +1,11 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:demo/auth_screen/custom_field.dart';
 import 'package:demo/auth_screen/register_screen.dart';
 import 'package:demo/themes_and_constants/image_constants.dart';
 import 'package:demo/themes_and_constants/themes.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../services/auth_service.dart';
 import '../themes_and_constants/string_constants.dart';
 
@@ -51,21 +54,20 @@ class _LoginScreenState extends State<LoginScreen> {
                       const SizedBox(height: 15,),
                       CustomField(label: ConstantStrings.passwordText, control: passwordController, obs: true, hint: ConstantStrings.passwordHintText,),
                       const SizedBox(height: 25,),
-
+                      //Expanded(child: SizedBox()),
                       //Login Button
                       isLoading ? const Center(child: CircularProgressIndicator()):
                       Row(
                         children: [
                           Expanded(
                             child: ElevatedButton(onPressed: () async{
-                              if(emailController.text == "" || passwordController.text == ""){
+                              //SharedPreferences prefs = await SharedPreferences.getInstance();
+                              if(emailController.text.isEmpty || passwordController.text.isEmpty){
                                 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text(ConstantStrings.snackText), backgroundColor: Colors.red,));
                               } else {
+                                //prefs.setString('email', emailController.text);
                                 await AuthService().login(emailController.text, passwordController.text, context);
                               }
-                              setState(() {
-                                isLoading = false;
-                              });
                             },
                               style: ElevatedButton.styleFrom(
                                   backgroundColor: CustomColors.circleColor,
@@ -82,7 +84,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             Expanded(
                                 child: Divider(color: Colors.grey,)
                             ),
-                            Text("or", style: TextStyle(color: Colors.grey),),
+                            Text(" ${ConstantStrings.orText}", style: TextStyle(color: Colors.grey),),
                             Expanded(
                                 child: Divider(color: Colors.grey,)
                             ),

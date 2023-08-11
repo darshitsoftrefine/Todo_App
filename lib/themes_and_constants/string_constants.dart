@@ -23,7 +23,7 @@ class ConstantStrings {
   static const registerCityHintText = 'Kolkata';
   static const registerGoogleText = 'Register with Google';
   static const alreadyAccountText = 'Already have an account ?';
-  static const orText = '  or  ';
+  static const orText = 'or';
 
 
   static const noTodoTitle = "What do you want to do today?";

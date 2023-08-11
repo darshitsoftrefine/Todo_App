@@ -20,10 +20,7 @@ class FirestoreCompleteService {
         }
       });
     } catch(e){
-      if (kDebugMode) {
-        print(e);
-      }
-      //Error Message
+        debugPrint('$e');
     }
   }
 

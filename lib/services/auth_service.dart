@@ -89,7 +89,6 @@ class AuthService {
   // Sign Out
   Future<void> signOut() async {
     await firebaseAuth.signOut();
-    await GoogleSignIn().signOut();
   }
 
   Future insertTodoUser(Timestamp create, String title, String time, bool isDone) async {
@@ -110,14 +109,51 @@ class AuthService {
 
 
   Future deleteUser(BuildContext context) async {
-    var uid = firebaseAuth.currentUser!.uid;
-    var docRef = FirebaseFirestore.instance.collection ('users').doc(uid);
-    await docRef.delete();
-    await firebaseAuth.currentUser!.delete();
-    // ignore: use_build_context_synchronously
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const LoginScreen()),
-    );
+    try {
+      await FirebaseAuth.instance.currentUser!.delete();
+
+    } on FirebaseAuthException catch (e) {
+      debugPrint('${e}');
+
+      if (e.code == "requires-recent-login") {
+        await _reauthenticateAndDelete();
+      } else {
+        // Handle other Firebase exceptions
+      }
+    } catch (e) {
+      debugPrint('${e}');
+
+      // Handle general exception
+    }
+    // var uid = firebaseAuth.currentUser!.uid;
+    // var docRef = FirebaseFirestore.instance.collection('users').doc(uid);
+    // // ignore: use_build_context_synchronously
+    // Navigator.push(
+    //   context,
+    //   MaterialPageRoute(builder: (context) => const LoginScreen()),
+    // );
+    // await firebaseAuth.currentUser!.delete();
+    // await docRef.delete();
+    //
+
   }
+  Future<void> _reauthenticateAndDelete() async {
+    try {
+      final providerData = firebaseAuth.currentUser?.providerData.first;
+
+      if (GoogleAuthProvider().providerId == providerData!.providerId) {
+        await firebaseAuth.currentUser!
+            .reauthenticateWithProvider(GoogleAuthProvider());
+      }
+      // else if (EmailAuthProvider.providerId == providerData.providerId) {
+      //   await firebaseAuth.currentUser!
+      //       .reauthenticateWithProvider(EmailAuthProvider());
+      // }
+
+      await firebaseAuth.currentUser?.delete();
+    } catch (e) {
+      // Handle exceptions
+    }
   }
+
+}

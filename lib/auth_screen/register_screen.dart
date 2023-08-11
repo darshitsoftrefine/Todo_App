@@ -71,7 +71,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   fixedSize: const Size(360, 50)
                               ),
                               onPressed: () async{
-                                if(emailController.text == "" || passwordController.text == ""){
+                                if(emailController.text.isEmpty || passwordController.text.isEmpty){
                                   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text(ConstantStrings.snackText), backgroundColor: Colors.red,));
                                 } else {
                                   User? result = await AuthService().register(emailController.text, passwordController.text, context);
