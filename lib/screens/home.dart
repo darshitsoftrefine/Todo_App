@@ -98,7 +98,7 @@ class _HomeState extends State<Home> {
                 showModalBottomSheet(
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.vertical(
-                        top: Radius.circular(25.0),
+                        top: Radius.circular(32.0),
                       ),
                     ),
                     context: context,

@@ -19,17 +19,17 @@ class CustomWidgets {
      backgroundColor: CustomColors.backgroundColor,
      title: const Text(ConstantStrings.todoTitleText),
      centerTitle: true,
-     actions: [
-       IconButton(
-         onPressed: () async {
-           await AuthService().signOut();
-         },
-         icon: const Icon(
-           Icons.logout,
-           color: Colors.white,
-         ),
-       )
-     ],
+     // actions: [
+     //   IconButton(
+     //     onPressed: () async {
+     //       await AuthService().signOut();
+     //     },
+     //     icon: const Icon(
+     //       Icons.logout,
+     //       color: Colors.white,
+     //     ),
+     //   )
+     // ],
    );
  }
 
@@ -269,30 +269,43 @@ class CustomWidgets {
    FirebaseAuth auth = FirebaseAuth.instance;
    return SafeArea(
      child: Padding(
-       padding: const EdgeInsets.only(top: 10, left: 14, right: 14, bottom: 10),
-       child: Center(
-         child: Column(
-           mainAxisAlignment: MainAxisAlignment.center,
-           crossAxisAlignment: CrossAxisAlignment.center,
-           children: [
-             Text("Email: ${auth.currentUser!.email}",style: TextStyle(color: CustomColors.primaryColor, fontSize: 14, fontWeight: FontWeight.bold), softWrap: true,),
-             const SizedBox(height: 50,),
-             Text('Delete User Credentials', style: TextStyle(color: CustomColors.primaryColor, fontSize: 18, fontWeight: FontWeight.bold),),
-             const SizedBox(height: 10,),
-             ElevatedButton.icon(
-               onPressed: () async{
+       padding: const EdgeInsets.only(top: 10, left: 34, right: 34, bottom: 10),
+       child: Column(
+         mainAxisAlignment: MainAxisAlignment.center,
+         crossAxisAlignment: CrossAxisAlignment.start,
+         children: [
+
+           GestureDetector(
+             onTap: () async{
                  await AuthService().deleteUser(context);
-               },
-               icon: const Icon(
-                 Icons.delete,
-                 size: 24.0,
-               ),
-               label: const Text('Delete'),
+                 },
+             child: Row(
+               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+               children: [
+                 ElevatedButton.icon(
+                   onPressed: (){},
+                   icon: const Icon(
+                     Icons.delete,
+                     size: 24.0,
+                   ),
+                   label: const Text('Delete your account'),
+                   style: ElevatedButton.styleFrom(
+                     backgroundColor: CustomColors.backgroundColor
+                   ),
+                 ),
+                 const Icon(Icons.arrow_forward_ios, color: Colors.white,)
+               ],
              ),
-             const SizedBox(height: 90,),
-             Text("(If You Delete your account your Tasks Will be gone)", style: TextStyle(color: CustomColors.primaryColor, fontSize: 13),)
-           ],
-         ),
+           ),
+           const SizedBox(height: 90,),
+           ElevatedButton.icon(onPressed: () async{
+             await AuthService().signOut();
+           }, icon: const Icon(Icons.logout, color: Colors.red,), label: const Text("Log out", style: TextStyle(color: Colors.red),),
+             style: ElevatedButton.styleFrom(
+               backgroundColor: Colors.black
+             ),)
+           //Text("(If You Delete your account your Tasks Will be gone)", style: TextStyle(color: CustomColors.primaryColor, fontSize: 13),)
+         ],
        ),
      ),
    );
