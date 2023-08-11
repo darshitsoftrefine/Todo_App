@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:demo/auth_screen/login_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -108,11 +109,14 @@ class AuthService {
   }
 
 
-  Future deleteUser() async {
+  Future deleteUser(BuildContext context) async {
     var uid = firebaseAuth.currentUser!.uid;
     var docRef = FirebaseFirestore.instance.collection ('users').doc(uid);
     await docRef.delete();
     await firebaseAuth.currentUser!.delete();
-
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const LoginScreen()),
+    );
   }
   }

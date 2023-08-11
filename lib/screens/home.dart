@@ -34,11 +34,6 @@ class _HomeState extends State<Home> {
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
-  @override
-  void initState() {
-    super.initState();
-  }
-
   showNotification() {
     if (titleController.text.isEmpty) {
       return;
@@ -154,8 +149,8 @@ class _HomeState extends State<Home> {
                                           return;
                                         }
 
-                                        timeController.text = "Today at "
-                                            "${selectedTime.hour}:${selectedTime.minute}";
+                                        timeController.text =
+                                            "${selectedTime.hour.toString().padLeft(2, '0')}:${selectedTime.minute.toString().padLeft(2, '0')}";
 
                                         DateTime newDT = DateTime(
                                           dateTime.year,

@@ -1,9 +1,8 @@
 import 'package:demo/auth_screen/custom_field.dart';
 import 'package:demo/auth_screen/register_screen.dart';
-import 'package:demo/themes_and_constants/custom_widgets.dart';
 import 'package:demo/themes_and_constants/image_constants.dart';
 import 'package:demo/themes_and_constants/themes.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
 import '../services/auth_service.dart';
 import '../themes_and_constants/string_constants.dart';
@@ -34,11 +33,11 @@ class _LoginScreenState extends State<LoginScreen> {
             physics: const BouncingScrollPhysics(),
             shrinkWrap: true,
             slivers: [
-              //SliverAppBar(),
-              SliverList(
-                delegate: SliverChildBuilderDelegate((context, index) {
-                  return  Column(
+              SliverFillRemaining(
+                hasScrollBody: false,
+                  child: Column(
                     mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
 
@@ -56,22 +55,27 @@ class _LoginScreenState extends State<LoginScreen> {
 
                       //Login Button
                       isLoading ? const Center(child: CircularProgressIndicator()):
-                      ElevatedButton(onPressed: () async{
-                        if(emailController.text == "" || passwordController.text == ""){
-                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text(ConstantStrings.snackText), backgroundColor: Colors.red,));
-                        } else {
-                          await AuthService().login(emailController.text, passwordController.text, context);
-                        }
-                        setState(() {
-                          isLoading = false;
-                        });
-                      },
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: CustomColors.circleColor,
-                            disabledBackgroundColor: CustomColors.circColor,
-                            fixedSize: const Size(367, 48)
-                        ),
-                        child: const Text(ConstantStrings.loginText, style: TextStyle(color: Colors.white),),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: ElevatedButton(onPressed: () async{
+                              if(emailController.text == "" || passwordController.text == ""){
+                                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text(ConstantStrings.snackText), backgroundColor: Colors.red,));
+                              } else {
+                                await AuthService().login(emailController.text, passwordController.text, context);
+                              }
+                              setState(() {
+                                isLoading = false;
+                              });
+                            },
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: CustomColors.circleColor,
+                                  fixedSize: const Size(367, 48)
+                              ),
+                              child: const Text(ConstantStrings.loginText, style: TextStyle(color: Colors.white),),
+                            ),
+                          ),
+                        ],
                       ),
                       const SizedBox(height: 20,),
                       Row(
@@ -119,7 +123,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         ],
                       ),
                       const SizedBox(height: 30,),
-                      //SliverToBoxAdapter(child: Expanded(child: SizedBox())),
                       Center(
                         child: TextButton(onPressed: (){
                           Navigator.push(
@@ -140,10 +143,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         )),
                       ),
                     ],
-                  );
-                },
-                  childCount: 1
-                ),
+                  )
               ),
             ],
           ),

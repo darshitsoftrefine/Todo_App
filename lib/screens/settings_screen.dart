@@ -23,7 +23,7 @@ class _SettingsState extends State<Settings> {
         title: const Text(ConstantStrings.settingsText),
         centerTitle: true,
       ),
-      body: CustomWidgets().settingsBody()
+      body: CustomWidgets().settingsBody(context)
     );
   }
 }

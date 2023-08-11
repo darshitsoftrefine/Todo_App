@@ -265,7 +265,7 @@ class CustomWidgets {
      ),
    );
  }
- Widget settingsBody(){
+ Widget settingsBody(BuildContext context){
    FirebaseAuth auth = FirebaseAuth.instance;
    return SafeArea(
      child: Padding(
@@ -275,13 +275,13 @@ class CustomWidgets {
            mainAxisAlignment: MainAxisAlignment.center,
            crossAxisAlignment: CrossAxisAlignment.center,
            children: [
-             Text("Email: ${auth.currentUser!.email}",style: TextStyle(color: CustomColors.primaryColor, fontSize: 16, fontWeight: FontWeight.bold),),
+             Text("Email: ${auth.currentUser!.email}",style: TextStyle(color: CustomColors.primaryColor, fontSize: 14, fontWeight: FontWeight.bold), softWrap: true,),
              const SizedBox(height: 50,),
              Text('Delete User Credentials', style: TextStyle(color: CustomColors.primaryColor, fontSize: 18, fontWeight: FontWeight.bold),),
              const SizedBox(height: 10,),
              ElevatedButton.icon(
                onPressed: () async{
-                 await AuthService().deleteUser();
+                 await AuthService().deleteUser(context);
                },
                icon: const Icon(
                  Icons.delete,
@@ -290,7 +290,7 @@ class CustomWidgets {
                label: const Text('Delete'),
              ),
              const SizedBox(height: 90,),
-             Text("(If You Delete your account your Tasks Will be gone)", style: TextStyle(color: CustomColors.primaryColor),)
+             Text("(If You Delete your account your Tasks Will be gone)", style: TextStyle(color: CustomColors.primaryColor, fontSize: 13),)
            ],
          ),
        ),
