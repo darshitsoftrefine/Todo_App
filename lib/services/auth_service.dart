@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:demo/auth_screen/login_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth_platform_interface/src/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -107,7 +108,14 @@ class AuthService {
     });
   }
 
-
+Future del(BuildContext context)async{
+    try{
+      await FirebaseAuth.instance.currentUser!.unlink(EmailAuthProvider.PROVIDER_ID);
+      await firebaseAuth.currentUser!.delete();
+    }catch(e){
+        debugPrint('${e}');
+    }
+}
   Future deleteUser(BuildContext context) async {
     try {
       await FirebaseAuth.instance.currentUser!.delete();
@@ -145,10 +153,10 @@ class AuthService {
         await firebaseAuth.currentUser!
             .reauthenticateWithProvider(GoogleAuthProvider());
       }
-      // else if (EmailAuthProvider.providerId == providerData.providerId) {
-      //   await firebaseAuth.currentUser!
-      //       .reauthenticateWithProvider(EmailAuthProvider());
-      // }
+      else if (EmailAuthProvider.PROVIDER_ID == providerData.providerId) {
+        await firebaseAuth.currentUser!
+            .reauthenticateWithProvider(EmailAuthProvider as AuthProvider);
+      }
 
       await firebaseAuth.currentUser?.delete();
     } catch (e) {
