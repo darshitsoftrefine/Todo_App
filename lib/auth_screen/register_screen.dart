@@ -32,7 +32,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         child: Padding(
           padding: const EdgeInsets.only(top: 16.0, left: 24, right: 24),
           child: CustomScrollView(
-            physics: BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             shrinkWrap: true,
             slivers: [
               SliverFillRemaining(
@@ -75,7 +75,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text(ConstantStrings.snackText), backgroundColor: Colors.red,));
                                 } else {
                                   User? result = await AuthService().register(emailController.text, passwordController.text, context);
-                                    if(!mounted) return;
+                                    // ignore: use_build_context_synchronously
                                     Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> BottomBar(result!)), (route) => false);
 
                                 }

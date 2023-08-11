@@ -114,6 +114,7 @@ class AuthService {
     var docRef = FirebaseFirestore.instance.collection ('users').doc(uid);
     await docRef.delete();
     await firebaseAuth.currentUser!.delete();
+    // ignore: use_build_context_synchronously
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => const LoginScreen()),
