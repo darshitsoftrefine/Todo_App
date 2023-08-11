@@ -9,13 +9,13 @@ class FirestoreTodoService {
   //Delete tasks
   Future deleteTodo() async {
     try{
-      var uids = auth.currentUser!.uid;
-      firestore.collection('users').doc(uids).collection('todo').where('isDone', isEqualTo: true).get().then((snapshot) {
+      var uid = auth.currentUser!.uid;
+      firestore.collection('users').doc(uid).collection('todo').where('isDone', isEqualTo: true).get().then((snapshot) {
         for(var i = 0; i < snapshot.docs.length; i++){
             if(snapshot.docs[i]['isDone'] == true){
 
-              firestore.collection('users').doc(uids).collection('completed').add(snapshot.docs[i].data());
-             firestore.collection('users').doc(uids).collection('todo').doc(snapshot.docs[i].id).delete();
+              firestore.collection('users').doc(uid).collection('completed').add(snapshot.docs[i].data());
+             firestore.collection('users').doc(uid).collection('todo').doc(snapshot.docs[i].id).delete();
             }
         }
       });
