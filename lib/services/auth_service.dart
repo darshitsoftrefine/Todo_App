@@ -108,9 +108,9 @@ class AuthService {
     });
   }
 
-Future del(BuildContext context)async{
+Future del()async{
     try{
-      await FirebaseAuth.instance.currentUser!.unlink(EmailAuthProvider.PROVIDER_ID);
+      //await FirebaseAuth.instance.currentUser!.unlink(EmailAuthProvider.PROVIDER_ID);
       await firebaseAuth.currentUser!.delete();
     }catch(e){
         debugPrint('${e}');
@@ -118,7 +118,7 @@ Future del(BuildContext context)async{
 }
   Future deleteUser(BuildContext context) async {
     try {
-      await FirebaseAuth.instance.currentUser!.delete();
+      await firebaseAuth.currentUser!.delete();
 
     } on FirebaseAuthException catch (e) {
       debugPrint('${e}');
