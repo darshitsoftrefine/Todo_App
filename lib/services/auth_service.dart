@@ -116,23 +116,23 @@ Future del()async{
         debugPrint('${e}');
     }
 }
-  Future deleteUser(BuildContext context) async {
-    try {
-      await firebaseAuth.currentUser!.delete();
-
-    } on FirebaseAuthException catch (e) {
-      debugPrint('${e}');
-
-      if (e.code == "requires-recent-login") {
-        await _reauthenticateAndDelete();
-      } else {
-        // Handle other Firebase exceptions
-      }
-    } catch (e) {
-      debugPrint('${e}');
-
-      // Handle general exception
-    }
+  // Future deleteUser(BuildContext context) async {
+  //   try {
+  //     await firebaseAuth.currentUser!.delete();
+  //
+  //   } on FirebaseAuthException catch (e) {
+  //     debugPrint('${e}');
+  //
+  //     if (e.code == "requires-recent-login") {
+  //       await _reauthenticateAndDelete();
+  //     } else {
+  //       // Handle other Firebase exceptions
+  //     }
+  //   } catch (e) {
+  //     debugPrint('${e}');
+  //
+  //     // Handle general exception
+  //   }
     // var uid = firebaseAuth.currentUser!.uid;
     // var docRef = FirebaseFirestore.instance.collection('users').doc(uid);
     // // ignore: use_build_context_synchronously
@@ -145,23 +145,22 @@ Future del()async{
     //
 
   }
-  Future<void> _reauthenticateAndDelete() async {
-    try {
-      final providerData = firebaseAuth.currentUser?.providerData.first;
+  // Future<void> _reauthenticateAndDelete() async {
+  //   try {
+  //     final providerData = firebaseAuth.currentUser?.providerData.first;
+  //
+  //     if (GoogleAuthProvider().providerId == providerData!.providerId) {
+  //       await firebaseAuth.currentUser!
+  //           .reauthenticateWithProvider(GoogleAuthProvider());
+  //     }
+  //     else if (EmailAuthProvider.PROVIDER_ID == providerData.providerId) {
+  //       await firebaseAuth.currentUser!
+  //           .reauthenticateWithProvider(EmailAuthProvider as AuthProvider);
+  //     }
+  //
+  //     await firebaseAuth.currentUser?.delete();
+  //   } catch (e) {
+  //     // Handle exceptions
+  //   }
+  // }
 
-      if (GoogleAuthProvider().providerId == providerData!.providerId) {
-        await firebaseAuth.currentUser!
-            .reauthenticateWithProvider(GoogleAuthProvider());
-      }
-      else if (EmailAuthProvider.PROVIDER_ID == providerData.providerId) {
-        await firebaseAuth.currentUser!
-            .reauthenticateWithProvider(EmailAuthProvider as AuthProvider);
-      }
-
-      await firebaseAuth.currentUser?.delete();
-    } catch (e) {
-      // Handle exceptions
-    }
-  }
-
-}
