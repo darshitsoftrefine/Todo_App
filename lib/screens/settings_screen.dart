@@ -2,6 +2,7 @@ import 'package:demo/themes_and_constants/themes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../auth_screen/login_screen.dart';
 import '../services/auth_service.dart';
 import '../themes_and_constants/string_constants.dart';
 
@@ -43,7 +44,7 @@ class _SettingsState extends State<Settings> {
               const Expanded(child: SizedBox()),
               ElevatedButton.icon(
                 onPressed: () async{
-                  await AuthService().del();
+                  await AuthService().del(context);
                   },
                 icon: const Icon(
                   Icons.delete,
@@ -57,6 +58,8 @@ class _SettingsState extends State<Settings> {
               const Expanded(child: SizedBox()),
               ElevatedButton.icon(onPressed: () async{
                 await AuthService().signOut();
+                // ignore: use_build_context_synchronously
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const LoginScreen()),);
               }, icon: const Icon(Icons.logout, color: Colors.red, size: 30,), label: const Text("Log out", style: TextStyle(color: Colors.red, fontSize: 20),),
                 style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.black

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:demo/auth_screen/login_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth_platform_interface/src/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -89,6 +90,7 @@ class AuthService {
 
   // Sign Out
   Future<void> signOut() async {
+    final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
     await firebaseAuth.signOut();
   }
 
@@ -108,13 +110,17 @@ class AuthService {
     });
   }
 
-Future del()async{
+Future del(BuildContext context)async{
     try{
-      //await FirebaseAuth.instance.currentUser!.unlink(EmailAuthProvider.PROVIDER_ID);
-      //
-      await firebaseAuth.currentUser!.delete();
+      await firestore.collection('users').doc(firebaseAuth.currentUser!.uid).delete();
+      // ignore: use_build_context_synchronously
+      Navigator.push(context, MaterialPageRoute(builder: (context) => const LoginScreen()),);
+      await firebaseAuth.currentUser!.unlink(EmailAuthProvider.PROVIDER_ID);
+      await firebaseAuth.currentUser!.unlink(GoogleAuthProvider.PROVIDER_ID);
+      //await firebaseAuth.currentUser!.reauthenticateWithCredential(EmailAuthProvider.credential(email: email, password: password));
+      //await firebaseAuth.currentUser!.delete();
     }catch(e){
-        debugPrint('${e}');
+        debugPrint('$e');
     }
 }
   // Future deleteUser(BuildContext context) async {

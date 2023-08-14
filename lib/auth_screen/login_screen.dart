@@ -101,9 +101,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           ElevatedButton(
                             onPressed: () async{
                               await AuthService().signInWithGoogle();
-                              setState(() {
-                                isLoading = false;
-                              });
                             },
                             style: ElevatedButton.styleFrom(
                               foregroundColor: Colors.white, backgroundColor: CustomColors.backgroundColor, padding: const EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 5),
