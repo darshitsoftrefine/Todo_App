@@ -298,7 +298,7 @@ class _HomeState extends State<Home> {
                                 const SizedBox(
                                   height: 75,
                                 ),
-                                Image.asset(ConstantImages.notodoImage),
+                                Image.asset(ConstantImages.noTodoImage),
                                 const SizedBox(
                                   height: 10,
                                 ),

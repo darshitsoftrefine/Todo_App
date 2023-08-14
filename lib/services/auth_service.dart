@@ -114,7 +114,7 @@ Future del(BuildContext context)async{
     try{
       await firestore.collection('users').doc(firebaseAuth.currentUser!.uid).delete();
       // ignore: use_build_context_synchronously
-      Navigator.push(context, MaterialPageRoute(builder: (context) => const LoginScreen()),);
+      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const LoginScreen()),(route) => false);
       await firebaseAuth.currentUser!.unlink(EmailAuthProvider.PROVIDER_ID);
       await firebaseAuth.currentUser!.unlink(GoogleAuthProvider.PROVIDER_ID);
       //await firebaseAuth.currentUser!.reauthenticateWithCredential(EmailAuthProvider.credential(email: email, password: password));

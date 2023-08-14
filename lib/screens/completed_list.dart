@@ -72,7 +72,7 @@ class _CompletedListState extends State<CompletedList> {
                           child: Column(
                             children: [
                               const SizedBox(height: 95,),
-                              Image.asset(ConstantImages.notodoImage),
+                              Image.asset(ConstantImages.noTodoImage),
                               const SizedBox(height: 10,),
                               Text(ConstantStrings.noTasksText, style: TextStyle(color: CustomColors.primaryColor, fontWeight: FontWeight.w400, fontSize: 20),),
                               const SizedBox(height: 10,),
