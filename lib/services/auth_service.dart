@@ -111,6 +111,7 @@ class AuthService {
 Future del()async{
     try{
       //await FirebaseAuth.instance.currentUser!.unlink(EmailAuthProvider.PROVIDER_ID);
+      //
       await firebaseAuth.currentUser!.delete();
     }catch(e){
         debugPrint('${e}');
