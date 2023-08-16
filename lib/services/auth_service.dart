@@ -126,6 +126,7 @@ class AuthService {
       //await firebaseAuth.currentUser!.delete();
     } catch (e) {
       debugPrint('$e');
+
     }
   }
 
