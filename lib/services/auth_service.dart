@@ -5,15 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthService {
-
-  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   //Register new user
   Future<User?> register(String email, String password,
       BuildContext context) async {
     try {
-      UserCredential userCredential = await firebaseAuth
+      UserCredential userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
       CollectionReference<Object?> usersCollection = firestore.collection(
           'users');
@@ -37,7 +35,7 @@ class AuthService {
   Future<User?> login(String email, String password,
       BuildContext context) async {
     try {
-      UserCredential userCredential = await FirebaseAuth.instance
+      final UserCredential userCredential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
       CollectionReference<Object?> usersCollection = firestore.collection(
           'users');
@@ -89,8 +87,7 @@ class AuthService {
 
   // Sign Out
   Future<void> signOut() async {
-    final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-    await firebaseAuth.signOut();
+    await FirebaseAuth.instance.signOut();
   }
 
   Future insertTodoUser(Timestamp create, String title, String time, bool isDone) async {
@@ -111,11 +108,11 @@ class AuthService {
 
 Future del(BuildContext context)async{
     try{
-      await firestore.collection('users').doc(firebaseAuth.currentUser!.uid).delete();
+      await firestore.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).delete();
       // ignore: use_build_context_synchronously
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const LoginScreen()),(route) => false);
-      await firebaseAuth.currentUser!.unlink(EmailAuthProvider.PROVIDER_ID);
-      await firebaseAuth.currentUser!.unlink(GoogleAuthProvider.PROVIDER_ID);
+      await FirebaseAuth.instance.currentUser!.unlink(EmailAuthProvider.PROVIDER_ID);
+      await FirebaseAuth.instance.currentUser!.unlink(GoogleAuthProvider.PROVIDER_ID);
       //await firebaseAuth.currentUser!.reauthenticateWithCredential(EmailAuthProvider.credential(email: email, password: password));
       //await firebaseAuth.currentUser!.delete();
     }catch(e){

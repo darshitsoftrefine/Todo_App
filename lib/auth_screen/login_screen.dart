@@ -4,7 +4,9 @@ import 'package:demo/auth_screen/custom_field.dart';
 import 'package:demo/auth_screen/register_screen.dart';
 import 'package:demo/themes_and_constants/image_constants.dart';
 import 'package:demo/themes_and_constants/themes.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import '../screens/bottom_bar.dart';
 import '../services/auth_service.dart';
 import '../themes_and_constants/string_constants.dart';
 
@@ -67,9 +69,13 @@ class _LoginScreenState extends State<LoginScreen> {
                                 // });
                                 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text(ConstantStrings.snackText), backgroundColor: Colors.red,));
                               } else {
+                                User? result = await AuthService().login(emailController.text, passwordController.text, context);
+                                if(result != null){
+                                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> BottomBar(result)), (route) => false);
+                                }
                                 // isLoading ? const CircularProgressIndicator():
                                 //prefs.setString('email', emailController.text);
-                                await AuthService().login(emailController.text, passwordController.text, context);
+                                //await AuthService().login(emailController.text, passwordController.text, context);
 
                               }
                               // setState(() {
@@ -106,7 +112,13 @@ class _LoginScreenState extends State<LoginScreen> {
                         children: [
                           ElevatedButton(
                             onPressed: () async{
-                              await AuthService().signInWithGoogle();
+                              //await AuthService().signInWithGoogle();
+                              User? result = await AuthService().signInWithGoogle();
+                              if(result != null) {
+                                Navigator.pushAndRemoveUntil(context,
+                                    MaterialPageRoute(builder: (context) => BottomBar(result)), (
+                                        route) => false);
+                              }
                             },
                             style: ElevatedButton.styleFrom(
                               foregroundColor: Colors.white, backgroundColor: CustomColors.backgroundColor, padding: const EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 5),
