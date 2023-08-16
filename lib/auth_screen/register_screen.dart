@@ -73,7 +73,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               onPressed: () async{
                                 if(emailController.text.isEmpty || passwordController.text.isEmpty){
                                   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text(ConstantStrings.snackText), backgroundColor: Colors.red,));
-                                } else {
+                                } else if(passwordController.text.length <= 7){
+                                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Please enter a password with more than 6 characters"), backgroundColor: Colors.red,));
+                                }
+                                else {
                                   User? result = await AuthService().register(emailController.text, passwordController.text, context);
                                     // ignore: use_build_context_synchronously
                                     Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> BottomBar(result!)), (route) => false);

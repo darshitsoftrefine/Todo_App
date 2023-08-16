@@ -6,6 +6,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthService {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
   //Register new user
   Future<User?> register(String email, String password,
@@ -61,7 +62,8 @@ class AuthService {
     try {
       GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
       if (googleUser != null) {
-        GoogleSignInAuthentication? googleAuth = await googleUser.authentication;
+        GoogleSignInAuthentication? googleAuth = await googleUser
+            .authentication;
         AuthCredential credential = GoogleAuthProvider.credential(
           accessToken: googleAuth.accessToken,
           idToken: googleAuth.idToken,
@@ -90,10 +92,12 @@ class AuthService {
     await FirebaseAuth.instance.signOut();
   }
 
-  Future insertTodoUser(Timestamp create, String title, String time, bool isDone) async {
+  Future insertTodoUser(Timestamp create, String title, String time,
+      bool isDone) async {
     final FirebaseAuth auth = FirebaseAuth.instance;
     var ui = auth.currentUser?.uid;
-    final CollectionReference collection = FirebaseFirestore.instance.collection('users');
+    final CollectionReference collection = FirebaseFirestore.instance
+        .collection('users');
     final DocumentReference document = collection.doc(ui);
     final CollectionReference subcollection = document.collection('todo');
 
@@ -106,64 +110,67 @@ class AuthService {
     });
   }
 
-Future del(BuildContext context)async{
-    try{
-      await firestore.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).delete();
+  Future del(BuildContext context) async {
+    try {
+      await firestore.collection('users').doc(
+          FirebaseAuth.instance.currentUser!.uid).delete();
       // ignore: use_build_context_synchronously
-      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const LoginScreen()),(route) => false);
-      await FirebaseAuth.instance.currentUser!.unlink(EmailAuthProvider.PROVIDER_ID);
-      await FirebaseAuth.instance.currentUser!.unlink(GoogleAuthProvider.PROVIDER_ID);
+      Navigator.pushAndRemoveUntil(context,
+          MaterialPageRoute(builder: (context) => const LoginScreen()), (
+              route) => false);
+      await FirebaseAuth.instance.currentUser!.unlink(
+          EmailAuthProvider.PROVIDER_ID);
+      await FirebaseAuth.instance.currentUser!.unlink(
+          GoogleAuthProvider.PROVIDER_ID);
       //await firebaseAuth.currentUser!.reauthenticateWithCredential(EmailAuthProvider.credential(email: email, password: password));
       //await firebaseAuth.currentUser!.delete();
-    }catch(e){
-        debugPrint('$e');
+    } catch (e) {
+      debugPrint('$e');
     }
-}
-  // Future deleteUser(BuildContext context) async {
-  //   try {
-  //     await firebaseAuth.currentUser!.delete();
-  //
-  //   } on FirebaseAuthException catch (e) {
-  //     debugPrint('${e}');
-  //
-  //     if (e.code == "requires-recent-login") {
-  //       await _reauthenticateAndDelete();
-  //     } else {
-  //       // Handle other Firebase exceptions
-  //     }
-  //   } catch (e) {
-  //     debugPrint('${e}');
-  //
-  //     // Handle general exception
-  //   }
-    // var uid = firebaseAuth.currentUser!.uid;
-    // var docRef = FirebaseFirestore.instance.collection('users').doc(uid);
-    // // ignore: use_build_context_synchronously
-    // Navigator.push(
-    //   context,
-    //   MaterialPageRoute(builder: (context) => const LoginScreen()),
-    // );
-    // await firebaseAuth.currentUser!.delete();
-    // await docRef.delete();
-    //
-
   }
-  // Future<void> _reauthenticateAndDelete() async {
-  //   try {
-  //     final providerData = firebaseAuth.currentUser?.providerData.first;
-  //
-  //     if (GoogleAuthProvider().providerId == providerData!.providerId) {
-  //       await firebaseAuth.currentUser!
-  //           .reauthenticateWithProvider(GoogleAuthProvider());
-  //     }
-  //     else if (EmailAuthProvider.PROVIDER_ID == providerData.providerId) {
-  //       await firebaseAuth.currentUser!
-  //           .reauthenticateWithProvider(EmailAuthProvider as AuthProvider);
-  //     }
-  //
-  //     await firebaseAuth.currentUser?.delete();
-  //   } catch (e) {
-  //     // Handle exceptions
-  //   }
-  // }
 
+  Future deleteUser(BuildContext context) async {
+    try {
+      await firebaseAuth.currentUser!.delete();
+    } on FirebaseAuthException catch (e) {
+      debugPrint('${e}');
+
+      if (e.code == "requires-recent-login") {
+        await _reauthenticateAndDelete();
+      } else {
+        // Handle other Firebase exceptions
+      }
+    } catch (e) {
+      debugPrint('${e}');
+
+      // Handle general exception
+    }
+    var uid = firebaseAuth.currentUser?.uid;
+    var docRef = FirebaseFirestore.instance.collection('users').doc(uid);
+    // ignore: use_build_context_synchronously
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (context) => const LoginScreen()), (route) => false);
+    await firebaseAuth.currentUser?.delete();
+    await docRef.delete();
+  }
+
+  Future<void> _reauthenticateAndDelete() async {
+    try {
+      final providerData = firebaseAuth.currentUser?.providerData.first;
+
+      if (GoogleAuthProvider().providerId == providerData?.providerId) {
+        await firebaseAuth.currentUser!
+            .reauthenticateWithProvider(GoogleAuthProvider());
+      }
+      else if (EmailAuthProvider.PROVIDER_ID == providerData?.providerId) {
+        await firebaseAuth.currentUser!
+            .reauthenticateWithProvider(EmailAuthProvider as OAuthProvider);
+      }
+
+      await firebaseAuth.currentUser?.delete();
+    } catch (e) {
+      // Handle exceptions
+    }
+  }
+}

@@ -45,7 +45,7 @@ class _SettingsState extends State<Settings> {
               const SizedBox(height: 20,),
               ElevatedButton.icon(
                 onPressed: () async{
-                  await AuthService().del(context);
+                  await AuthService().deleteUser(context);
                   },
                 icon: const Icon(
                   Icons.delete,
