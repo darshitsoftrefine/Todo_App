@@ -64,7 +64,7 @@ class _SettingsState extends State<Settings> {
                 Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const LoginScreen()),(route) => false);
               }, icon: const Icon(Icons.logout, color: Colors.red, size: 24,), label: const Text("Log out", style: TextStyle(color: Colors.red, fontSize: 16, fontWeight: FontWeight.w400),),
                 style: ElevatedButton.styleFrom(
-                  padding: EdgeInsets.only(left: 3),
+                  padding: const EdgeInsets.only(left: 3),
                     backgroundColor: Colors.black
                 ),)
             ],

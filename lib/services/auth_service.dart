@@ -1,15 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:demo/auth_screen/login_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_auth_platform_interface/src/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthService {
 
-  static FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-  static FirebaseFirestore firestore = FirebaseFirestore.instance;
+  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   //Register new user
   Future<User?> register(String email, String password,
@@ -39,7 +37,7 @@ class AuthService {
   Future<User?> login(String email, String password,
       BuildContext context) async {
     try {
-      UserCredential userCredential = await firebaseAuth
+      UserCredential userCredential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
       CollectionReference<Object?> usersCollection = firestore.collection(
           'users');
@@ -51,6 +49,7 @@ class AuthService {
         'email': userCredential.user!.email.toString(),
         'uid': userCredential.user!.uid,
       });
+      print(userCredential.user);
       return userCredential.user;
     } on FirebaseAuthException catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -64,8 +63,7 @@ class AuthService {
     try {
       GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
       if (googleUser != null) {
-        GoogleSignInAuthentication? googleAuth = await googleUser
-            .authentication;
+        GoogleSignInAuthentication? googleAuth = await googleUser.authentication;
         AuthCredential credential = GoogleAuthProvider.credential(
           accessToken: googleAuth.accessToken,
           idToken: googleAuth.idToken,
@@ -77,9 +75,10 @@ class AuthService {
         DocumentReference<Object?> userDoc = usersCollection.doc(
             userCredential.user?.uid);
         userDoc.set({
-          'email': userCredential.user!.email.toString(),
+          'email': userCredential.user!.email,
           'uid': userCredential.user!.uid,
         });
+        print(userCredential.user);
         return userCredential.user;
       }
     } catch (e) {
