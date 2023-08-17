@@ -22,7 +22,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   TextEditingController passwordController = TextEditingController();
   TextEditingController nameController = TextEditingController();
   TextEditingController cityController = TextEditingController();
-  bool isLoading = false;
+  ValueNotifier<bool> isLoading = ValueNotifier<bool>(false);
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +36,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             shrinkWrap: true,
             slivers: [
               SliverFillRemaining(
+                fillOverscroll: true,
                 hasScrollBody: false,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -62,77 +63,44 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     const SizedBox(height: 25,),
 
                     // Register Button
-                    isLoading ? const Center(child: CircularProgressIndicator()): Row(
-                      children: [
-                        Expanded(
-                          child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor: CustomColors.circleColor,
-                                  fixedSize: const Size(360, 50)
-                              ),
-                              onPressed: () async{
-                                if(emailController.text.isEmpty || passwordController.text.isEmpty){
-                                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text(ConstantStrings.snackText), backgroundColor: Colors.red,));
-                                } else if(passwordController.text.length <= 7){
-                                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Please enter a password with more than 6 characters"), backgroundColor: Colors.red,));
-                                }
-                                else {
-                                  User? result = await AuthService().register(emailController.text, passwordController.text, context);
+                    ValueListenableBuilder(valueListenable: isLoading, builder: (context, loading, child) {
+                      return loading ? const Center(child: CircularProgressIndicator()) : Row(
+                        children: [
+                          Expanded(
+                            child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: CustomColors.circleColor,
+                                    fixedSize: const Size(360, 50)
+                                ),
+                                onPressed: () async {
+                                  if (emailController.text.isEmpty ||
+                                      passwordController.text.isEmpty) {
+                                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                                      content: Text(ConstantStrings.snackText),
+                                      backgroundColor: Colors.red,));
+                                  } else if (passwordController.text.length <= 7) {
+                                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                                      content: Text(
+                                          "Please enter a password with more than 6 characters"),
+                                      backgroundColor: Colors.red,));
+                                  }
+                                  else {
+                                    isLoading.value = !isLoading.value;
+                                    Future.delayed(const Duration(seconds: 2), () {
+                                      isLoading.value = !isLoading.value;
+                                    });
+                                    User? result = await AuthService().register(
+                                        emailController.text, passwordController.text, context);
                                     // ignore: use_build_context_synchronously
-                                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> BottomBar(result!)), (route) => false);
-
-                                }
-                                setState(() {
-                                  isLoading = false;
-                                });
-                              }, child: const Text(ConstantStrings.registerText)),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 18,),
-                    Row(
-                        children: const <Widget>[
-                          Expanded(
-                              child: Divider(color: Colors.grey,)
+                                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
+                                        builder: (context) => BottomBar(result!)), (
+                                        route) => false);
+                                  }
+                                }, child: const Text(ConstantStrings.registerText)),
                           ),
-
-                          Text(ConstantStrings.orText, style: TextStyle(color: Colors.grey),),
-                          Expanded(
-                              child: Divider(color: Colors.grey,)
-                          ),
-                        ]
-                    ),
-                    const SizedBox(height: 10,),
-
-                    //Google Sign In Button
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        isLoading ? const CircularProgressIndicator():
-                        ElevatedButton(
-                          onPressed: () async{
-                            await AuthService().signInWithGoogle();
-                            setState(() {
-                              isLoading = false;
-                            });
-                          },
-                          style: ElevatedButton.styleFrom(
-                            foregroundColor: Colors.white, backgroundColor: CustomColors.backgroundColor, padding: const EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 5),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                side: BorderSide(color: CustomColors.circColor)
-                            ),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Image.asset(ConstantImages.googleImage, width: 30, height: 30,),
-                              const SizedBox(width: 10),
-                              const Text(ConstantStrings.registerGoogleText),
-                            ],
-                          ),
-                        )
-                      ],
+                        ],
+                      );
+                    }
                     ),
                     const SizedBox(height: 20,),
 

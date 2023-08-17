@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:demo/themes_and_constants/custom_widgets.dart';
 import 'package:demo/themes_and_constants/string_constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -32,6 +31,7 @@ class _CompletedListState extends State<CompletedList> {
           shrinkWrap: true,
           slivers: [
           SliverFillRemaining(
+            fillOverscroll: true,
           hasScrollBody: true,
           child: Padding(
           padding: const EdgeInsets.only(top: 15.0, right: 15.0, left: 15.0, bottom: 15),
@@ -85,7 +85,7 @@ class _CompletedListState extends State<CompletedList> {
                   }
               ),
               //Delete All completed Tasks
-              Expanded(child: SizedBox()),
+              const Expanded(child: SizedBox()),
               Center(
                 child: ElevatedButton(onPressed: () async {
                   await FirestoreCompleteService().deleteTodo();
@@ -105,26 +105,6 @@ class _CompletedListState extends State<CompletedList> {
           ),
         ),
       ),
-            // SliverToBoxAdapter(
-            //   child: Padding(
-            //     padding: const EdgeInsets.only(bottom: 18.0),
-            //     child: Center(
-            //       child: ElevatedButton(onPressed: () async {
-            //         await FirestoreCompleteService().deleteTodo();
-            //       },
-            //         style: ElevatedButton.styleFrom(
-            //           minimumSize: const Size(160, 40),
-            //           backgroundColor: CustomColors.circleColor,
-            //           shape: RoundedRectangleBorder(
-            //               borderRadius: BorderRadius.circular(32)),
-            //         ),
-            //         child: const Text(
-            //           ConstantStrings.clearText,
-            //           style: TextStyle(fontSize: 18, color:Colors.white),
-            //         ),),
-            //     ),
-            //   ),
-            // )
         ]
       ),
     );

@@ -48,7 +48,6 @@ class AuthService {
         'email': userCredential.user!.email.toString(),
         'uid': userCredential.user!.uid,
       });
-      print(userCredential.user);
       return userCredential.user;
     } on FirebaseAuthException catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -78,7 +77,6 @@ class AuthService {
           'email': userCredential.user!.email,
           'uid': userCredential.user!.uid,
         });
-        print(userCredential.user);
         return userCredential.user;
       }
     } catch (e) {
@@ -134,7 +132,7 @@ class AuthService {
     try {
       await firebaseAuth.currentUser!.delete();
     } on FirebaseAuthException catch (e) {
-      debugPrint('${e}');
+      debugPrint('$e');
 
       if (e.code == "requires-recent-login") {
         await _reauthenticateAndDelete();
@@ -142,7 +140,7 @@ class AuthService {
         // Handle other Firebase exceptions
       }
     } catch (e) {
-      debugPrint('${e}');
+      debugPrint('$e');
 
       // Handle general exception
     }

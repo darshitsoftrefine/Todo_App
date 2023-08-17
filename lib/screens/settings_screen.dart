@@ -20,7 +20,6 @@ class _SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
     String? text = auth.currentUser!.email;
-    print(auth.currentUser!.displayName);
     return Scaffold(
       backgroundColor: CustomColors.backgroundColor,
       appBar: AppBar(
@@ -39,7 +38,7 @@ class _SettingsState extends State<Settings> {
               const SizedBox(height: 30,),
 
               //Text(auth.currentUser!.email!.substring(0, text!.lastIndexOf("@")), style: TextStyle(color: Colors.white),),
-              auth.currentUser!.displayName == null? Text(auth.currentUser!.email!.substring(0, text?.lastIndexOf("@")),style: TextStyle(color: Colors.white, fontSize: 20),) :Text("${auth.currentUser!.displayName}",style: const TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w500),),
+              auth.currentUser!.displayName == null? Text(auth.currentUser!.email!.substring(0, text?.lastIndexOf("@")),style: const TextStyle(color: Colors.white, fontSize: 20),) :Text("${auth.currentUser!.displayName}",style: const TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w500),),
               const SizedBox(height: 20,),
               Text("${auth.currentUser!.email}", style: const TextStyle(color: Colors.white, fontSize: 14),),
               const SizedBox(height: 20,),

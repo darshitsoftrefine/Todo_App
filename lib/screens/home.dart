@@ -236,7 +236,6 @@ class _HomeState extends State<Home> {
 
                 // Firebase display of todo Tasks
                 StreamBuilder(
-
                     stream: firestore.collection('users').doc(uid).collection('todo').orderBy("create", descending: true).snapshots(),
                     builder: (context, AsyncSnapshot snapshot) {
                       if (snapshot.hasData) {
