@@ -16,6 +16,7 @@ class BottomBar extends StatefulWidget {
 
 class _BottomBarState extends State<BottomBar> {
   int _selectedIndex = 0;
+  ValueNotifier<int> selIndex =  ValueNotifier<int>(0);
 
   final List<Widget> _widgetOptions = <Widget>[
     Home(),
@@ -32,9 +33,16 @@ class _BottomBarState extends State<BottomBar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
-      ),
+      body:
+      // ValueListenableBuilder(
+      //   valueListenable: selIndex,
+      //   builder: (context, index, child){
+      //     return
+        Center(
+            child: _widgetOptions.elementAt(_selectedIndex),),
+      //     );
+      //   },
+      // ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         selectedItemColor: CustomColors.circColor,

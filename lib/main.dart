@@ -1,6 +1,5 @@
-import 'package:demo/screens/bottom_bar.dart';
-import 'package:demo/services/auth_service.dart';
 import 'package:demo/auth_screen/login_screen.dart';
+import 'package:demo/screens/bottom_bar.dart';
 import 'package:demo/services/notifications_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -12,12 +11,18 @@ Future<void> main() async{
   await Firebase.initializeApp();
   NotifyService().initNotification();
   tz.initializeTimeZones();
-  runApp(const MyApp()
+  runApp(MyApp()
       );
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MyApp extends StatefulWidget {
+  MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
@@ -32,12 +37,75 @@ class MyApp extends StatelessWidget {
         //stream:  AuthService.firebaseAuth.userChanges(),
         builder: (context, AsyncSnapshot snapshot){
           if(snapshot.hasData){
+            print(snapshot.data);
             return BottomBar(snapshot.data);
           }else {
-            return const LoginScreen();
+            return LoginScreen();
           }
         },
       )
     );
   }
 }
+
+// final auth = LocalAuthentication();
+//
+// late bool _canCheckBiometric;
+// bool authenticateds = false;
+//
+// late List<BiometricType> _availableBiometric;
+//
+// String authorized = "Not authorized";
+//
+// @override
+// void initState() {
+//   _checkBiometric();
+//   _getAvailableBiometric();
+//
+//   super.initState();
+// }
+//
+// Future<void> _checkBiometric() async {
+//   bool canCheckBiometric = false;
+//   try{
+//     canCheckBiometric = await auth.canCheckBiometrics;
+//   } on PlatformException catch(e){
+//     print(e);
+//   }
+//   if(!mounted) return;
+//   setState(() {
+//     _canCheckBiometric = canCheckBiometric;
+//   });
+// }
+//
+// Future _getAvailableBiometric() async {
+//   List<BiometricType> availableBiometric = [];
+//
+//   try {
+//     availableBiometric = await auth.getAvailableBiometrics();
+//   } on PlatformException catch (e) {
+//     print(e);
+//   }
+//
+//   setState(() {
+//     _availableBiometric = availableBiometric;
+//   });
+// }
+//
+// Future<void> _authenticate() async {
+//   bool authenticated = false;
+//   try {
+//     authenticated = await auth.authenticateWithBiometrics(
+//         localizedReason: "Scan your finger to authenticate",
+//         useErrorDialogs: true,
+//         stickyAuth: true);
+//   } on PlatformException catch (e) {
+//     print(e);
+//   }
+//   setState(() {
+//     authorized =
+//     authenticated ? "Authorized success" : "Failed to authenticate";
+//     authenticateds = authenticated;
+//     print(authorized);
+//   });
+// }
