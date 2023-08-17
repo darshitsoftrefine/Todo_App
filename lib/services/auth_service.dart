@@ -8,6 +8,7 @@ class AuthService {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
+
   //Register new user
   Future<User?> register(String email, String password,
       BuildContext context) async {
@@ -146,12 +147,12 @@ class AuthService {
     }
     var uid = firebaseAuth.currentUser?.uid;
     var docRef = FirebaseFirestore.instance.collection('users').doc(uid);
+    await firebaseAuth.currentUser?.delete();
+    await docRef.delete();
     // ignore: use_build_context_synchronously
     Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(builder: (context) => const LoginScreen()), (route) => false);
-    await firebaseAuth.currentUser?.delete();
-    await docRef.delete();
   }
 
   Future<void> _reauthenticateAndDelete() async {

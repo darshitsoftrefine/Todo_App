@@ -17,6 +17,7 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreenState extends State<RegisterScreen> {
 
   //Declaring Variables
+  late User result;
 
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -78,7 +79,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                                       content: Text(ConstantStrings.snackText),
                                       backgroundColor: Colors.red,));
-                                  } else if (passwordController.text.length <= 7) {
+                                  } else if (passwordController.text.length < 7) {
                                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                                       content: Text(
                                           "Please enter a password with more than 6 characters"),
@@ -89,11 +90,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     Future.delayed(const Duration(seconds: 2), () {
                                       isLoading.value = !isLoading.value;
                                     });
-                                    User? result = await AuthService().register(
-                                        emailController.text, passwordController.text, context);
+                                    result = (await AuthService().register(
+                                        emailController.text, passwordController.text, context))!;
                                     // ignore: use_build_context_synchronously
                                     Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
-                                        builder: (context) => BottomBar(result!)), (
+                                        builder: (context) => BottomBar(result)), (
                                         route) => false);
                                   }
                                 }, child: const Text(ConstantStrings.registerText)),
