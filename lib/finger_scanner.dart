@@ -1,10 +1,8 @@
-import 'dart:io';
-
+// ignore_for_file: use_build_context_synchronously
 import 'package:demo/screens/bottom_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:local_auth/local_auth.dart';
 
 
@@ -34,24 +32,16 @@ class _FingerState extends State<Finger> {
     super.initState();
   }
 
-  Future<bool> _willPopCallback() async {
-    SystemNavigator.pop();
-    // await showDialog or Show add banners or whatever
-    // thenreturn true;
-    // return true if the route to be popped
-    return true;
-  }
 
   Future<void> _checkBiometric() async {
     bool canCheckBiometric = false;
     try{
       canCheckBiometric = await auth.canCheckBiometrics;
-      print("Checking ${canCheckBiometric}");
       if(canCheckBiometric == false){
         Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> BottomBar()), (route) => false);
       }
     } on PlatformException catch(e){
-      print(e);
+      debugPrint('$e');
     }
     if(!mounted) return;
     setState(() {
@@ -64,9 +54,8 @@ class _FingerState extends State<Finger> {
 
     try {
       availableBiometric = await auth.getAvailableBiometrics();
-      print(availableBiometric);
     } on PlatformException catch (e) {
-      print(e);
+     debugPrint('$e');
     }
 
     setState(() {
@@ -83,17 +72,16 @@ class _FingerState extends State<Finger> {
           localizedReason: "Please hold your finger at the fingerprint scanner to verify your identity",
           useErrorDialogs: true,
           stickyAuth: true);
-      print("Hello ${auth.isDeviceSupported()}");
     } on PlatformException catch (e) {
-      print(e);
+      debugPrint('$e');
     }
     setState(() {
       authorized =
       authenticated ? "Authorized success" : "Failed to authenticate";
-      print(authorized);
-      print(authenticated);
     });
      authenticated? Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> BottomBar()), (route) => false) : null;
+     Navigator.pop(context);
+     Navigator.pop(context);
   }
 
   @override
@@ -103,14 +91,10 @@ class _FingerState extends State<Finger> {
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-     backgroundColor: Colors.black,
-    // appBar: AppBar(
-    //   backgroundColor: Colors.black,
-    //   leading: IconButton(onPressed: ()=> exit(0), icon: Icon(Icons.close),
-    //
-    //   ),
-    // ),
-  );
+  Widget build(BuildContext context) {
+    return const Scaffold(backgroundColor: Colors.black,);
+  }
+
+
   }
 
