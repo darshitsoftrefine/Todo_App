@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:demo/screens/bottom_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:local_auth/local_auth.dart';
 
 
@@ -14,6 +17,7 @@ class Finger extends StatefulWidget {
 
 class _FingerState extends State<Finger> {
   final auth = LocalAuthentication();
+  DateTime timeBackPressed = DateTime.now();
   late final User result;
 
   late bool _canCheckBiometric;
@@ -26,8 +30,16 @@ class _FingerState extends State<Finger> {
   void initState() {
     _checkBiometric();
     _getAvailableBiometric();
-
+    _authenticate();
     super.initState();
+  }
+
+  Future<bool> _willPopCallback() async {
+    SystemNavigator.pop();
+    // await showDialog or Show add banners or whatever
+    // thenreturn true;
+    // return true if the route to be popped
+    return true;
   }
 
   Future<void> _checkBiometric() async {
@@ -81,67 +93,24 @@ class _FingerState extends State<Finger> {
       print(authorized);
       print(authenticated);
     });
-     authenticated? Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> BottomBar()), (route) => false) : Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> BottomBar()), (route) => false);
+     authenticated? Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> BottomBar()), (route) => false) : null;
   }
+
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.blueGrey.shade600,
-      body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 12.0,     horizontal: 24.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Center(
-              child: Text(
-                "Login",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 48.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.symmetric(vertical: 50.0),
-              child: Column(
-                children: [
-                  Container(
-                    margin: const EdgeInsets.symmetric(
-                        vertical: 15.0),
-                    child: const Text(
-                      "Authenticate using your fingerprint instead of your password \n\n  If you don't have fingerprint option you can use your security pin instead",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.white,
-                          height: 1.5),
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.symmetric(
-                        vertical: 15.0),
-                    width: double.infinity,
-                    child: FloatingActionButton(
-                      onPressed: _authenticate,
-                      elevation: 0.0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30.0),
-                      ),
-                      child: const Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 24.0, vertical: 14.0),
-                        child: Text(
-                          "Authenticate",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            )
-          ],
-        ),
-      ),
-    );
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
   }
-}
+
+  @override
+  Widget build(BuildContext context) => Scaffold(
+     backgroundColor: Colors.black,
+    // appBar: AppBar(
+    //   backgroundColor: Colors.black,
+    //   leading: IconButton(onPressed: ()=> exit(0), icon: Icon(Icons.close),
+    //
+    //   ),
+    // ),
+  );
+  }
+
