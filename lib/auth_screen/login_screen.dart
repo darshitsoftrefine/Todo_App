@@ -79,7 +79,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     });
                                   User? result = await AuthService().login(emailController.text, passwordController.text, context);
                                   if(result != null){
-                                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> BottomBar(result)), (route) => false);
+                                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> BottomBar()), (route) => false);
                                   }
                                   // isLoading ? const CircularProgressIndicator():
                                   //prefs.setString('email', emailController.text);
@@ -131,7 +131,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 User? result = await AuthService().signInWithGoogle();
                                 if(result != null) {
                                   Navigator.pushAndRemoveUntil(context,
-                                      MaterialPageRoute(builder: (context) => BottomBar(result)), (
+                                      MaterialPageRoute(builder: (context) => BottomBar()), (
                                           route) => false);
                                 }
                               },

@@ -1,3 +1,5 @@
+import 'package:demo/screens/bottom_bar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:local_auth/local_auth.dart';
@@ -12,6 +14,7 @@ class Finger extends StatefulWidget {
 
 class _FingerState extends State<Finger> {
   final auth = LocalAuthentication();
+  late final User result;
 
   late bool _canCheckBiometric;
 
@@ -31,6 +34,10 @@ class _FingerState extends State<Finger> {
     bool canCheckBiometric = false;
     try{
       canCheckBiometric = await auth.canCheckBiometrics;
+      print("Checking ${canCheckBiometric}");
+      if(canCheckBiometric == false){
+        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> BottomBar()), (route) => false);
+      }
     } on PlatformException catch(e){
       print(e);
     }
@@ -45,6 +52,7 @@ class _FingerState extends State<Finger> {
 
     try {
       availableBiometric = await auth.getAvailableBiometrics();
+      print(availableBiometric);
     } on PlatformException catch (e) {
       print(e);
     }
@@ -57,10 +65,13 @@ class _FingerState extends State<Finger> {
   Future<void> _authenticate() async {
     bool authenticated = false;
     try {
-      authenticated = await auth.authenticateWithBiometrics(
-          localizedReason: "Scan your finger to authenticate",
+    //Deprecated Version use
+      authenticated = await auth.authenticate(
+        biometricOnly: false,
+          localizedReason: "Please hold your finger at the fingerprint scanner to verify your identity",
           useErrorDialogs: true,
           stickyAuth: true);
+      print("Hello ${auth.isDeviceSupported()}");
     } on PlatformException catch (e) {
       print(e);
     }
@@ -68,7 +79,9 @@ class _FingerState extends State<Finger> {
       authorized =
       authenticated ? "Authorized success" : "Failed to authenticate";
       print(authorized);
+      print(authenticated);
     });
+     authenticated? Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> BottomBar()), (route) => false) : Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> BottomBar()), (route) => false);
   }
   @override
   Widget build(BuildContext context) {
@@ -97,7 +110,7 @@ class _FingerState extends State<Finger> {
                     margin: const EdgeInsets.symmetric(
                         vertical: 15.0),
                     child: const Text(
-                      "Authenticate using your fingerprint instead of your password",
+                      "Authenticate using your fingerprint instead of your password \n\n  If you don't have fingerprint option you can use your security pin instead",
                       textAlign: TextAlign.center,
                       style: TextStyle(color: Colors.white,
                           height: 1.5),

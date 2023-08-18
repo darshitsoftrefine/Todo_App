@@ -94,7 +94,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                         emailController.text, passwordController.text, context))!;
                                     // ignore: use_build_context_synchronously
                                     Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
-                                        builder: (context) => BottomBar(result)), (
+                                        builder: (context) => BottomBar()), (
                                         route) => false);
                                   }
                                 }, child: const Text(ConstantStrings.registerText)),

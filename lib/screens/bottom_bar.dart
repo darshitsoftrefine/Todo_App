@@ -7,8 +7,7 @@ import '../themes_and_constants/string_constants.dart';
 import 'completed_list.dart';
 //ignore: must_be_immutable
 class BottomBar extends StatefulWidget {
-  User user;
-  BottomBar(this.user, {super.key});
+  BottomBar({super.key});
 
   @override
   State<BottomBar> createState() => _BottomBarState();
