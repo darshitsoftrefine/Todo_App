@@ -1,4 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
+import 'dart:io';
+
 import 'package:demo/screens/bottom_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -80,8 +82,6 @@ class _FingerState extends State<Finger> {
       authenticated ? "Authorized success" : "Failed to authenticate";
     });
      authenticated? Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> BottomBar()), (route) => false) : null;
-     Navigator.pop(context);
-     Navigator.pop(context);
   }
 
   @override
@@ -92,9 +92,21 @@ class _FingerState extends State<Finger> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(backgroundColor: Colors.black,);
+    return WillPopScope(
+        onWillPop: () => _onWillPop(context),
+        child: const Scaffold(backgroundColor: Colors.black,));
   }
 
+  Future<bool> _onWillPop(BuildContext context) async {
+    DateTime now = DateTime.now();
+    if (lastPressed == null || now.difference(lastPressed!) > Duration(seconds: 2)) {
+      lastPressed = now;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Press back again to exit.')));
+      return Future.value(false);
+    }
+    return Future.value(true);
+  }
 
+  DateTime? lastPressed;
   }
 
