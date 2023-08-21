@@ -6,11 +6,10 @@ import 'package:flutter/material.dart';
 import '../auth_screen/login_screen.dart';
 import '../services/auth_service.dart';
 import '../themes_and_constants/string_constants.dart';
-//ignore: must_be_immutable
 class SettingsScreen extends StatelessWidget {
   SettingsScreen({super.key});
 
-  FirebaseAuth auth = FirebaseAuth.instance;
+  final FirebaseAuth auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {

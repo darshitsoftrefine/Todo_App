@@ -4,7 +4,6 @@ import 'package:demo/themes_and_constants/themes.dart';
 import 'package:flutter/material.dart';
 import '../themes_and_constants/string_constants.dart';
 import 'completed_list.dart';
-//ignore: must_be_immutable
 class BottomBar extends StatefulWidget {
   const BottomBar({super.key});
 
@@ -31,8 +30,7 @@ class _BottomBarState extends State<BottomBar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:
-        Center(
+      body: Center(
             child: _widgetOptions.elementAt(_selectedIndex),),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,

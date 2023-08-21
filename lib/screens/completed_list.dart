@@ -5,11 +5,10 @@ import 'package:flutter/material.dart';
 import '../services/firestore_complete_service.dart';
 import '../themes_and_constants/image_constants.dart';
 import '../themes_and_constants/themes.dart';
-//ignore: must_be_immutable
 class CompletedList extends StatelessWidget {
   CompletedList({super.key});
 
-  FirebaseAuth auth = FirebaseAuth.instance;
+  final FirebaseAuth auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {

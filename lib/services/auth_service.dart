@@ -79,7 +79,7 @@ class AuthService {
         return userCredential.user;
       }
     } catch (e) {
-      //Error Message
+      debugPrint('$e');
     }
     return null;
   }
@@ -110,7 +110,6 @@ class AuthService {
     try {
       await firestore.collection('users').doc(
           FirebaseAuth.instance.currentUser!.uid).delete();
-      // ignore: use_build_context_synchronously
       Navigator.pushAndRemoveUntil(context,
           MaterialPageRoute(builder: (context) => LoginScreen()), (
               route) => false);

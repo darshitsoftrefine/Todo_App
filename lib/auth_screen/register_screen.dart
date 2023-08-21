@@ -5,22 +5,17 @@ import 'package:demo/themes_and_constants/themes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../services/auth_service.dart';
-//ignore: must_be_immutable
 class RegisterScreen extends StatelessWidget {
   RegisterScreen({super.key});
 
-  //Declaring Variables
-  late User result;
+  late final User result;
 
-  TextEditingController emailController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController cityController = TextEditingController();
 
-  TextEditingController passwordController = TextEditingController();
-
-  TextEditingController nameController = TextEditingController();
-
-  TextEditingController cityController = TextEditingController();
-
-  ValueNotifier<bool> isLoading = ValueNotifier<bool>(false);
+  final ValueNotifier<bool> isLoading = ValueNotifier<bool>(false);
 
   @override
   Widget build(BuildContext context) {
@@ -106,17 +101,15 @@ class RegisterScreen extends StatelessWidget {
                     Center(
                       child: TextButton(onPressed: (){
                         Navigator.pop(context);
-                      }, child: RichText(
-                        text: const TextSpan(
-                          text: ConstantStrings.alreadyAccountText,
-                          style: TextStyle(color: Colors.grey, fontSize: 12),
-                          children: [
-                            TextSpan(
-                              text: " ${ConstantStrings.loginText}",
-                              style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 12),
-                            ),
-                          ],
-                        ),
+                      }, child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                          Text(ConstantStrings.alreadyAccountText, style: TextStyle(color: Colors.grey, fontSize: 12),),
+                          Padding(
+                            padding: EdgeInsets.only(left: 4),
+                            child: Text(ConstantStrings.loginText, style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 12, ),),
+                          ),
+                        ],
                       )),
                     ),
                   ],

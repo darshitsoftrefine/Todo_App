@@ -1,5 +1,4 @@
 // ignore_for_file: use_build_context_synchronously
-
 import 'package:demo/auth_screen/custom_field.dart';
 import 'package:demo/auth_screen/register_screen.dart';
 import 'package:demo/themes_and_constants/image_constants.dart';
@@ -9,15 +8,15 @@ import 'package:flutter/material.dart';
 import '../screens/bottom_bar.dart';
 import '../services/auth_service.dart';
 import '../themes_and_constants/string_constants.dart';
-//ignore: must_be_immutable
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
 
+  late final User result;
   //Declaring Variables
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  ValueNotifier<bool> isLoading = ValueNotifier<bool>(false);
-  ValueNotifier<bool> isLoadingGoogle = ValueNotifier<bool>(false);
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final ValueNotifier<bool> isLoading = ValueNotifier<bool>(false);
+  final ValueNotifier<bool> isLoadingGoogle = ValueNotifier<bool>(false);
 
   @override
   Widget build(BuildContext context) {
@@ -64,10 +63,8 @@ class LoginScreen extends StatelessWidget {
                                     Future.delayed(const Duration(seconds: 2), () {
                                     isLoading.value = !isLoading.value;
                                     });
-                                  User? result = await AuthService().login(emailController.text, passwordController.text, context);
-                                  if(result != null){
-                                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> const BottomBar()), (route) => false);
-                                  }
+                                  result = (await AuthService().login(emailController.text, passwordController.text, context))!;
+                                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> const BottomBar()), (route) => false);
                                 }
                               },
                                 style: ElevatedButton.styleFrom(
@@ -87,7 +84,10 @@ class LoginScreen extends StatelessWidget {
                             Expanded(
                                 child: Divider(color: Colors.grey,)
                             ),
-                            Text(ConstantStrings.orText, style: TextStyle(color: Colors.grey),),
+                            Padding(
+                              padding: EdgeInsets.only(left: 4, right: 4),
+                              child: Text(ConstantStrings.orText, style: TextStyle(color: Colors.grey),),
+                            ),
                             Expanded(
                                 child: Divider(color: Colors.grey,)
                             ),
@@ -140,19 +140,18 @@ class LoginScreen extends StatelessWidget {
                             context,
                             MaterialPageRoute(builder: (context) => RegisterScreen()),
                           );
-                        }, child: RichText(
-                          text: const TextSpan(
-                            text: ConstantStrings.dontAccountText,
-                            style: TextStyle(color: Colors.grey, fontSize: 12),
-                            children: [
-                              TextSpan(
-                                text: ConstantStrings.registerText,
-                                style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 12, ),
-                              ),
-                            ],
-                          ),
-                        )),
+                        }, child:Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const [
+                            Text(ConstantStrings.dontAccountText, style: TextStyle(color: Colors.grey, fontSize: 12),),
+                            Padding(
+                              padding: EdgeInsets.only(left: 4),
+                              child: Text(ConstantStrings.registerText, style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 12, ),),
+                            ),
+                          ],
+                        )
                       ),
+                      )
                     ],
                   )
               ),
