@@ -29,7 +29,8 @@ class _MyAppState extends State<MyApp>{
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.purple,
+        accentColor: Colors.purple[200],
       ),
       home: StreamBuilder(
         stream: FirebaseAuth.instance.authStateChanges(),
@@ -37,7 +38,7 @@ class _MyAppState extends State<MyApp>{
           if(snapshot.hasData){
             return const FingerScanner();
           }else {
-            return const LoginScreen();
+            return LoginScreen();
           }
         },
       )

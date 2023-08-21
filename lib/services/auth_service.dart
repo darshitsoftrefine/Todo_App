@@ -9,7 +9,7 @@ class AuthService {
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
 
-  //Register new user
+
   Future<User?> register(String email, String password,
       BuildContext context) async {
     try {
@@ -32,7 +32,7 @@ class AuthService {
     return null;
   }
 
-  //Login existing user
+
   Future<User?> login(String email, String password,
       BuildContext context) async {
     try {
@@ -55,7 +55,7 @@ class AuthService {
     return null;
   }
 
-  // Google Sign In User
+
   Future<User?> signInWithGoogle() async {
     try {
       GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
@@ -84,7 +84,7 @@ class AuthService {
     return null;
   }
 
-  // Sign Out
+
   Future<void> signOut() async {
     await FirebaseAuth.instance.signOut();
   }
@@ -112,7 +112,7 @@ class AuthService {
           FirebaseAuth.instance.currentUser!.uid).delete();
       // ignore: use_build_context_synchronously
       Navigator.pushAndRemoveUntil(context,
-          MaterialPageRoute(builder: (context) => const LoginScreen()), (
+          MaterialPageRoute(builder: (context) => LoginScreen()), (
               route) => false);
       await FirebaseAuth.instance.currentUser!.unlink(
           EmailAuthProvider.PROVIDER_ID);
@@ -144,7 +144,7 @@ class AuthService {
     // ignore: use_build_context_synchronously
     Navigator.pushAndRemoveUntil(
       context,
-      MaterialPageRoute(builder: (context) => const LoginScreen()), (route) => false);
+      MaterialPageRoute(builder: (context) => LoginScreen()), (route) => false);
   }
 
   Future<void> _reauthenticateAndDelete() async {

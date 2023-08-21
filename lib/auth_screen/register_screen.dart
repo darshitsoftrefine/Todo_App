@@ -5,23 +5,21 @@ import 'package:demo/themes_and_constants/themes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../services/auth_service.dart';
-
-class RegisterScreen extends StatefulWidget {
-  const RegisterScreen({super.key});
-
-  @override
-  State<RegisterScreen> createState() => _RegisterScreenState();
-}
-
-class _RegisterScreenState extends State<RegisterScreen> {
+//ignore: must_be_immutable
+class RegisterScreen extends StatelessWidget {
+  RegisterScreen({super.key});
 
   //Declaring Variables
   late User result;
 
   TextEditingController emailController = TextEditingController();
+
   TextEditingController passwordController = TextEditingController();
+
   TextEditingController nameController = TextEditingController();
+
   TextEditingController cityController = TextEditingController();
+
   ValueNotifier<bool> isLoading = ValueNotifier<bool>(false);
 
   @override
@@ -47,7 +45,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     const SizedBox(height: 20,),
                     Text(ConstantStrings.registerNameText, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: CustomColors.primaryColor),),
                     const SizedBox(height: 15,),
-                    CustomField(label: ConstantStrings.registerLabelText, control: nameController, obs: false, hint: ConstantStrings.registerEmailHintText),
+                    CustomField(label: ConstantStrings.registerLabelText, control: nameController, obs: false, hint: ConstantStrings.registerNameHintText),
                     const SizedBox(height: 25,),
                     Text(ConstantStrings.emailText, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: CustomColors.primaryColor),),
                     const SizedBox(height: 15,),

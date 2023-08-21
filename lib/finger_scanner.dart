@@ -37,8 +37,6 @@ class _FingerScannerState extends State<FingerScanner> {
     try{
       canCheckBiometric = await auth.canCheckBiometrics;
       if(canCheckBiometric == false){
-        // ignore: use_build_context_synchronously
-        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> const BottomBar()), (route) => false);
       }
     } on PlatformException catch(e){
       debugPrint('$e');
@@ -71,8 +69,8 @@ class _FingerScannerState extends State<FingerScanner> {
           localizedReason: "Please hold your finger at the fingerprint scanner to verify your identity",
           useErrorDialogs: true,
           stickyAuth: true);
-    } on PlatformException catch (e) {
-      debugPrint('$e');
+    } on PlatformException {
+      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> const BottomBar()), (route) => false);
     }
     setState(() {
       authorized =

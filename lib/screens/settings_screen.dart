@@ -6,17 +6,12 @@ import 'package:flutter/material.dart';
 import '../auth_screen/login_screen.dart';
 import '../services/auth_service.dart';
 import '../themes_and_constants/string_constants.dart';
-
-class SettingsScreen extends StatefulWidget {
-  const SettingsScreen({super.key});
-
-  @override
-  State<SettingsScreen> createState() => _SettingsScreenState();
-}
-
-class _SettingsScreenState extends State<SettingsScreen> {
+//ignore: must_be_immutable
+class SettingsScreen extends StatelessWidget {
+  SettingsScreen({super.key});
 
   FirebaseAuth auth = FirebaseAuth.instance;
+
   @override
   Widget build(BuildContext context) {
     String? text = auth.currentUser!.email;
@@ -58,7 +53,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ElevatedButton.icon(onPressed: () async{
                 await AuthService().signOut();
                 // ignore: use_build_context_synchronously
-                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const LoginScreen()),(route) => false);
+                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => LoginScreen()),(route) => false);
               }, icon: const Icon(Icons.logout, color: Colors.red, size: 24,), label: const Text("Log out", style: TextStyle(color: Colors.red, fontSize: 16, fontWeight: FontWeight.w400),),
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.only(left: 3),

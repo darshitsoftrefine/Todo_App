@@ -6,7 +6,7 @@ class FirestoreTodoService {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   FirebaseAuth auth = FirebaseAuth.instance;
 
-  //Delete tasks
+
   Future deleteTodo() async {
     try{
       var uid = auth.currentUser!.uid;

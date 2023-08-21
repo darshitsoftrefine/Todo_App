@@ -10,7 +10,7 @@ class ConstantStrings {
   static const googleLoginText = 'Login with Google';
 
   static const snackText = "All Fields are required";
-  static const dontAccountText = "Don't have an account ?";
+  static const dontAccountText = "Don't have an account ? ";
   static const settingsText = "Profile";
 
 
@@ -18,12 +18,13 @@ class ConstantStrings {
   static const registerNameText = "Username";
   static const registerEmailHIntText = 'Enter your Username';
   static const registerLabelText = 'Name';
+  static const registerNameHintText = "John Maverick";
   static const registerEmailHintText = 'name@company.com';
   static const registerCityText = "City";
   static const registerCityHintText = 'Kolkata';
   static const registerGoogleText = 'Register with Google';
   static const alreadyAccountText = 'Already have an account ?';
-  static const orText = 'or';
+  static const orText = ' or ';
 
 
   static const noTodoTitle = "What do you want to do today?";

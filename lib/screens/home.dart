@@ -23,7 +23,6 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  //Declaring Variables
   TextEditingController titleController = TextEditingController();
   final TextEditingController _desc = TextEditingController();
   TextEditingController timeController = TextEditingController();
@@ -31,7 +30,7 @@ class _HomeState extends State<Home> {
   FirebaseAuth auth = FirebaseAuth.instance;
 
 
-  //Notifications Logic
+
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
@@ -64,7 +63,6 @@ class _HomeState extends State<Home> {
         payload: 'Ths s the data');
   }
 
-  //Notifications cancel
   void stopNotifications() async {
     flutterLocalNotificationsPlugin.cancel(01);
   }
@@ -81,7 +79,7 @@ class _HomeState extends State<Home> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            //Delete Button after checkboxListTile has been selected
+
             FloatingActionButton(
                 heroTag: "btn1",
                 onPressed: () async {
@@ -92,9 +90,10 @@ class _HomeState extends State<Home> {
                 child: const Icon(
                   Icons.check,
                   size: 30,
+                  color: Colors.white,
                 )),
 
-            //Bottom Sheet to Add Task and Time
+
             FloatingActionButton(
               heroTag: "btn2",
               onPressed: () {
@@ -206,6 +205,7 @@ class _HomeState extends State<Home> {
               child: const Icon(
                 Icons.add,
                 size: 30,
+                color: Colors.white,
               ),
             ),
           ],
@@ -234,7 +234,6 @@ class _HomeState extends State<Home> {
                   height: 10,
                 ),
 
-                // Firebase display of todo Tasks
                 StreamBuilder(
                     stream: firestore.collection('users').doc(uid).collection('todo').orderBy("create", descending: true).snapshots(),
                     builder: (context, AsyncSnapshot snapshot) {

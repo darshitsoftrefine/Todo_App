@@ -9,25 +9,16 @@ import 'package:flutter/material.dart';
 import '../screens/bottom_bar.dart';
 import '../services/auth_service.dart';
 import '../themes_and_constants/string_constants.dart';
+//ignore: must_be_immutable
+class LoginScreen extends StatelessWidget {
+  LoginScreen({super.key});
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
-
-  @override
-  State<LoginScreen> createState() => _LoginScreenState();
-}
-
-class _LoginScreenState extends State<LoginScreen> {
   //Declaring Variables
-
-
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  //bool isLoading = false;
   ValueNotifier<bool> isLoading = ValueNotifier<bool>(false);
-  ValueNotifier<bool> isLoadingGoog = ValueNotifier<bool>(false);
+  ValueNotifier<bool> isLoadingGoogle = ValueNotifier<bool>(false);
 
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,18 +50,14 @@ class _LoginScreenState extends State<LoginScreen> {
                       const SizedBox(height: 15,),
                       CustomField(label: ConstantStrings.passwordText, control: passwordController, obs: true, hint: ConstantStrings.passwordHintText,),
                       const SizedBox(height: 25,),
-                      //Expanded(child: SizedBox()),
-                      //Login Button
-                      //isLoading ? const Center(child: CircularProgressIndicator()):
+
                       ValueListenableBuilder(valueListenable: isLoading, builder: (context, loading, child){
                         return loading? const Center(child: CircularProgressIndicator()): Row(
                           children: [
                             Expanded(
                               child: ElevatedButton(onPressed: () async{
                                 if(emailController.text.isEmpty || passwordController.text.isEmpty){
-                                  // setState(() {
-                                  //   isLoading = true;
-                                  // });
+
                                   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text(ConstantStrings.snackText), backgroundColor: Colors.red,));
                                 } else {
                                   isLoading.value = !isLoading.value;
@@ -81,14 +68,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   if(result != null){
                                     Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> const BottomBar()), (route) => false);
                                   }
-                                  // isLoading ? const CircularProgressIndicator():
-                                  //prefs.setString('email', emailController.text);
-                                  //await AuthService().login(emailController.text, passwordController.text, context);
-
                                 }
-                                // setState(() {
-                                //   isLoading = false;
-                                // });
                               },
                                 style: ElevatedButton.styleFrom(
                                     backgroundColor: CustomColors.circleColor,
@@ -107,7 +87,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             Expanded(
                                 child: Divider(color: Colors.grey,)
                             ),
-                            Text(" ${ConstantStrings.orText}", style: TextStyle(color: Colors.grey),),
+                            Text(ConstantStrings.orText, style: TextStyle(color: Colors.grey),),
                             Expanded(
                                 child: Divider(color: Colors.grey,)
                             ),
@@ -117,16 +97,15 @@ class _LoginScreenState extends State<LoginScreen> {
                       const SizedBox(height: 20,),
 
                       //Google Sign in Button
-                      ValueListenableBuilder(valueListenable: isLoadingGoog, builder: (context, loading, child){
+                      ValueListenableBuilder(valueListenable: isLoadingGoogle, builder: (context, loading, child){
                         return loading ? const Center(child: CircularProgressIndicator(),):Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             ElevatedButton(
                               onPressed: () async{
-                                //await AuthService().signInWithGoogle();
-                                isLoadingGoog.value = !isLoadingGoog.value;
+                                isLoadingGoogle.value = !isLoadingGoogle.value;
                                 Future.delayed(const Duration(seconds: 2), () {
-                                  isLoadingGoog.value = !isLoadingGoog.value;
+                                  isLoadingGoogle.value = !isLoadingGoogle.value;
                                 });
                                 User? result = await AuthService().signInWithGoogle();
                                 if(result != null) {
@@ -154,13 +133,12 @@ class _LoginScreenState extends State<LoginScreen> {
                           ],
                         );
                       }),
-
                       const SizedBox(height: 30,),
                       Center(
                         child: TextButton(onPressed: (){
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => const RegisterScreen()),
+                            MaterialPageRoute(builder: (context) => RegisterScreen()),
                           );
                         }, child: RichText(
                           text: const TextSpan(
@@ -168,8 +146,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             style: TextStyle(color: Colors.grey, fontSize: 12),
                             children: [
                               TextSpan(
-                                text: " ${ConstantStrings.registerText}",
-                                style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 12),
+                                text: ConstantStrings.registerText,
+                                style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 12, ),
                               ),
                             ],
                           ),
@@ -178,7 +156,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     ],
                   )
               ),
-              const SliverToBoxAdapter(child: SizedBox(height: 10,),)
             ],
           ),
         )
