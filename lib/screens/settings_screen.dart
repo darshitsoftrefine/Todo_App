@@ -7,14 +7,14 @@ import '../auth_screen/login_screen.dart';
 import '../services/auth_service.dart';
 import '../themes_and_constants/string_constants.dart';
 
-class Settings extends StatefulWidget {
-  const Settings({super.key});
+class SettingsScreen extends StatefulWidget {
+  const SettingsScreen({super.key});
 
   @override
-  State<Settings> createState() => _SettingsState();
+  State<SettingsScreen> createState() => _SettingsScreenState();
 }
 
-class _SettingsState extends State<Settings> {
+class _SettingsScreenState extends State<SettingsScreen> {
 
   FirebaseAuth auth = FirebaseAuth.instance;
   @override
@@ -36,8 +36,6 @@ class _SettingsState extends State<Settings> {
             children: [
               auth.currentUser!.photoURL == null? const CircleAvatar(backgroundImage: AssetImage(ConstantImages.placeHoldImage), radius: 50,): CircleAvatar(backgroundImage: NetworkImage('${auth.currentUser!.photoURL}'), radius: 50,),
               const SizedBox(height: 30,),
-
-              //Text(auth.currentUser!.email!.substring(0, text!.lastIndexOf("@")), style: TextStyle(color: Colors.white),),
               auth.currentUser!.displayName == null? Text(auth.currentUser!.email!.substring(0, text?.lastIndexOf("@")),style: const TextStyle(color: Colors.white, fontSize: 20),) :Text("${auth.currentUser!.displayName}",style: const TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w500),),
               const SizedBox(height: 20,),
               Text("${auth.currentUser!.email}", style: const TextStyle(color: Colors.white, fontSize: 14),),

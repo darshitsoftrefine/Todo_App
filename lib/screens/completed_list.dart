@@ -32,16 +32,16 @@ class _CompletedListState extends State<CompletedList> {
           slivers: [
           SliverFillRemaining(
             fillOverscroll: true,
-          hasScrollBody: true,
-          child: Padding(
-          padding: const EdgeInsets.only(top: 15.0, right: 15.0, left: 15.0, bottom: 15),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 10,),
+            hasScrollBody: true,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 15.0, right: 15.0, left: 15.0, bottom: 15),
+                 child: Column(
+                   crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 10,),
 
               //Completed Tasks display
-              StreamBuilder(
+                      StreamBuilder(
                   stream: FirebaseFirestore.instance.collection('users').doc(uid).collection('completed').snapshots(),
                   builder: (context, AsyncSnapshot snapshot) {
                     if(snapshot.hasData){
@@ -85,9 +85,9 @@ class _CompletedListState extends State<CompletedList> {
                   }
               ),
               //Delete All completed Tasks
-              const Expanded(child: SizedBox()),
-              Center(
-                child: ElevatedButton(onPressed: () async {
+                  const Expanded(child: SizedBox()),
+                  Center(
+                    child: ElevatedButton(onPressed: () async {
                   await FirestoreCompleteService().deleteTodo();
                 },
                   style: ElevatedButton.styleFrom(
@@ -96,7 +96,7 @@ class _CompletedListState extends State<CompletedList> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(32)),
                   ),
-                  child: const Text(
+                      child: const Text(
                     ConstantStrings.clearText,
                     style: TextStyle(fontSize: 18, color:Colors.white),
                   ),),

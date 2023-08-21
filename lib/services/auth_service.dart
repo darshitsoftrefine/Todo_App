@@ -18,7 +18,6 @@ class AuthService {
       CollectionReference<Object?> usersCollection = firestore.collection(
           'users');
 
-// Specify the id of the document you want to create or update
       DocumentReference<Object?> userDoc = usersCollection.doc(
           userCredential.user?.uid);
       userDoc.set({
@@ -42,7 +41,6 @@ class AuthService {
       CollectionReference<Object?> usersCollection = firestore.collection(
           'users');
 
-// Specify the id of the document you want to create or update
       DocumentReference<Object?> userDoc = usersCollection.doc(
           userCredential.user?.uid);
       userDoc.set({
@@ -105,7 +103,6 @@ class AuthService {
       'isDone': isDone,
       'time': time,
       'title': title,
-      // Add other properties as needed
     });
   }
 
@@ -121,8 +118,6 @@ class AuthService {
           EmailAuthProvider.PROVIDER_ID);
       await FirebaseAuth.instance.currentUser!.unlink(
           GoogleAuthProvider.PROVIDER_ID);
-      //await firebaseAuth.currentUser!.reauthenticateWithCredential(EmailAuthProvider.credential(email: email, password: password));
-      //await firebaseAuth.currentUser!.delete();
     } catch (e) {
       debugPrint('$e');
 
@@ -138,12 +133,9 @@ class AuthService {
       if (e.code == "requires-recent-login") {
         await _reauthenticateAndDelete();
       } else {
-        // Handle other Firebase exceptions
       }
     } catch (e) {
       debugPrint('$e');
-
-      // Handle general exception
     }
     var uid = firebaseAuth.currentUser?.uid;
     var docRef = FirebaseFirestore.instance.collection('users').doc(uid);

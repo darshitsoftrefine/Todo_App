@@ -1,6 +1,3 @@
-// ignore_for_file: use_build_context_synchronously
-import 'dart:io';
-
 import 'package:demo/screens/bottom_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -8,14 +5,14 @@ import 'package:flutter/services.dart';
 import 'package:local_auth/local_auth.dart';
 
 
-class Finger extends StatefulWidget {
-  const Finger({super.key});
+class FingerScanner extends StatefulWidget {
+  const FingerScanner({super.key});
 
   @override
-  State<Finger> createState() => _FingerState();
+  State<FingerScanner> createState() => _FingerScannerState();
 }
 
-class _FingerState extends State<Finger> {
+class _FingerScannerState extends State<FingerScanner> {
   final auth = LocalAuthentication();
   DateTime timeBackPressed = DateTime.now();
   late final User result;
@@ -40,7 +37,8 @@ class _FingerState extends State<Finger> {
     try{
       canCheckBiometric = await auth.canCheckBiometrics;
       if(canCheckBiometric == false){
-        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> BottomBar()), (route) => false);
+        // ignore: use_build_context_synchronously
+        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> const BottomBar()), (route) => false);
       }
     } on PlatformException catch(e){
       debugPrint('$e');
@@ -68,7 +66,6 @@ class _FingerState extends State<Finger> {
   Future<void> _authenticate() async {
     bool authenticated = false;
     try {
-    //Deprecated Version use
       authenticated = await auth.authenticate(
         biometricOnly: false,
           localizedReason: "Please hold your finger at the fingerprint scanner to verify your identity",
@@ -81,12 +78,12 @@ class _FingerState extends State<Finger> {
       authorized =
       authenticated ? "Authorized success" : "Failed to authenticate";
     });
-     authenticated? Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> BottomBar()), (route) => false) : null;
+     // ignore: use_build_context_synchronously
+     authenticated? Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> const BottomBar()), (route) => false) : null;
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
   }
 
@@ -99,9 +96,9 @@ class _FingerState extends State<Finger> {
 
   Future<bool> _onWillPop(BuildContext context) async {
     DateTime now = DateTime.now();
-    if (lastPressed == null || now.difference(lastPressed!) > Duration(seconds: 2)) {
+    if (lastPressed == null || now.difference(lastPressed!) > const Duration(seconds: 2)) {
       lastPressed = now;
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Press back again to exit.')));
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Press back again to exit.')));
       return Future.value(false);
     }
     return Future.value(true);

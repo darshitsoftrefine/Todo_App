@@ -1,13 +1,12 @@
 import 'package:demo/screens/home.dart';
 import 'package:demo/screens/settings_screen.dart';
 import 'package:demo/themes_and_constants/themes.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../themes_and_constants/string_constants.dart';
 import 'completed_list.dart';
 //ignore: must_be_immutable
 class BottomBar extends StatefulWidget {
-  BottomBar({super.key});
+  const BottomBar({super.key});
 
   @override
   State<BottomBar> createState() => _BottomBarState();
@@ -20,7 +19,7 @@ class _BottomBarState extends State<BottomBar> {
   final List<Widget> _widgetOptions = <Widget>[
     Home(),
     const CompletedList(),
-    const Settings(),
+    const SettingsScreen(),
   ];
 
   void _onItemTap(int index) {
@@ -33,15 +32,8 @@ class _BottomBarState extends State<BottomBar> {
   Widget build(BuildContext context) {
     return Scaffold(
       body:
-      // ValueListenableBuilder(
-      //   valueListenable: selIndex,
-      //   builder: (context, index, child){
-      //     return
         Center(
             child: _widgetOptions.elementAt(_selectedIndex),),
-      //     );
-      //   },
-      // ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         selectedItemColor: CustomColors.circColor,

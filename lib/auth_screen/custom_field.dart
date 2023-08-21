@@ -35,8 +35,6 @@ class CustomField extends StatelessWidget {
             width: 1.0,
           ),
         ),
-
-
       ),
     );
   }

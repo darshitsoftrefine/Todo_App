@@ -1,6 +1,5 @@
 import 'package:demo/auth_screen/custom_field.dart';
 import 'package:demo/screens/bottom_bar.dart';
-import 'package:demo/themes_and_constants/image_constants.dart';
 import 'package:demo/themes_and_constants/string_constants.dart';
 import 'package:demo/themes_and_constants/themes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -94,7 +93,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                         emailController.text, passwordController.text, context))!;
                                     // ignore: use_build_context_synchronously
                                     Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
-                                        builder: (context) => BottomBar()), (
+                                        builder: (context) => const BottomBar()), (
                                         route) => false);
                                   }
                                 }, child: const Text(ConstantStrings.registerText)),
