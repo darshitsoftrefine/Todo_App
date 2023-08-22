@@ -10,26 +10,16 @@ import 'package:timezone/data/latest.dart' as tz;
 import '../services/auth_service.dart';
 import '../services/firestore_todo_service.dart';
 import '../themes_and_constants/image_constants.dart';
-//ignore: must_be_immutable
-class Home extends StatefulWidget {
+class Home extends StatelessWidget {
   Home({super.key});
 
-  User? user;
-
-  @override
-  State<Home> createState() => _HomeState();
-}
-
-class _HomeState extends State<Home> {
-  FirebaseFirestore firestore = FirebaseFirestore.instance;
-
-  TextEditingController titleController = TextEditingController();
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  final TextEditingController titleController = TextEditingController();
   final TextEditingController _desc = TextEditingController();
-  TextEditingController timeController = TextEditingController();
-  DateTime dateTime = DateTime.now();
-  FirebaseAuth auth = FirebaseAuth.instance;
+  final TextEditingController timeController = TextEditingController();
+  final FirebaseAuth auth = FirebaseAuth.instance;
 
-
+  final ValueNotifier<DateTime> dateTim = ValueNotifier<DateTime>(DateTime.now());
 
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
@@ -53,7 +43,7 @@ class _HomeState extends State<Home> {
     );
 
     tz.initializeTimeZones();
-    final tz.TZDateTime scheduledAt = tz.TZDateTime.from(dateTime, tz.local);
+    final tz.TZDateTime scheduledAt = tz.TZDateTime.from(dateTim.value, tz.local);
 
     flutterLocalNotificationsPlugin.zonedSchedule(
         01, titleController.text, _desc.text, scheduledAt, notificationDetails,
@@ -69,11 +59,10 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    var uid = auth.currentUser!.uid;
+    var uid = auth.currentUser?.uid;
     return Scaffold(
       backgroundColor: CustomColors.backgroundColor,
 
-      //Floating Action Buttons
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(bottom: 10.0, left: 15, right: 15),
         child: Row(
@@ -86,7 +75,7 @@ class _HomeState extends State<Home> {
                   await FirestoreTodoService().deleteTodo();
                   stopNotifications();
                 },
-                backgroundColor: CustomColors.circColor,
+                backgroundColor: CustomColors.circle1Color,
                 child: const Icon(
                   Icons.check,
                   size: 30,
@@ -154,15 +143,13 @@ class _HomeState extends State<Home> {
                                               "${selectedTime.hour.toString().padLeft(2, '0')}:${selectedTime.minute.toString().padLeft(2, '0')}";
 
                                           DateTime newDT = DateTime(
-                                            dateTime.year,
-                                            dateTime.month,
-                                            dateTime.day,
+                                            dateTim.value.year,
+                                            dateTim.value.month,
+                                            dateTim.value.day,
                                             selectedTime.hour,
                                             selectedTime.minute,
                                           );
-                                          setState(() {
-                                            dateTime = newDT;
-                                          });
+                                          dateTim.value = newDT;
                                         },
                                         icon: Icon(
                                           Icons.timer_outlined,
@@ -173,7 +160,6 @@ class _HomeState extends State<Home> {
                                           if (titleController.text.isEmpty) {
                                             return;
                                           } else {
-                                            //await firestore.collection('users').doc()
                                             await AuthService().insertTodoUser(
                                                 Timestamp.now(),
                                                 titleController.text,
@@ -184,8 +170,9 @@ class _HomeState extends State<Home> {
                                             showNotification();
                                             titleController.clear();
                                             timeController.clear();
-                                            // ignore: use_build_context_synchronously
-                                            Navigator.pop(context);
+                                            if(context.mounted) {
+                                              Navigator.pop(context);
+                                            }
                                           }
                                         },
                                         icon: Icon(
@@ -201,7 +188,7 @@ class _HomeState extends State<Home> {
                       );
                     });
               },
-              backgroundColor: CustomColors.circColor,
+              backgroundColor: CustomColors.circle1Color,
               child: const Icon(
                 Icons.add,
                 size: 30,
@@ -252,7 +239,7 @@ class _HomeState extends State<Home> {
                                     elevation: 5,
                                     margin: const EdgeInsets.all(5),
                                     child: CheckboxListTile(
-                                      activeColor: CustomColors.circColor,
+                                      activeColor: CustomColors.circle1Color,
                                       controlAffinity: ListTileControlAffinity.leading,
                                       value: documents[index]['isDone'],
                                       onChanged:  (bool? value) async{

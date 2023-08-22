@@ -25,7 +25,7 @@ class CustomWidgets {
          ),
          focusedBorder: OutlineInputBorder(
            borderSide: BorderSide(
-             color: CustomColors.circColor,
+             color: CustomColors.circle1Color,
              width: 1.0,
            ),
          ),

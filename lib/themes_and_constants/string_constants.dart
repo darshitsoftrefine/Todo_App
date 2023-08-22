@@ -10,7 +10,7 @@ class ConstantStrings {
   static const googleLoginText = 'Login with Google';
 
   static const snackText = "All Fields are required";
-  static const dontAccountText = "Don't have an account ?";
+  static const donAccountText = "Don't have an account ?";
   static const settingsText = "Profile";
 
 

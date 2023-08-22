@@ -32,7 +32,6 @@ class RegisterScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
 
-                    //Register Form
                     Text(ConstantStrings.registerText, style: TextStyle(fontSize: 32, fontWeight: FontWeight.w700, color: CustomColors.primaryColor),),
                     const SizedBox(height: 20,),
                     Text(ConstantStrings.registerNameText, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: CustomColors.primaryColor),),
@@ -52,7 +51,6 @@ class RegisterScreen extends StatelessWidget {
                     CustomField(label: ConstantStrings.registerCityText, control: cityController, obs: false, hint: ConstantStrings.registerCityHintText),
                     const SizedBox(height: 25,),
 
-                    // Register Button
                     ValueListenableBuilder(valueListenable: isLoading, builder: (context, loading, child) {
                       return loading ? const Center(child: CircularProgressIndicator()) : Row(
                         children: [
@@ -81,10 +79,12 @@ class RegisterScreen extends StatelessWidget {
                                     });
                                     await AuthService().register(
                                         emailController.text, passwordController.text, context);
-                                    if(context.mounted) return;
-                                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
-                                        builder: (context) => const BottomBar()), (
-                                        route) => false);
+                                    if(context.mounted) {
+                                      Navigator.pushAndRemoveUntil(
+                                          context, MaterialPageRoute(
+                                          builder: (context) => BottomBar()), (
+                                          route) => false);
+                                    }
                                   }
                                 }, child: const Text(ConstantStrings.registerText)),
                           ),
@@ -94,7 +94,6 @@ class RegisterScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 20,),
 
-                    //Back to Login Screen
                     Center(
                       child: TextButton(onPressed: (){
                         Navigator.pop(context);

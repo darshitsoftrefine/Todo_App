@@ -1,5 +1,3 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:demo/screens/bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -30,10 +28,11 @@ class _FingerScannerState extends State<FingerScanner> {
           useErrorDialogs: true,
           stickyAuth: true);
     } on PlatformException {
-      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> const BottomBar()), (route) => false);
+      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>  BottomBar()), (route) => false);
     }
-     authenticated?
-     Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> const BottomBar()), (route) => false) : null;
+     if(context.mounted) {
+       authenticated ? Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> BottomBar()), (route) => false): null;
+     }
   }
 
   @override

@@ -29,8 +29,7 @@ class _MyAppState extends State<MyApp>{
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.purple,
-        accentColor: Colors.purple[200],
+        colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.purple).copyWith(secondary: Colors.purple[200]),
       ),
       home: StreamBuilder(
         stream: FirebaseAuth.instance.authStateChanges(),

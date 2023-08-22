@@ -9,7 +9,6 @@ import '../themes_and_constants/string_constants.dart';
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
 
-  //Declaring Variables
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final ValueNotifier<bool> isLoading = ValueNotifier<bool>(false);
@@ -35,7 +34,6 @@ class LoginScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
 
-                      //Login form
                       Text(ConstantStrings.loginText, style: TextStyle(fontSize: 32, fontWeight: FontWeight.w700, color: CustomColors.primaryColor),),
                       const SizedBox(height: 30,),
                       Text(ConstantStrings.emailText, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: CustomColors.primaryColor),),
@@ -60,8 +58,11 @@ class LoginScreen extends StatelessWidget {
                                     isLoading.value = !isLoading.value;
                                     });
                                   await AuthService().login(emailController.text, passwordController.text, context);
-                                  if(context.mounted) return;
-                                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> const BottomBar()), (route) => false);
+                                  if(context.mounted) {
+                                    Navigator.pushAndRemoveUntil(context,
+                                        MaterialPageRoute(builder: (context) =>
+                                            BottomBar()), (route) => false);
+                                  }
                                 }
                               },
                                 style: ElevatedButton.styleFrom(
@@ -93,7 +94,6 @@ class LoginScreen extends StatelessWidget {
 
                       const SizedBox(height: 20,),
 
-                      //Google Sign in Button
                       ValueListenableBuilder(valueListenable: isLoadingGoogle, builder: (context, loading, child){
                         return loading ? const Center(child: CircularProgressIndicator(),):Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -105,17 +105,18 @@ class LoginScreen extends StatelessWidget {
                                   isLoadingGoogle.value = !isLoadingGoogle.value;
                                 });
                                 await AuthService().signInWithGoogle();
-                                  if(context.mounted) return;
-                                  Navigator.pushAndRemoveUntil(context,
-                                      MaterialPageRoute(builder: (context) => const BottomBar()), (
-                                          route) => false);
+                                  if(context.mounted) {
+                                    Navigator.pushAndRemoveUntil(context,
+                                        MaterialPageRoute(builder: (context) =>
+                                            BottomBar()), (route) => false);
+                                  }
 
                               },
                               style: ElevatedButton.styleFrom(
                                 foregroundColor: Colors.white, backgroundColor: CustomColors.backgroundColor, padding: const EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 5),
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10),
-                                    side: BorderSide(color: CustomColors.circColor)
+                                    side: BorderSide(color: CustomColors.circle1Color)
                                 ),
                               ),
                               child: Row(
@@ -140,7 +141,7 @@ class LoginScreen extends StatelessWidget {
                         }, child:Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: const [
-                            Text(ConstantStrings.dontAccountText, style: TextStyle(color: Colors.grey, fontSize: 12),),
+                            Text(ConstantStrings.donAccountText, style: TextStyle(color: Colors.grey, fontSize: 12),),
                             Padding(
                               padding: EdgeInsets.only(left: 4),
                               child: Text(ConstantStrings.registerText, style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 12, ),),
@@ -155,7 +156,6 @@ class LoginScreen extends StatelessWidget {
             ],
           ),
         )
-
         ),
     );
   }

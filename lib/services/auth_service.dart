@@ -96,9 +96,9 @@ class AuthService {
     final CollectionReference collection = FirebaseFirestore.instance
         .collection('users');
     final DocumentReference document = collection.doc(ui);
-    final CollectionReference subcollection = document.collection('todo');
+    final CollectionReference subCollection = document.collection('todo');
 
-    await subcollection.add({
+    await subCollection.add({
       'create': create,
       'isDone': isDone,
       'time': time,
@@ -110,10 +110,11 @@ class AuthService {
     try {
       await firestore.collection('users').doc(
           FirebaseAuth.instance.currentUser!.uid).delete();
-      if(context.mounted) return;
-      Navigator.pushAndRemoveUntil(context,
-          MaterialPageRoute(builder: (context) => LoginScreen()), (
-              route) => false);
+      if(context.mounted) {
+        Navigator.pushAndRemoveUntil(context,
+            MaterialPageRoute(builder: (context) => LoginScreen()), (
+                route) => false);
+      }
       await FirebaseAuth.instance.currentUser!.unlink(
           EmailAuthProvider.PROVIDER_ID);
       await FirebaseAuth.instance.currentUser!.unlink(
