@@ -122,46 +122,4 @@ class AuthService {
 
     }
   }
-
-  Future deleteUser(BuildContext context) async {
-    try {
-      await firebaseAuth.currentUser!.delete();
-    } on FirebaseAuthException catch (e) {
-      debugPrint('$e');
-
-      if (e.code == "requires-recent-login") {
-        await _reauthenticateAndDelete();
-      } else {
-      }
-    } catch (e) {
-      debugPrint('$e');
-    }
-    var uid = firebaseAuth.currentUser?.uid;
-    var docRef = FirebaseFirestore.instance.collection('users').doc(uid);
-    await firebaseAuth.currentUser?.delete();
-    await docRef.delete();
-    // ignore: use_build_context_synchronously
-    Navigator.pushAndRemoveUntil(
-      context,
-      MaterialPageRoute(builder: (context) => LoginScreen()), (route) => false);
-  }
-
-  Future<void> _reauthenticateAndDelete() async {
-    try {
-      final providerData = firebaseAuth.currentUser?.providerData.first;
-
-      if (GoogleAuthProvider().providerId == providerData?.providerId) {
-        await firebaseAuth.currentUser!
-            .reauthenticateWithProvider(GoogleAuthProvider());
-      }
-      else if (EmailAuthProvider.PROVIDER_ID == providerData?.providerId) {
-        await firebaseAuth.currentUser!
-            .reauthenticateWithProvider(EmailAuthProvider as OAuthProvider);
-      }
-
-      await firebaseAuth.currentUser?.delete();
-    } catch (e) {
-      // Handle exceptions
-    }
-  }
 }

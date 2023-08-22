@@ -84,7 +84,6 @@ class RegisterScreen extends StatelessWidget {
                                     });
                                     result = (await AuthService().register(
                                         emailController.text, passwordController.text, context))!;
-                                    // ignore: use_build_context_synchronously
                                     Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
                                         builder: (context) => const BottomBar()), (
                                         route) => false);

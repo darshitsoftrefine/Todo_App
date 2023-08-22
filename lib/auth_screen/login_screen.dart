@@ -1,4 +1,3 @@
-// ignore_for_file: use_build_context_synchronously
 import 'package:demo/auth_screen/custom_field.dart';
 import 'package:demo/auth_screen/register_screen.dart';
 import 'package:demo/themes_and_constants/image_constants.dart';

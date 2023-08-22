@@ -36,7 +36,7 @@ class SettingsScreen extends StatelessWidget {
               const SizedBox(height: 20,),
               ElevatedButton.icon(
                 onPressed: () async{
-                  await AuthService().deleteUser(context);
+                  await AuthService().del(context);
                   },
                 icon: const Icon(
                   Icons.delete,

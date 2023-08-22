@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:local_auth/local_auth.dart';
 
-
 class FingerScanner extends StatefulWidget {
   const FingerScanner({super.key});
 
