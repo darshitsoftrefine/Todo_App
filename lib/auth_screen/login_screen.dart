@@ -2,7 +2,6 @@ import 'package:demo/auth_screen/custom_field.dart';
 import 'package:demo/auth_screen/register_screen.dart';
 import 'package:demo/themes_and_constants/image_constants.dart';
 import 'package:demo/themes_and_constants/themes.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../screens/bottom_bar.dart';
 import '../services/auth_service.dart';
@@ -10,7 +9,6 @@ import '../themes_and_constants/string_constants.dart';
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
 
-  late final User result;
   //Declaring Variables
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -55,14 +53,14 @@ class LoginScreen extends StatelessWidget {
                             Expanded(
                               child: ElevatedButton(onPressed: () async{
                                 if(emailController.text.isEmpty || passwordController.text.isEmpty){
-
                                   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text(ConstantStrings.snackText), backgroundColor: Colors.red,));
                                 } else {
                                   isLoading.value = !isLoading.value;
                                     Future.delayed(const Duration(seconds: 2), () {
                                     isLoading.value = !isLoading.value;
                                     });
-                                  result = (await AuthService().login(emailController.text, passwordController.text, context))!;
+                                  await AuthService().login(emailController.text, passwordController.text, context);
+                                  if(context.mounted) return;
                                   Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> const BottomBar()), (route) => false);
                                 }
                               },
@@ -106,12 +104,12 @@ class LoginScreen extends StatelessWidget {
                                 Future.delayed(const Duration(seconds: 2), () {
                                   isLoadingGoogle.value = !isLoadingGoogle.value;
                                 });
-                                User? result = await AuthService().signInWithGoogle();
-                                if(result != null) {
+                                await AuthService().signInWithGoogle();
+                                  if(context.mounted) return;
                                   Navigator.pushAndRemoveUntil(context,
                                       MaterialPageRoute(builder: (context) => const BottomBar()), (
                                           route) => false);
-                                }
+
                               },
                               style: ElevatedButton.styleFrom(
                                 foregroundColor: Colors.white, backgroundColor: CustomColors.backgroundColor, padding: const EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 5),

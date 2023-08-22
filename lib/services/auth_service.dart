@@ -110,6 +110,7 @@ class AuthService {
     try {
       await firestore.collection('users').doc(
           FirebaseAuth.instance.currentUser!.uid).delete();
+      if(context.mounted) return;
       Navigator.pushAndRemoveUntil(context,
           MaterialPageRoute(builder: (context) => LoginScreen()), (
               route) => false);

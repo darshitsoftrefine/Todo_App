@@ -1,8 +1,9 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:demo/screens/bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:local_auth/local_auth.dart';
-
 class FingerScanner extends StatefulWidget {
   const FingerScanner({super.key});
 
@@ -31,7 +32,8 @@ class _FingerScannerState extends State<FingerScanner> {
     } on PlatformException {
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> const BottomBar()), (route) => false);
     }
-     authenticated? Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> const BottomBar()), (route) => false) : null;
+     authenticated?
+     Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> const BottomBar()), (route) => false) : null;
   }
 
   @override

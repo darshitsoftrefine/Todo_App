@@ -2,13 +2,10 @@ import 'package:demo/auth_screen/custom_field.dart';
 import 'package:demo/screens/bottom_bar.dart';
 import 'package:demo/themes_and_constants/string_constants.dart';
 import 'package:demo/themes_and_constants/themes.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../services/auth_service.dart';
 class RegisterScreen extends StatelessWidget {
   RegisterScreen({super.key});
-
-  late final User result;
 
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -82,8 +79,9 @@ class RegisterScreen extends StatelessWidget {
                                     Future.delayed(const Duration(seconds: 2), () {
                                       isLoading.value = !isLoading.value;
                                     });
-                                    result = (await AuthService().register(
-                                        emailController.text, passwordController.text, context))!;
+                                    await AuthService().register(
+                                        emailController.text, passwordController.text, context);
+                                    if(context.mounted) return;
                                     Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
                                         builder: (context) => const BottomBar()), (
                                         route) => false);

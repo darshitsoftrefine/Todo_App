@@ -51,7 +51,7 @@ class SettingsScreen extends StatelessWidget {
               const SizedBox(height: 8,),
               ElevatedButton.icon(onPressed: () async{
                 await AuthService().signOut();
-                // ignore: use_build_context_synchronously
+                if(context.mounted) return;
                 Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => LoginScreen()),(route) => false);
               }, icon: const Icon(Icons.logout, color: Colors.red, size: 24,), label: const Text("Log out", style: TextStyle(color: Colors.red, fontSize: 16, fontWeight: FontWeight.w400),),
                 style: ElevatedButton.styleFrom(
