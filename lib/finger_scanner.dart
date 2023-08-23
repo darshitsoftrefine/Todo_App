@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:demo/screens/bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -16,12 +15,12 @@ class _FingerScannerState extends State<FingerScanner> {
 
   @override
   void initState() {
-    _authenticate();
+    _authenticate(context);
     super.initState();
   }
 
 
-  Future<void> _authenticate() async {
+  Future<void> _authenticate(BuildContext context) async {
     bool authenticated = false;
     try {
       authenticated = await auth.authenticate(
