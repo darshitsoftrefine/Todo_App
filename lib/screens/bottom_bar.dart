@@ -57,7 +57,7 @@ class BottomBar extends StatelessWidget {
                 label: "Settings",
               ),
             ],
-            currentIndex: selIndex.value,
+            currentIndex: value,
             onTap: _onItemTap,
             selectedFontSize: 13.0,
             unselectedFontSize: 13.0,

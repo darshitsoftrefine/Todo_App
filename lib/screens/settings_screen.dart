@@ -12,7 +12,6 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String? text = auth.currentUser!.email;
     return Scaffold(
       backgroundColor: CustomColors.backgroundColor,
       appBar: AppBar(
@@ -27,15 +26,42 @@ class SettingsScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              auth.currentUser!.photoURL == null? const CircleAvatar(backgroundImage: AssetImage(ConstantImages.placeHoldImage), radius: 50,): CircleAvatar(backgroundImage: NetworkImage('${auth.currentUser!.photoURL}'), radius: 50,),
+              auth.currentUser?.photoURL == null? const CircleAvatar(backgroundImage: AssetImage(ConstantImages.placeHoldImage), radius: 50,): CircleAvatar(backgroundImage: NetworkImage('${auth.currentUser!.photoURL}'), radius: 50,),
               const SizedBox(height: 30,),
-              auth.currentUser!.displayName == null? Text(auth.currentUser!.email!.substring(0, text?.lastIndexOf("@")),style: const TextStyle(color: Colors.white, fontSize: 20),) :Text("${auth.currentUser!.displayName}",style: const TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w500),),
+              auth.currentUser?.displayName == null || auth.currentUser?.displayName == ''? Text('${auth.currentUser?.email?.split('@').first}',style: const TextStyle(color: Colors.white, fontSize: 20),) :Text("${auth.currentUser?.displayName}",style: const TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w500),),
               const SizedBox(height: 20,),
-              Text("${auth.currentUser!.email}", style: const TextStyle(color: Colors.white, fontSize: 14),),
+              Text("${auth.currentUser?.email}", style: const TextStyle(color: Colors.white, fontSize: 14),),
               const SizedBox(height: 20,),
               ElevatedButton.icon(
                 onPressed: () async{
-                  await AuthService().del(context);
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Text('Delete your Account?'),
+                        content: const Text(
+                            '''If you select Delete we will delete your account on our server.
+                           Your app tasks will also be deleted and you won't be able to retrieve it.'''),
+                        actions: [
+                          TextButton(
+                            child: const Text('Cancel'),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                          TextButton(
+                            child: const Text(
+                              'Delete',
+                              ),
+                            onPressed: () async{
+                              await AuthService().deleteUser(context);// Call the delete account function
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
+
                   },
                 icon: const Icon(
                   Icons.delete,

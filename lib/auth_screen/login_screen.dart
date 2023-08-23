@@ -2,6 +2,7 @@ import 'package:demo/auth_screen/custom_field.dart';
 import 'package:demo/auth_screen/register_screen.dart';
 import 'package:demo/themes_and_constants/image_constants.dart';
 import 'package:demo/themes_and_constants/themes.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../screens/bottom_bar.dart';
 import '../services/auth_service.dart';
@@ -10,8 +11,11 @@ class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
 
   final TextEditingController emailController = TextEditingController();
+
   final TextEditingController passwordController = TextEditingController();
+
   final ValueNotifier<bool> isLoading = ValueNotifier<bool>(false);
+
   final ValueNotifier<bool> isLoadingGoogle = ValueNotifier<bool>(false);
 
   @override
@@ -58,10 +62,14 @@ class LoginScreen extends StatelessWidget {
                                     isLoading.value = !isLoading.value;
                                     });
                                   await AuthService().login(emailController.text, passwordController.text, context);
-                                  if(context.mounted) {
-                                    Navigator.pushAndRemoveUntil(context,
-                                        MaterialPageRoute(builder: (context) =>
-                                            BottomBar()), (route) => false);
+                                  if(FirebaseAuth.instance.currentUser != null){
+                                    if(context.mounted) {
+                                      Navigator.pushAndRemoveUntil(context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  BottomBar()), (
+                                              route) => false);
+                                    }
                                   }
                                 }
                               },
@@ -105,12 +113,13 @@ class LoginScreen extends StatelessWidget {
                                   isLoadingGoogle.value = !isLoadingGoogle.value;
                                 });
                                 await AuthService().signInWithGoogle();
-                                  if(context.mounted) {
+                                if(FirebaseAuth.instance.currentUser != null) {
+                                  if (context.mounted) {
                                     Navigator.pushAndRemoveUntil(context,
                                         MaterialPageRoute(builder: (context) =>
                                             BottomBar()), (route) => false);
                                   }
-
+                                }
                               },
                               style: ElevatedButton.styleFrom(
                                 foregroundColor: Colors.white, backgroundColor: CustomColors.backgroundColor, padding: const EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 5),

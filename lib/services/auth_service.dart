@@ -36,7 +36,7 @@ class AuthService {
   Future<User?> login(String email, String password,
       BuildContext context) async {
     try {
-      final UserCredential userCredential = await FirebaseAuth.instance
+      final UserCredential userCredential = await firebaseAuth
           .signInWithEmailAndPassword(email: email, password: password);
       CollectionReference<Object?> usersCollection = firestore.collection(
           'users');
@@ -44,11 +44,14 @@ class AuthService {
       DocumentReference<Object?> userDoc = usersCollection.doc(
           userCredential.user?.uid);
       userDoc.set({
-        'email': userCredential.user!.email.toString(),
-        'uid': userCredential.user!.uid,
+        'email': userCredential.user?.email.toString(),
+        'uid': userCredential.user?.uid,
       });
       return userCredential.user;
     } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        debugPrint('No user found for that email.');
+      }
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(e.message.toString()), backgroundColor: Colors.red,));
     }
@@ -104,6 +107,50 @@ class AuthService {
       'time': time,
       'title': title,
     });
+  }
+
+  Future deleteUser(BuildContext context) async {
+    try {
+      await firebaseAuth.currentUser?.delete();
+    } on FirebaseAuthException catch (e) {
+      debugPrint('$e');
+
+      if (e.code == "requires-recent-login") {
+        await _reAuthenticateAndDelete();
+      } else {
+      }
+    } catch (e) {
+      debugPrint('$e');
+    }
+    var uid = firebaseAuth.currentUser?.uid;
+    var docRef = FirebaseFirestore.instance.collection('users').doc(uid);
+    await firebaseAuth.currentUser?.delete();
+     await docRef.delete();
+    if(context.mounted) {
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => LoginScreen()), (
+          route) => false);
+    }
+  }
+
+  Future<void> _reAuthenticateAndDelete() async {
+    try {
+      final providerData = firebaseAuth.currentUser?.providerData.first;
+
+      if (GoogleAuthProvider().providerId == providerData?.providerId) {
+        await firebaseAuth.currentUser!
+            .reauthenticateWithProvider(GoogleAuthProvider());
+      }
+      else if (EmailAuthProvider.PROVIDER_ID == providerData?.providerId) {
+        await firebaseAuth.currentUser!
+            .reauthenticateWithProvider(EmailAuthProvider as OAuthProvider);
+      }
+
+      await firebaseAuth.currentUser?.delete();
+    } catch (e) {
+      // Handle exceptions
+    }
   }
 
   Future del(BuildContext context) async {

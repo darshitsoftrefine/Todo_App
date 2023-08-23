@@ -12,7 +12,7 @@ class CompletedList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var uid = auth.currentUser!.uid;
+    var uid = auth.currentUser?.uid;
     return Scaffold(
       backgroundColor: CustomColors.backgroundColor,
       appBar: AppBar(

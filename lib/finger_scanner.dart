@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:demo/screens/bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -30,8 +32,11 @@ class _FingerScannerState extends State<FingerScanner> {
     } on PlatformException {
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>  BottomBar()), (route) => false);
     }
+      if(authenticated == false){
+        exit(0);
+      }
      if(context.mounted) {
-       authenticated ? Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> BottomBar()), (route) => false): null;
+       authenticated ? Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> BottomBar()), (route) => false): exit(0);
      }
   }
 
