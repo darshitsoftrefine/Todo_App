@@ -1,4 +1,4 @@
-# demo
+Todo App using Firebase
 
 A new Flutter project.
 
